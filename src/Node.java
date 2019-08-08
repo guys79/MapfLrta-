@@ -8,7 +8,7 @@ import java.util.Map;
 public class Node {
     private int id;//The id of the node
     private Map<Node,Double> neighbors;//The neighbors of the node
-
+    private int occupationId;//The id of the agent that is currently occupying the node
     /**
      * The constructor of the node
      * @param id - The given id
@@ -17,6 +17,7 @@ public class Node {
     {
         this.id = id;
         this.neighbors = new HashMap<>();
+        this.occupationId = -1;
     }
 
     /**
@@ -60,4 +61,59 @@ public class Node {
     public int hashCode() {
         return id;
     }
+
+    /**
+     * This function will set the id of the agent that is currently occupying the node
+     * @param occupationId - The given id
+     */
+    private void setOccupationId(int occupationId) {
+        this.occupationId = occupationId;
+    }
+
+    /**
+     * This function will remove the agent from the current node
+     */
+    public void moveOut()
+    {
+        this.occupationId = -1;
+    }
+
+    /**
+     * This function will declare the agent with the given id
+     * As the one who occupies the node
+     * If it cannot be done, the function will return false
+     * @param occupationId - The given id
+     * @return - True IFF it was possible to declare the agent as the agent that is currently occupies the node
+     */
+    public boolean moveIn(int occupationId)
+    {
+        if(!canMoveIn(occupationId))
+            return false;
+        this.occupationId = occupationId;
+        return true;
+
+    }
+
+    /**
+     * This function checks if it is possible for the agent to occupy the node
+     * @param occupationId - The agent's id
+     * @return - True IFF it is possible to declare the agent as the agent that is currently occupies the node
+     */
+    private boolean canMoveIn(int occupationId)
+    {
+        return occupationId == -1 || occupationId == this.occupationId;
+    }
+
+    /**
+     * This function will return true IFF the given node is a neighbor of this node
+     * @param node - The given node
+     * @return - true IFF the given node is a neighbor of this node
+     */
+    public boolean isNeighbor(Node node)
+    {
+        return this.equals(node) || this.neighbors.containsKey(node);
+    }
+
+
+
 }

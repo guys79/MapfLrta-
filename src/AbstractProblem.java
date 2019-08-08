@@ -28,6 +28,30 @@ public abstract class AbstractProblem {
 
     }
 
+    /**
+     * This function will create a directed edge from the origin to the target wighting the given wight
+     * @param origin - The origin node
+     * @param target - The target node
+     * @param weight - The weight of the edge that connects the two nodes
+     */
+    private void createDirectedEdge(Node origin, Node target, double weight)
+    {
+        origin.addNeighbor(target,weight);
+    }
+
+    /**
+     * This function will create an undirected edge from the origin to the target wighting the given wight (both ways)
+     * @param origin - The origin node
+     * @param target - The target node
+     * @param weight - The weight of the edge that connects the two nodes
+     */
+    private void createUndirectedEdge(Node origin, Node target, double weight)
+    {
+        origin.addNeighbor(target,weight);
+        target.addNeighbor(origin,weight);
+    }
+
+
 
 
 
