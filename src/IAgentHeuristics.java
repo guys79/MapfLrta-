@@ -4,17 +4,17 @@
 public interface IAgentHeuristics {
 
     /**
-     * This function will return the heuristics of the node with the given id
-     * @param id - The Node's id
+     * This function will return the heuristics of the node
+     * @param node - The node
      * @return - The heuristics of the node
      */
-    public double getHeuristics(int id);
+    public double getHeuristics(Node node);
 
 
     /**
-     * This function will update the heuristics of the node with the given id with the given value
-     * @param id - The Node's id
+     * This function will update the heuristics of the node with the given value
+     * @param node - The given node
      *
      */
-    public void updateHeuristics(int id, double newVal);
+    public void updateHeuristics(Node node, double newVal);
 }

@@ -8,18 +8,30 @@ import java.util.Map;
 public class Node {
     private int id;//The id of the node
     private Map<Node,Double> neighbors;//The neighbors of the node
+    public static int numOfNodes = 0;
     private int occupationId;//The id of the agent that is currently occupying the node
     /**
      * The constructor of the node
-     * @param id - The given id
      */
-    public Node(int id)
+    public Node()
     {
-        this.id = id;
+        this.id = numOfNodes;
+        numOfNodes++;
         this.neighbors = new HashMap<>();
         this.occupationId = -1;
     }
 
+    /**
+     * This function will return the weight between the node to the given node
+     * @param n - The given node
+     * @return - The weight of the edge that connects the, In case there is no edge,the weight is infinity
+     */
+    public double getWeight(Node n)
+    {
+        if(this.neighbors.containsKey(n))
+            return this.neighbors.get(n);
+        return Double.MAX_VALUE;
+    }
     /**
      * This function will add a neighbor to the node
      * @param neighbor - The given neighbor
