@@ -88,7 +88,9 @@ public class Agent {
         //If the node is a neighbor of the current node and is not occupied
         if(!current.isNeighbor(target) || !target.moveIn(this.id))
             return false;
+        current.moveOut();
         current = target;
+
         return true;
 
     }
@@ -104,5 +106,9 @@ public class Agent {
     @Override
     public int hashCode() {
         return id;
+    }
+
+    public void done() {
+        isDone = true;
     }
 }

@@ -8,8 +8,10 @@ public class Main {
 
     public static void main (String [] args)
     {
+        System.out.println();
         Problem problem = getRandomProblem(1,4,4,0.2);
         RealTimeSearchManager realTimeSearchManager =new RealTimeSearchManager(problem);
+        realTimeSearchManager.search();
     }
 
     public static Problem getRandomProblem(int numOfAgents,int height,int width, double density)

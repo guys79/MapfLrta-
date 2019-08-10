@@ -32,7 +32,7 @@ public class AgentHeuristics implements IAgentHeuristics {
     }
     private double getHeuristicsFromFunction(Node n)
     {
-        // TODO: 8/10/2019 Implement heuristic function
+
         double value = 0;
         if(n instanceof GridNode && goal instanceof GridNode) {
             GridNode gd1 = (GridNode) n;

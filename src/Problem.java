@@ -1,6 +1,7 @@
 import javafx.util.Pair;
 
 import java.util.Map;
+import java.util.Set;
 
 /**
  * This class represents an problem
@@ -33,6 +34,31 @@ public class Problem {
         this.agentsAndStartGoalNodes = agentsAndStartGoalNodes;
         this.numberOfNodeToDevelop = numIfNodeToDevelop;
         initializeMap(graph);
+
+        print(graph,agentsAndStartGoalNodes);
+
+    }
+
+    private void print(Node [][] graph, Map<Agent,Pair<Node,Node>> agentsAndStartGoalNodes)
+    {
+        for(int i=0;i<graph.length;i++)
+        {
+            for(int j=0;j<graph[i].length;j++)
+            {
+                if(graph[i][j]!=null)
+                    System.out.print(1);
+                else
+                    System.out.print(0);
+            }
+            System.out.println();
+        }
+
+        Set<Agent> agents = agentsAndStartGoalNodes.keySet();
+        for(Agent agent : agents)
+        {
+            System.out.println("Agent "+agent.getId()+" starts from "+agentsAndStartGoalNodes.get(agent).getKey()+" to "+agentsAndStartGoalNodes.get(agent).getValue());
+        }
+
 
     }
 

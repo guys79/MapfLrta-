@@ -113,7 +113,7 @@ public class Node {
      */
     private boolean canMoveIn(int occupationId)
     {
-        return occupationId == -1 || occupationId == this.occupationId;
+        return this.occupationId == -1 || occupationId == this.occupationId;
     }
 
     /**
@@ -126,6 +126,8 @@ public class Node {
         return this.equals(node) || this.neighbors.containsKey(node);
     }
 
-
-
+    @Override
+    public String toString() {
+        return ""+this.id;
+    }
 }

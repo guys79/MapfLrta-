@@ -26,6 +26,8 @@ public class RealTimeSearchManager {
             agent.setCurrent(agentsAndStartGoalNodes.get(agent).getKey());
         }
 
+
+
     }
 
     /**
@@ -55,10 +57,11 @@ public class RealTimeSearchManager {
         HashSet<Agent> agents = new HashSet<>(problem.getAgentsAndStartGoalNodes().keySet());
         for(Agent agent : agents)
         {
-            // TODO: 8/10/2019 print progress 
-            //System.out.println("Agent "+agent.getId()+" "+);
+            // TODO: 8/10/2019 print progress
             List<Node> prefix = this.prefixesForAgents.get(agent);
-            for(int i=0;i<prefix.size();i++)
+            System.out.println("Agent "+agent.getId()+"'s prefix is : "+ prefix);
+
+            for(int i=1;i<prefix.size();i++)
             {
                 if(!agent.moveAgent(prefix.get(i)))
                     System.out.println("Collision");
@@ -84,7 +87,7 @@ public class RealTimeSearchManager {
 
     public void search()
     {
-        while(isDone())
+        while(!isDone())
         {
             calculatePrefix();
             move();

@@ -19,4 +19,9 @@ public class GridNode extends Node {
     public int getY() {
         return y;
     }
+
+    @Override
+    public String toString() {
+        return "["+x+","+y+"]";
+    }
 }

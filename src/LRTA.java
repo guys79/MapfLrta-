@@ -29,21 +29,28 @@ public class LRTA implements IRealTimeSearchAlgorithm {
 
             if(!first)
             {
+
                 double f = calculateF(current);
                 agent.updateHeuristic(prev,f);
                 prev = current;
 
-
-
             }
             //Pop best node
             current = open.poll();
+            //System.out.println("current is "+current );
             numOfNodesToDevelop--;
             prefix.add(current);
+            if(!first) {
+                //Update the values in the priority queue by removing and re-adding an element
+                Node temp = open.poll();
+                open.add(temp);
+
+            }
 
             //If we have reached our destination
             if(current.equals(goal))
             {
+                agent.done();
                 return prefix;
             }
 
@@ -59,9 +66,10 @@ public class LRTA implements IRealTimeSearchAlgorithm {
             {
                 if(open.contains(neighbor))
                     continue;
-                numOfNodesToDevelop--;
+                //numOfNodesToDevelop--;
                 open.add(neighbor);
             }
+
 
         }
         return prefix;
@@ -84,7 +92,11 @@ public class LRTA implements IRealTimeSearchAlgorithm {
 
             double f1 = calculateF(o1);
             double f2 = calculateF(o2);
-            return (int)(f2 - f1);
+            if(f1==f2)
+                return 0;
+            if(f1<f2)
+                return -1;
+            return 1;
         }
 
 
@@ -96,8 +108,10 @@ public class LRTA implements IRealTimeSearchAlgorithm {
      */
     private double calculateF(Node n)
     {
-        double g = current.getWeight(n);
+
+        double g = n.getWeight(current);
         double h = agent.getHeuristicValue(n);
+        //System.out.println("node "+n+ " has "+(g+h)+" h - "+h+" g - "+g);
         return g+h;
     }
 }
