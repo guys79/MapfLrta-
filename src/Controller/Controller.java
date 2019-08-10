@@ -4,7 +4,6 @@ import Model.Node;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.value.ChangeListener;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -17,23 +16,22 @@ import java.util.HashMap;
 import java.util.List;
 
 /**
- * For rendering the GUI. This class is not fully commented.
+ * This class represents the controller that manages the GUI
  */
 public class Controller{
 
     @FXML
-    public Text timeText;
-    public Canvas canvas;
-    public Button forwardButton;
-    public Slider slider;
-    public Button backButton;
-
-    public GraphicsContext context;
+    public Text timeText;//The text that indicates the time we are currently watching (t=?)
+    public Canvas canvas;//The canvas
+    public Button forwardButton;//Moves the time forward
+    public Slider slider;//Can control the time
+    public Button backButton;//Moves the time backwards
+    public GraphicsContext context;//The context
     public IntegerProperty time = new SimpleIntegerProperty();
-    public int[][] grid;
-    public HashMap<Integer, int[]> nodeLocations = new HashMap<>();
-    public HashMap<int[], Color> paths = new HashMap<>();
-    private int agentCount = 0;
+    public int[][] grid;//The graph
+    public HashMap<Integer, int[]> nodeLocations = new HashMap<>();//Key - node's id, value - the location of the node [x,y]
+    public HashMap<int[], Color> paths = new HashMap<>();//Key - path, Value - Agent's color
+    private int agentCount = 0;//Number of agents
     private Color[] colors = {
             Color.RED,
             Color.DARKRED,
@@ -46,10 +44,14 @@ public class Controller{
             Color.BLUE,
             Color.DARKBLUE
     };
-    private double cellWidth;
-    private double cellHeight;
+    private double cellWidth;//The height of the cell
+    private double cellHeight;//The width of the cell
     private int maxTime = 0;
 
+    /**
+     * This function will initialize the Controller
+     * @param grid - The given grid
+     */
     public void initialize(int[][] grid){
         slider.setBlockIncrement(1);
         slider.valueProperty().addListener((ChangeListener) (arg0, arg1, arg2) -> {
@@ -65,12 +67,18 @@ public class Controller{
         cellHeight = canvas.getHeight()/grid.length;
     }
 
+    /**
+     * This function will draw an instance of the GUI ( a single point in time)
+     */
     public void draw(){
         timeText.setText("t = "+time.getValue());
         drawGrid();
         drawAgents();
     }
 
+    /**
+     * This function will draw the grid
+     */
     private void drawGrid(){
         context.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
         for (int row = 0; row < grid.length; row++) {
@@ -82,6 +90,9 @@ public class Controller{
         }
     }
 
+    /**
+     * This function will draw the agents
+     */
     private void drawAgents(){
         if (grid == null) return;
         drawGrid();
@@ -94,11 +105,22 @@ public class Controller{
         }
     }
 
+    /**
+     * This function will return the value of a path in a single time
+     * Which means, a path in a single point in time (node)
+     * @param path - The given path
+     * @param t - The given time
+     * @return - The node from the path in th given time
+     */
     private int getNode(int[] path, int t) {
         if (t > path.length-1) return path[path.length-1];
         else return path[t];
     }
 
+    /**
+     * This function will add an agent to the GUI
+     * @param path - The path of the agent
+     */
     public void addAgent(List<Node> path){
         int [] pathArr = new int[path.size()];
         for(int i=0;i<path.size();i++)
@@ -112,6 +134,10 @@ public class Controller{
         }
     }
 
+    /**
+     * This function will add the grid (Graph) to the GUI
+     * @param grid - The grid(Graph)
+     */
     private void addGrid(int[][] grid){
         this.grid = grid;
         for (int row = 0; row < grid.length; row++) {
@@ -124,18 +150,28 @@ public class Controller{
         }
     }
 
+    /**
+     * This function will move the time forward
+     */
     public void timeForward() {
         if (time.getValue() < maxTime){
             updateSlider(1);
         }
     }
 
+    /**
+     * This function will move the time backward
+     */
     public void timeBackward() {
         if (time.getValue() > 0){
             updateSlider(-1);
         }
     }
 
+    /**
+     * This function is responsible for the slider update
+     * @param delta - The dela between the two most recent locations of the slider
+     */
     private void updateSlider(int delta){
         slider.setValue(slider.getValue()+delta);
     }

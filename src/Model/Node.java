@@ -56,7 +56,7 @@ public class Node {
 
     /**
      * This function will return the neighbors of this node
-     * @return
+     * @return - Key - Node, Value - The weight of the edge that connects this node to the neighbor
      */
     public Map<Node, Double> getNeighbors() {
         return neighbors;

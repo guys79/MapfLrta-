@@ -16,7 +16,7 @@ public interface IAgentHeuristics {
     /**
      * This function will update the heuristics of the node with the given value
      * @param node - The given node
-     *
+     * @param newVal - The new heuristic value for the node
      */
     public void updateHeuristics(Node node, double newVal);
 }

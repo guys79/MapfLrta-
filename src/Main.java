@@ -13,14 +13,23 @@ import java.util.*;
 public class Main extends Application {
 
     // TODO: 8/10/2019 Take care of depression (Felner's solution)
-    // TODO: 8/10/2019 Combine tw or more agents (as of right now they can collide) 
-    static Node [][] graph;
+    // TODO: 8/10/2019 Combine tw or more agents (as of right now they can collide)
+
+    static Node [][] graph;//The graph
     public static void main (String [] args)
     {
 
         launch(args);
     }
 
+    /**
+     * This function will generate a random problem with the given parameters
+     * @param numOfAgents - The number of agents
+     * @param height - The height of the graph
+     * @param width - The width of the graph
+     * @param density - The density of the walls in the graph  (the ratio of the walls)
+     * @return - A random problem
+     */
     public static Problem getRandomProblem(int numOfAgents,int height,int width, double density)
     {
         Map<Agent, Pair<Node,Node>> agent_start_goal_nodes = new HashMap<>();
@@ -56,6 +65,13 @@ public class Main extends Application {
         return problem;
     }
 
+    /**
+     * This function will generate a new graph using the given parameters
+     * @param height - The height of the graph
+     * @param width - The width of the graph
+     * @param density - The density of the graph
+     * @return - A new graph
+     */
     public static Node [][] getRandomGraph(int height , int width,double density)
     {
         Node [][] graph= new Node[width][height];
@@ -96,7 +112,7 @@ public class Main extends Application {
         FXMLLoader fxmlLoader = new FXMLLoader();
         Parent root = fxmlLoader.load(getClass().getResource("Controller/view.fxml").openStream());
         Controller controller = fxmlLoader.getController();
-        primaryStage.setTitle("iBundle");
+        primaryStage.setTitle("MA-LRTA*");
         primaryStage.setScene(new Scene(root, 800, 540));
         primaryStage.show();
         int [][] intGrid = intoIntGrid(graph);
@@ -108,6 +124,14 @@ public class Main extends Application {
 
 
     }
+
+    /**
+     * This function will convert the Node[][] graph into int[][] graph where
+     * each cell is equal to -1 if the cell is null (wall), else, the value of
+     * the cell will be the id of the node
+     * @param graph - The given graph
+     * @return - The same graph in the new format int [][]
+     */
     public static int [][] intoIntGrid(Node [][]graph)
     {
         int [][] intGrid = new int[graph.length][graph[0].length];

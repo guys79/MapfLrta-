@@ -110,6 +110,9 @@ public class Agent {
         return id;
     }
 
+    /**
+     * This function declares that an agent is done searching for it's path
+     */
     public void done() {
         isDone = true;
     }

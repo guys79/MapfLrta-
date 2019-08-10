@@ -7,8 +7,8 @@ import java.util.*;
  */
 public class LRTA implements IRealTimeSearchAlgorithm {
 
-    private Node current;
-    private Agent agent;
+    private Node current;//The current node in the search
+    private Agent agent;//The agent that we are searching for
     /**
      * This function will calculate a prefix from the start node to the goal node path
      * @param start - The start node

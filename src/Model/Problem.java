@@ -74,7 +74,7 @@ public class Problem {
 
     /**
      * This function returns the agents and their start/goal states
-     * @return
+     * @return - The agents and their start/goal states
      */
     public Map<Agent, Pair<Node, Node>> getAgentsAndStartGoalNodes() {
         return agentsAndStartGoalNodes;
