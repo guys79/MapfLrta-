@@ -1,3 +1,5 @@
+package Model;
+
 public class GridNode extends Node {
 
     private int x;

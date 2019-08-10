@@ -1,7 +1,9 @@
+package Model;
+
 import java.util.*;
 
 /**
- * This class represents the LRTA* algorithm
+ * This class represents the Model.LRTA* algorithm
  */
 public class LRTA implements IRealTimeSearchAlgorithm {
 
@@ -40,12 +42,7 @@ public class LRTA implements IRealTimeSearchAlgorithm {
             //System.out.println("current is "+current );
             numOfNodesToDevelop--;
             prefix.add(current);
-            if(!first) {
-                //Update the values in the priority queue by removing and re-adding an element
-                Node temp = open.poll();
-                open.add(temp);
 
-            }
 
             //If we have reached our destination
             if(current.equals(goal))
@@ -54,7 +51,12 @@ public class LRTA implements IRealTimeSearchAlgorithm {
                 return prefix;
             }
 
+            if(!first) {
+                //Update the values in the priority queue by removing and re-adding an element
+                Node temp = open.poll();
+                open.add(temp);
 
+            }
 
             first = false;
 

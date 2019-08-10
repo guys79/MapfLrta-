@@ -1,3 +1,5 @@
+package Model;
+
 import javafx.util.Pair;
 
 import java.util.Map;
@@ -56,7 +58,7 @@ public class Problem {
         Set<Agent> agents = agentsAndStartGoalNodes.keySet();
         for(Agent agent : agents)
         {
-            System.out.println("Agent "+agent.getId()+" starts from "+agentsAndStartGoalNodes.get(agent).getKey()+" to "+agentsAndStartGoalNodes.get(agent).getValue());
+            System.out.println("Model.Agent "+agent.getId()+" starts from "+agentsAndStartGoalNodes.get(agent).getKey()+" to "+agentsAndStartGoalNodes.get(agent).getValue());
         }
 
 
@@ -88,7 +90,7 @@ public class Problem {
     }
     /**
      * This function will initialize the graph using an array of nodes
-     * The assumption that the array of nodes is an array of GridNode
+     * The assumption that the array of nodes is an array of Model.GridNode
      * each edge costs 1, diagonal cost sqrt(2), eah edge is undirected
      * @param graph - the given graph
      */
