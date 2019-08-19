@@ -1,14 +1,13 @@
-package Model;
+package Model.ALSSLRTA;
+
+import Model.GridNode;
+import Model.IAgentHeuristics;
+import Model.Node;
 
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * This class handles the agent's individual heuristic estimations
- */
-public class AgentHeuristics implements IAgentHeuristics {
-
-
+public class AlssLrtaAgentHeuristics implements IAgentHeuristics {
     private Map<Node,Double> localHeuristics;//Key - nodeId, value - heuristic value
     private Node goal;//The goal node
 
@@ -16,7 +15,7 @@ public class AgentHeuristics implements IAgentHeuristics {
      * The constructor
      * @param goal - The goal node
      */
-    public AgentHeuristics(Node goal)
+    public AlssLrtaAgentHeuristics(Node goal)
     {
         localHeuristics = new HashMap<>();
         this.goal = goal;
@@ -80,5 +79,14 @@ public class AgentHeuristics implements IAgentHeuristics {
         }
         return value;
     }
-}
 
+    /**
+     * This function will check whether the given node's heuristic value has been updated
+     * @param node - The given node
+     * @return - True IFF the node's heuristic value has been updated
+     */
+    public boolean checkIfUpdated(Node node)
+    {
+        return localHeuristics.containsKey(node);
+    }
+}

@@ -1,5 +1,8 @@
 package Model;
 
+import Model.ALSSLRTA.AlssLrtaAgentHeuristics;
+import Model.LRTA.AgentHeuristics;
+
 /**
  * This class represents an agent
  */
@@ -115,5 +118,17 @@ public class Agent {
      */
     public void done() {
         isDone = true;
+    }
+
+    /**
+     * This function will check whether the given node's heuristic value has been updated
+     * @param node - The given node
+     * @return - True IFF the node's heuristic value has been updated
+     */
+    public boolean checkIfUpdated(Node node)
+    {
+        if(heuristics instanceof AlssLrtaAgentHeuristics)
+            return ((AlssLrtaAgentHeuristics)heuristics).checkIfUpdated(node);
+        return false;
     }
 }

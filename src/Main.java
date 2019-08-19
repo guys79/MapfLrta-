@@ -1,6 +1,7 @@
 import Model.*;
 import Controller.*;
 
+import Model.LRTA.RealTimeSearchManager;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -61,7 +62,7 @@ public class Main extends Application {
             agent_start_goal_nodes.put(agent,new Pair<>(start,goal));
         }
 
-        Problem problem = new Problem(graph,agent_start_goal_nodes,TO_DEVELOP);
+        Problem problem = new Problem(graph,agent_start_goal_nodes,TO_DEVELOP,new UniformCostFunction());
         return problem;
     }
 

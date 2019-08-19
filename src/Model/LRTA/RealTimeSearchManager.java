@@ -1,5 +1,7 @@
-package Model;
+package Model.LRTA;
 
+import Model.*;
+import Model.LRTA.LRTA;
 import javafx.util.Pair;
 
 import java.util.*;
@@ -7,7 +9,7 @@ import java.util.*;
 /**
  * This class represents the Real-Time search manager
  */
-public class RealTimeSearchManager {
+public class RealTimeSearchManager implements IRealTimeSearchManager {
 
     private Problem problem;//The instance of the problem
     private Map<Agent, List<Node>> prefixesForAgents;//Key - agent, Value - The agent's prefix
@@ -97,6 +99,7 @@ public class RealTimeSearchManager {
         return true;
     }
 
+    @Override
     /**
      * This function will search for all the agents their paths using Real-Time Search
      * @return - Key - agent, Value - The agent's path

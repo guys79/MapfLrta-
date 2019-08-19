@@ -12,6 +12,7 @@ public class Node {
     private Map<Node,Double> neighbors;//The neighbors of the node
     public static int numOfNodes = 0;
     private int occupationId;//The id of the agent that is currently occupying the node
+
     /**
      * The constructor of the node
      */
@@ -53,6 +54,8 @@ public class Node {
     public int getId() {
         return id;
     }
+
+
 
     /**
      * This function will return the neighbors of this node

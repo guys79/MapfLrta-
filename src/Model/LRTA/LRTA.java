@@ -1,9 +1,13 @@
-package Model;
+package Model.LRTA;
+
+import Model.Agent;
+import Model.IRealTimeSearchAlgorithm;
+import Model.Node;
 
 import java.util.*;
 
 /**
- * This class represents the Model.LRTA* algorithm
+ * This class represents the LRTA* algorithm
  */
 public class LRTA implements IRealTimeSearchAlgorithm {
 
