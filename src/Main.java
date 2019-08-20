@@ -62,7 +62,7 @@ public class Main extends Application {
             agent_start_goal_nodes.put(agent,new Pair<>(start,goal));
         }
 
-        Problem problem = new Problem(graph,agent_start_goal_nodes,TO_DEVELOP,new UniformCostFunction());
+        Problem problem = new Problem(graph,agent_start_goal_nodes,TO_DEVELOP,new GridCostFunction());
         return problem;
     }
 

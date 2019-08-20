@@ -3,6 +3,9 @@ package Model;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * This class represents a generic Real time saerch manager
+ */
 public interface IRealTimeSearchManager {
 
     /**

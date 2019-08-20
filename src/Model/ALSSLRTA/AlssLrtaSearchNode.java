@@ -8,11 +8,13 @@ import Model.Node;
 public class AlssLrtaSearchNode {
     private Node node;
     private double gValue;
+    private Node back;
 
     public AlssLrtaSearchNode(Node node)
     {
         this.node = node;
         gValue = Double.MAX_VALUE;
+        back = null;
     }
 
     @Override
@@ -32,6 +34,22 @@ public class AlssLrtaSearchNode {
     public void setG(double g)
     {
         this.gValue = g;
+    }
+
+    public double getG() {
+        return gValue;
+    }
+
+    public Node getNode() {
+        return node;
+    }
+
+    public void setBack(Node back) {
+        this.back = back;
+    }
+
+    public Node getBack() {
+        return back;
     }
 }
 

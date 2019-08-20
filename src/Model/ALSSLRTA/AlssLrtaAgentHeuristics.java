@@ -3,10 +3,12 @@ package Model.ALSSLRTA;
 import Model.GridNode;
 import Model.IAgentHeuristics;
 import Model.Node;
-
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * This class describes a node that participates in the
+ */
 public class AlssLrtaAgentHeuristics implements IAgentHeuristics {
     private Map<Node,Double> localHeuristics;//Key - nodeId, value - heuristic value
     private Node goal;//The goal node
