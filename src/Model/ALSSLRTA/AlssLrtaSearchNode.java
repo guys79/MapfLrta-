@@ -8,7 +8,7 @@ import Model.Node;
 public class AlssLrtaSearchNode {
     private Node node;
     private double gValue;
-    private Node back;
+    private AlssLrtaSearchNode back;
 
     public AlssLrtaSearchNode(Node node)
     {
@@ -44,11 +44,11 @@ public class AlssLrtaSearchNode {
         return node;
     }
 
-    public void setBack(Node back) {
+    public void setBack(AlssLrtaSearchNode back) {
         this.back = back;
     }
 
-    public Node getBack() {
+    public AlssLrtaSearchNode getBack() {
         return back;
     }
 }

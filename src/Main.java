@@ -1,6 +1,7 @@
 import Model.*;
 import Controller.*;
 
+import Model.ALSSLRTA.AlssLrtaRealTimeSearchManager;
 import Model.LRTA.RealTimeSearchManager;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -16,11 +17,38 @@ public class Main extends Application {
     // TODO: 8/10/2019 Take care of depression (Felner's solution)
     // TODO: 8/10/2019 Combine tw or more agents (as of right now they can collide)
 
+
     static Node [][] graph;//The graph
     public static void main (String [] args)
     {
 
         launch(args);
+    }
+
+
+    @Override
+    public void start(Stage primaryStage) throws Exception {
+        //The search
+        Problem problem = getRandomProblem(1,10,10,0.33);
+        //IRealTimeSearchManager realTimeSearchManager =new RealTimeSearchManager(problem);
+        IRealTimeSearchManager realTimeSearchManager =new AlssLrtaRealTimeSearchManager(problem);
+        Map<Agent, List<Node>> paths = realTimeSearchManager.search();
+
+        //The GUI
+        FXMLLoader fxmlLoader = new FXMLLoader();
+        Parent root = fxmlLoader.load(getClass().getResource("Controller/view.fxml").openStream());
+        Controller controller = fxmlLoader.getController();
+        primaryStage.setTitle("MA-LRTA*");
+        primaryStage.setScene(new Scene(root, 800, 540));
+        primaryStage.show();
+        int [][] intGrid = intoIntGrid(graph);
+        controller.initialize(intGrid);
+
+        Set<Agent> agents=problem.getAgentsAndStartGoalNodes().keySet();
+        for (Agent agent : agents) controller.addAgent(paths.get(agent));
+        controller.draw();
+
+
     }
 
     /**
@@ -102,29 +130,6 @@ public class Main extends Application {
         return graph;
     }
 
-    @Override
-    public void start(Stage primaryStage) throws Exception {
-        //The search
-        Problem problem = getRandomProblem(2,10,10,0.33);
-        RealTimeSearchManager realTimeSearchManager =new RealTimeSearchManager(problem);
-        Map<Agent, List<Node>> paths = realTimeSearchManager.search();
-
-        //The GUI
-        FXMLLoader fxmlLoader = new FXMLLoader();
-        Parent root = fxmlLoader.load(getClass().getResource("Controller/view.fxml").openStream());
-        Controller controller = fxmlLoader.getController();
-        primaryStage.setTitle("MA-LRTA*");
-        primaryStage.setScene(new Scene(root, 800, 540));
-        primaryStage.show();
-        int [][] intGrid = intoIntGrid(graph);
-        controller.initialize(intGrid);
-
-        Set<Agent> agents=problem.getAgentsAndStartGoalNodes().keySet();
-        for (Agent agent : agents) controller.addAgent(paths.get(agent));
-        controller.draw();
-
-
-    }
 
     /**
      * This function will convert the Node[][] graph into int[][] graph where

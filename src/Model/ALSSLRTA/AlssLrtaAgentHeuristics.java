@@ -66,7 +66,7 @@ public class AlssLrtaAgentHeuristics implements IAgentHeuristics {
      * @param n - The given node n
      * @return - The heuristic value of a given node
      */
-    private double getHeuristicsFromFunction(Node n)
+    public double getHeuristicsFromFunction(Node n)
     {
 
         double value = 0;

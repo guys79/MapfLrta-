@@ -63,15 +63,10 @@ public class AgentHeuristics implements IAgentHeuristics {
     }
 
 
-    /**
-     * This function will return the heuristic value of a given node
-     * From the heuristic function (in this case, Manheten Distance)
-     * @param n - The given node n
-     * @return - The heuristic value of a given node
-     */
-    private double getHeuristicsFromFunction(Node n)
+    @Override
+    public double getHeuristicsFromFunction(Node n)
     {
-
+        //Manheten Distance
         double value = 0;
         if(n instanceof GridNode && goal instanceof GridNode) {
             GridNode gd1 = (GridNode) n;

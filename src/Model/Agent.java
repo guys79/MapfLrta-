@@ -59,6 +59,16 @@ public class Agent {
     {
         return this.heuristics.getHeuristics(n);
     }
+
+    /**
+     * This function will return the heuristic value of the node from this agent's perspective.
+     * @param n - The given node
+     * @return - The heuristic value
+     */
+    public double getInitialHeuristicValue(Node n)
+    {
+        return this.heuristics.getHeuristics(n);
+    }
     /**
      * This function will return the current state of the agent
      * @return - The current state of the agent

@@ -19,4 +19,12 @@ public interface IAgentHeuristics {
      * @param newVal - The new heuristic value for the node
      */
     public void updateHeuristics(Node node, double newVal);
+
+    /**
+     * This function will return the heuristic value of a given node
+     * From the heuristic function
+     * @param n - The given node n
+     * @return - The heuristic value of a given node
+     */
+    public double getHeuristicsFromFunction(Node n);
 }
