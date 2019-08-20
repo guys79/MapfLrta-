@@ -48,7 +48,10 @@ public class ALSSLRTA implements IRealTimeSearchAlgorithm {
         this.agent = agent;
         aStarPrecedure();
         AlssLrtaSearchNode next = ExtractBestState();
-
+        if(next.equals(goal))
+        {
+            agent.done();
+        }
         while(next != current)
         {
             prefix.add(0,next.getNode());

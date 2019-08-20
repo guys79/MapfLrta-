@@ -14,7 +14,7 @@ import java.util.*;
 
 public class Main extends Application {
 
-    // TODO: 8/10/2019 Take care of depression (Felner's solution)
+
     // TODO: 8/10/2019 Combine tw or more agents (as of right now they can collide)
 
 

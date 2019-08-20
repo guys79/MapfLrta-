@@ -43,7 +43,8 @@ public class AlssLrtaRealTimeSearchManager implements IRealTimeSearchManager {
         for(Agent agent: agents)
         {
             ALSSLRTA alsslrta = new ALSSLRTA(problem);
-            List<Node> prefix = alsslrta.calculatePrefix(agent_goal_start.get(agent).getKey(),agent_goal_start.get(agent).getValue(),problem.getNumberOfNodeToDevelop(),agent);
+            Node current = agent.getCurrent();
+            List<Node> prefix = alsslrta.calculatePrefix(current,agent_goal_start.get(agent).getValue(),problem.getNumberOfNodeToDevelop(),agent);
             this.prefixesForAgents.put(agent,prefix);
             List<Node> path = pathsForAgents.get(agent);
             path.remove(path.size()-1);
