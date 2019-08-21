@@ -38,4 +38,14 @@ public class GridNode extends Node {
     public String toString() {
         return "["+x+","+y+"]";
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        return super.equals(obj);
+    }
+
+    @Override
+    public int hashCode() {
+        return super.hashCode();
+    }
 }

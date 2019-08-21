@@ -48,31 +48,53 @@ public class Problem {
         this.costFunction = costFunction;
         initializeMap(graph);
 
-        print(graph,agentsAndStartGoalNodes);
+
 
     }
 
-    private void print(Node [][] graph, Map<Agent,Pair<Node,Node>> agentsAndStartGoalNodes)
+    public static String print(Node [][] graph, Map<Agent,Pair<Node,Node>> agentsAndStartGoalNodes)
     {
+        String toString = "";
         for(int i=0;i<graph.length;i++)
         {
             for(int j=0;j<graph[i].length;j++)
             {
                 if(graph[i][j]!=null)
-                    System.out.print(1);
+                    toString+=1;
                 else
-                    System.out.print(0);
+                    toString+=0;
             }
-            System.out.println();
+            toString+="\n";
         }
 
         Set<Agent> agents = agentsAndStartGoalNodes.keySet();
+
         for(Agent agent : agents)
         {
-            System.out.println("Model.Agent "+agent.getId()+" starts from "+agentsAndStartGoalNodes.get(agent).getKey()+" to "+agentsAndStartGoalNodes.get(agent).getValue());
+            toString+= "Model.Agent "+agent.getId()+" starts from "+agentsAndStartGoalNodes.get(agent).getKey()+" to "+agentsAndStartGoalNodes.get(agent).getValue()+"\n";
+
+            int x_start = ((GridNode)agentsAndStartGoalNodes.get(agent).getKey()).getX();
+            int y_start = ((GridNode)agentsAndStartGoalNodes.get(agent).getKey()).getY();
+            int index = x_start*(graph[0].length+1)+y_start;
+            toString = toString.substring(0,index)+'S'+toString.substring(index+1);
+
+            int x_end = ((GridNode)agentsAndStartGoalNodes.get(agent).getValue()).getX();
+            int y_end = ((GridNode)agentsAndStartGoalNodes.get(agent).getValue()).getY();
+            index = x_end*(graph[0].length+1)+y_end;
+            if(x_end == x_start && y_end == y_start)
+            {
+                toString = toString.substring(0,index)+'F'+toString.substring(index+1);
+            }
+            else
+            {
+                toString = toString.substring(0,index)+'E'+toString.substring(index+1);
+            }
+
+
+
         }
 
-
+        return toString;
     }
 
     /**

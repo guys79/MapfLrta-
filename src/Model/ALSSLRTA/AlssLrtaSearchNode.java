@@ -51,6 +51,11 @@ public class AlssLrtaSearchNode {
     public AlssLrtaSearchNode getBack() {
         return back;
     }
+
+    @Override
+    public String toString() {
+        return node.toString();
+    }
 }
 
 

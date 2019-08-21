@@ -27,6 +27,16 @@ public class AlssLrtaRealTimeSearchManager extends AbstractRealTimeSearchManager
             ALSSLRTA alsslrta = new ALSSLRTA(problem);
             Node current = agent.getCurrent();
             List<Node> prefix = alsslrta.calculatePrefix(current,agent_goal_start.get(agent).getValue(),problem.getNumberOfNodeToDevelop(),agent);
+            if(prefix==null)
+            {
+                System.out.println("No Solution");
+                this.prefixesForAgents.put(agent,prefix);
+                List<Node> fail = new ArrayList<>();
+                fail.add(agent_goal_start.get(agent).getKey());
+                pathsForAgents.put(agent,fail);
+                return;
+            }
+
             this.prefixesForAgents.put(agent,prefix);
             List<Node> path = pathsForAgents.get(agent);
             path.remove(path.size()-1);

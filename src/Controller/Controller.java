@@ -100,8 +100,20 @@ public class Controller{
             int[] path = entry.getKey();
             int nodeID = getNode(path, time.getValue());
             int[] pos = nodeLocations.get(nodeID);
+
+            int endNodeID = getNode(path, path.length-1);
+            int[] endPos = nodeLocations.get(endNodeID);
+
+
             context.setFill(entry.getValue());
+            context.fillRect(endPos[0] * cellWidth, endPos[1] * cellHeight, cellWidth, cellHeight);
+
+            if(time.getValue() == path.length-1)
+            {
+                context.setFill(Color.web("#414A4C"));
+            }
             context.fillOval(pos[0] * cellWidth, pos[1] * cellHeight, cellWidth, cellHeight);
+
         }
     }
 

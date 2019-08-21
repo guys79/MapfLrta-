@@ -51,6 +51,10 @@ public abstract class AbstractRealTimeSearchManager implements IRealTimeSearchMa
         {
 
             List<Node> prefix = this.prefixesForAgents.get(agent);
+            if(prefix == null)
+            {
+                return;
+            }
             System.out.println("Model.Agent "+agent.getId()+"'s prefix is : "+ prefix);
 
             for(int i=1;i<prefix.size();i++)
@@ -69,6 +73,10 @@ public abstract class AbstractRealTimeSearchManager implements IRealTimeSearchMa
     {
 
         HashSet<Agent> agents = new HashSet<>(problem.getAgentsAndStartGoalNodes().keySet());
+        if(this.prefixesForAgents.values().contains(null))
+        {
+            return true;
+        }
         for(Agent agent : agents)
         {
             if(!agent.isDone())

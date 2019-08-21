@@ -1,9 +1,6 @@
 package Model.ALSSLRTA;
 
-import Model.Agent;
-import Model.IRealTimeSearchAlgorithm;
-import Model.Node;
-import Model.Problem;
+import Model.*;
 
 import java.util.*;
 
@@ -46,9 +43,14 @@ public class ALSSLRTA implements IRealTimeSearchAlgorithm {
         List<Node> prefix = new ArrayList<>();
         current = new AlssLrtaSearchNode(start);
         this.agent = agent;
+
+
         aStarPrecedure();
+
+        if(open.size() == 0)
+            return null;
         AlssLrtaSearchNode next = ExtractBestState();
-        if(next.equals(goal))
+        if(next.getNode().equals(goal))
         {
             agent.done();
         }
@@ -97,11 +99,15 @@ public class ALSSLRTA implements IRealTimeSearchAlgorithm {
         Set<AlssLrtaSearchNode> min_f_value_nodes = getMinFNodes();
         AlssLrtaSearchNode state;
         Iterator<AlssLrtaSearchNode> iter = min_f_value_nodes.iterator();
+
+       // List<AlssLrtaSearchNode> scanned = new ArrayList<>();
         while(aStarCondition(min_f_value_nodes,expansions))
         {
             state = iter.next();//Get best state
             iter.remove();
 
+
+         //   scanned.add(state);
             //Insert to close
             closed.put(state.getNode().getId(),state);
             //openRemove(state);
@@ -121,6 +127,13 @@ public class ALSSLRTA implements IRealTimeSearchAlgorithm {
                     openAdd(node);
                 }
             }
+            expansions++;
+
+            if(min_f_value_nodes.size()==0)
+            {
+                min_f_value_nodes = getMinFNodes();
+                iter = min_f_value_nodes.iterator();
+            }
 
         }
         //Adding the rest of the nodes to the open list
@@ -128,6 +141,7 @@ public class ALSSLRTA implements IRealTimeSearchAlgorithm {
         {
             openAdd(node);
         }
+        //System.out.println(scanned);
 
     }
 
@@ -243,7 +257,7 @@ public class ALSSLRTA implements IRealTimeSearchAlgorithm {
         }
 
 
-        return !min_f_value_nodes.contains(goal);
+        return !min_f_value_nodes.contains(transformSingleNode(goal));
 
 
     }
@@ -259,8 +273,10 @@ public class ALSSLRTA implements IRealTimeSearchAlgorithm {
         double min;
 
         //Initializing - finding the f value
-        AlssLrtaSearchNode temp = open.poll();
-        open.add(temp);
+        if(open.size()!=0) {
+            AlssLrtaSearchNode temp = open.poll();
+            open.add(temp);
+        }
         AlssLrtaSearchNode poped = open.poll();
 
         double f_value;
