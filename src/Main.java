@@ -39,9 +39,9 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception {
         final int NUM_OF_AGENTS = 1;
         final int HEIGHT = 22;
-        final int WIDTH = 20;
-        final double DENSITY = 0.4;
-        final int NUM_OF_NODES_TO_DEVELOP = 15;
+        final int WIDTH = 22;
+        final double DENSITY = 0.5;
+        final int NUM_OF_NODES_TO_DEVELOP = 3;
 
         //The search
         Problem problem = getRandomProblem(NUM_OF_AGENTS,HEIGHT,WIDTH,DENSITY,NUM_OF_NODES_TO_DEVELOP);
@@ -85,7 +85,7 @@ public class Main extends Application {
     public static void output(int height,int width,String fileName)
     {
         //showMessageDialog(null, problemInString);
-        try (PrintWriter writer = new PrintWriter(new File("C:\\Users\\guys79\\Desktop\\outputs"+fileName+".csv"))) {
+        try (PrintWriter writer = new PrintWriter(new File("C:\\Users\\guys79\\Desktop\\outputs\\"+fileName+".csv"))) {
 
             StringBuilder sb = new StringBuilder();
             System.out.println(problemInString);
