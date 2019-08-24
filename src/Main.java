@@ -44,16 +44,16 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         final int NUM_OF_AGENTS = 1;
-        final int HEIGHT = 22;
-        final int WIDTH = 22;
-        final double DENSITY = 0.5;
+        final int HEIGHT = 40;
+        final int WIDTH = 40;
+        final double DENSITY = 0.8;
         final int NUM_OF_NODES_TO_DEVELOP = 15  ;
         final int TYPE =1;
         Map<Agent, List<Node>> paths = new HashMap<>();
         long startTime=0;
         Problem problem = null;
         int numProblems =0;
-        while(isThereSolution(paths)) {
+      //  while(isThereSolution(paths)) {
 
             //The search
             problem = getRandomProblem(NUM_OF_AGENTS, HEIGHT, WIDTH, DENSITY, NUM_OF_NODES_TO_DEVELOP, TYPE);
@@ -65,7 +65,7 @@ public class Main extends Application {
             paths = realTimeSearchManager.search();
             numProblems++;
             System.out.println(numProblems);
-        }
+     //   }
 
         //Time calculation
         long endTime = System.currentTimeMillis();
