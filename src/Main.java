@@ -11,9 +11,7 @@ import javafx.scene.control.Alert;
 import javafx.stage.Stage;
 import javafx.util.Pair;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.PrintWriter;
+import java.io.*;
 import java.util.*;
 
 import static javax.swing.JOptionPane.showMessageDialog;
@@ -41,7 +39,7 @@ public class Main extends Application {
         final int HEIGHT = 22;
         final int WIDTH = 22;
         final double DENSITY = 0.5;
-        final int NUM_OF_NODES_TO_DEVELOP = 3;
+        final int NUM_OF_NODES_TO_DEVELOP = 15  ;
 
         //The search
         Problem problem = getRandomProblem(NUM_OF_AGENTS,HEIGHT,WIDTH,DENSITY,NUM_OF_NODES_TO_DEVELOP);
@@ -90,7 +88,7 @@ public class Main extends Application {
             StringBuilder sb = new StringBuilder();
             System.out.println(problemInString);
             String [] toCsv = problemInString.split("\n");
-            sb.append("\n,");
+
             for(int i=width-1;i>=0;i--)
             {
                 sb.append(i+",");
@@ -139,7 +137,135 @@ public class Main extends Application {
         }
 
     }
+    public static int [] getGridSize(String path)
+    {
+        BufferedReader br = null;
+        String line;
+        int [] loc = new int[2];
+        try {
 
+            br = new BufferedReader(new FileReader(path));
+            line = br.readLine();
+            String [] lineSplit= line.split(",");
+            String lastNumber = lineSplit[0];
+            loc[1] = Integer.parseInt(lastNumber)+1;
+            loc[0] = -1;
+            while (( line = br.readLine()) != null) {
+
+                System.out.println(line);
+                // use comma as separator
+                loc[0]++;
+
+
+
+
+            }
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (br != null) {
+                try {
+                    br.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return loc;
+    }
+    public static Node [][] getGraphFromCSV(String path)
+    {
+        BufferedReader br = null;
+        String line;
+        int [] size = getGridSize(path);
+        Node [][] grid = new Node[size[0]][size[1]];
+        int index = 0;
+        try {
+
+            br = new BufferedReader(new FileReader(path));
+            line = br.readLine();
+            while ((line = br.readLine()) != null && index!=grid.length) {
+
+                // use comma as separator
+                String [] lineSplit = line.split(",");
+                for(int i=1;i<lineSplit.length-1;i++)
+                {
+                    if(lineSplit[i].equals("0"))
+                        grid[index][i-1] = null;
+                    else
+                        grid[index][grid[index].length-i] = new GridNode(index,grid[index].length-i);
+                }
+
+                index++;
+
+            }
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (br != null) {
+                try {
+                    br.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return grid;
+    }
+
+    public static int [][] getLocFromCSV(String path)
+    {
+        BufferedReader br = null;
+        String line;
+        int [][] loc = new int[2][2];
+        int index = 0;
+        try {
+
+            br = new BufferedReader(new FileReader(path));
+            line = br.readLine();
+            while ((line = br.readLine()) != null) {
+
+                // use comma as separator
+                String [] lineSplit = line.split(",");
+                for(int i=1;i<lineSplit.length-1;i++)
+                {
+                    if(lineSplit[i].equals("S"))
+                    {
+                        loc[0][0] = index;
+                        loc[0][1] = graph[index].length-i;
+                    }
+                    if(lineSplit[i].equals("E"))
+                    {
+                        loc[1][0] = index;
+                        loc[1][1] = graph[index].length-i;
+                    }
+                }
+
+                index++;
+
+            }
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (br != null) {
+                try {
+                    br.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return loc;
+    }
     /**
      * This function will generate a random problem with the given parameters
      * @param numOfAgents - The number of agents
@@ -151,10 +277,15 @@ public class Main extends Application {
     public static Problem getRandomProblem(int numOfAgents,int height,int width, double density,int toDevelop)
     {
         Map<Agent, Pair<Node,Node>> agent_start_goal_nodes = new HashMap<>();
-        graph = getRandomGraph(height,width,density);
         HashSet<Node> starts = new HashSet<>();
         HashSet<Node> goals = new HashSet<>();
-        for(int i=0;i<numOfAgents;i++)
+        String path = "C:\\Users\\guys79\\Desktop\\outputs\\output.csv";
+        graph = getGraphFromCSV(path);
+        int [][] startGoal = getLocFromCSV(path);
+        Agent agent = new Agent(0,graph[startGoal[1][0]][startGoal[1][1]]);
+        agent_start_goal_nodes.put(agent,new Pair<>(graph[startGoal[0][0]][startGoal[0][1]],graph[startGoal[1][0]][startGoal[1][1]]));
+        //graph = getRandomGraph(height,width,density);
+        /*for(int i=0;i<numOfAgents;i++)
         {
             int x = (int)(Math.random()*graph.length);
             int y = (int)(Math.random()*graph[x].length);
@@ -177,7 +308,7 @@ public class Main extends Application {
             Agent agent = new Agent(i,goal);
             agent_start_goal_nodes.put(agent,new Pair<>(start,goal));
         }
-
+*/
         Problem problem = new Problem(graph,agent_start_goal_nodes,toDevelop,new GridCostFunction());
         problemInString = Problem.print(graph,agent_start_goal_nodes);
         return problem;

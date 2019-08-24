@@ -174,7 +174,12 @@ public class ALSSLRTA implements IRealTimeSearchAlgorithm {
                     open_min.add(temp);
                 first = false;
             }
+
             AlssLrtaSearchNode min_h_node = open_min.poll();
+            if(min_h_node == null)
+            {
+                System.out.println(min_h_node+" node");
+            }
             openRemove(min_h_node);
             try
             {
