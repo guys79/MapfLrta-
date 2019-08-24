@@ -91,4 +91,8 @@ public class AlssLrtaAgentHeuristics implements IAgentHeuristics {
     {
         return localHeuristics.containsKey(node);
     }
+
+    public Node getGoal() {
+        return goal;
+    }
 }

@@ -12,18 +12,28 @@ public class Agent {
     private int id;//The id of the agent
     private Node current;//The current node the agent is on
     private boolean isDone;//True IFF the agent reached the goal
+
     /**
      * The constructor of the agent
      * @param id - The id of the agent
      * @param goal - The goal node
      */
-    public Agent(int id,Node goal)
+    public Agent(int id,Node goal,int type)
     {
-        heuristics = new AgentHeuristics(goal);
+        if(type == 0)
+            heuristics = new AgentHeuristics(goal);
+        else
+            heuristics = new AlssLrtaAgentHeuristics(goal);
         this.id = id;
         this.isDone = false;
+
     }
 
+    public Node getGoal()
+    {
+        return ((AlssLrtaAgentHeuristics)heuristics).getGoal();
+
+    }
     /**
      * This function will return true IFF the agent has reached the goal
      * @return True IFF the agent has reached the goal

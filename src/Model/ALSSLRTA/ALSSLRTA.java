@@ -49,14 +49,20 @@ public class ALSSLRTA implements IRealTimeSearchAlgorithm {
 
         if(open.size() == 0)
             return null;
-        AlssLrtaSearchNode next = ExtractBestState();;
+
+        AlssLrtaSearchNode next = ExtractBestState();
+
         if(next.getNode().equals(goal))
         {
             agent.done();
         }
         else
         {
-            dijkstra();
+            if(!dijkstra())
+            {
+                return null;
+            }
+
         }
         while(next != current)
         {
@@ -155,7 +161,7 @@ public class ALSSLRTA implements IRealTimeSearchAlgorithm {
     /**
      * The Dijkstra precedure described in the aLSS-LRTA* algorithm
      */
-    private void dijkstra()
+    private boolean dijkstra()
     {
 
         Collection<AlssLrtaSearchNode> nodes = closed.values();
@@ -178,26 +184,18 @@ public class ALSSLRTA implements IRealTimeSearchAlgorithm {
             AlssLrtaSearchNode min_h_node = open_min.poll();
             if(min_h_node == null)
             {
-                System.out.println(min_h_node+" node");
+                return false;
             }
             openRemove(min_h_node);
-            try
-            {
-                if(closed.containsKey(min_h_node.getNode().getId()))
-                {
-                    closed.remove(min_h_node.getNode().getId());
-                }
-            }
-            catch (Exception e)
-            {
-                System.out.println("************");
-                System.out.println(open.size());
-                System.out.println(open_id.size());
-                System.out.println(open_min_update.size());
-                System.out.println(open_min.size());
-                throw e;
-            }
 
+            if(agent.getHeuristicValue(min_h_node.getNode()) > agent.getInitialHeuristicValue(min_h_node.getNode()))
+            {
+                min_h_node.setUpdated(true);
+            }
+            if(closed.containsKey(min_h_node.getNode().getId()))
+            {
+                closed.remove(min_h_node.getNode().getId());
+            }
 
             Set<Node> neighbors = min_h_node.getNode().getNeighbors().keySet();
             Set<AlssLrtaSearchNode> comp_neighbors = transformNodes(neighbors);
@@ -219,7 +217,7 @@ public class ALSSLRTA implements IRealTimeSearchAlgorithm {
 
         }
 
-
+        return true;
     }
     private AlssLrtaSearchNode ExtractBestState()
     {
@@ -407,7 +405,7 @@ public class ALSSLRTA implements IRealTimeSearchAlgorithm {
      * This class is used to compare between to node in the open list
      * In our case, we compare the h value
      */
-    public class CompareHeuristicUpdateAlssNode extends CompareHeuristicAlssNode
+    public class CompareHeuristicUpdateAlssNode extends CompareAlssNode
     {
         public CompareHeuristicUpdateAlssNode()
         {
@@ -416,8 +414,8 @@ public class ALSSLRTA implements IRealTimeSearchAlgorithm {
 
         @Override
         public int compare(AlssLrtaSearchNode o1, AlssLrtaSearchNode o2) {
-            boolean isUpdated1=agent.checkIfUpdated(o1.getNode());
-            boolean isUpdated2=agent.checkIfUpdated(o2.getNode());
+            boolean isUpdated1=o1.isUpdated();
+            boolean isUpdated2=o2.isUpdated();
             if(isUpdated1 && isUpdated2)
             {
                 return super.compare(o1,o2);

@@ -32,7 +32,15 @@ public class Main extends Application {
     }
 
 
-
+    public static boolean isThereSolution(Map<Agent, List<Node>> paths)
+    {
+        for(List<Node> path : paths.values())
+        {
+            if(path.size()==1)
+                return false;
+        }
+        return true;
+    }
     @Override
     public void start(Stage primaryStage) throws Exception {
         final int NUM_OF_AGENTS = 1;
@@ -40,16 +48,24 @@ public class Main extends Application {
         final int WIDTH = 22;
         final double DENSITY = 0.5;
         final int NUM_OF_NODES_TO_DEVELOP = 15  ;
+        final int TYPE =1;
+        Map<Agent, List<Node>> paths = new HashMap<>();
+        long startTime=0;
+        Problem problem = null;
+        int numProblems =0;
+        while(isThereSolution(paths)) {
 
-        //The search
-        Problem problem = getRandomProblem(NUM_OF_AGENTS,HEIGHT,WIDTH,DENSITY,NUM_OF_NODES_TO_DEVELOP);
-        //IRealTimeSearchManager realTimeSearchManager =new RealTimeSearchManager(problem);
-        IRealTimeSearchManager realTimeSearchManager =new AlssLrtaRealTimeSearchManager(problem);
-        output(HEIGHT,WIDTH,"output");
-        System.out.println(problemInString);
-        long startTime = System.currentTimeMillis();
-        Map<Agent, List<Node>> paths = realTimeSearchManager.search();
-
+            //The search
+            problem = getRandomProblem(NUM_OF_AGENTS, HEIGHT, WIDTH, DENSITY, NUM_OF_NODES_TO_DEVELOP, TYPE);
+            //IRealTimeSearchManager realTimeSearchManager =new RealTimeSearchManager(problem);
+            IRealTimeSearchManager realTimeSearchManager = new AlssLrtaRealTimeSearchManager(problem);
+            output(HEIGHT, WIDTH, "output");
+       //     System.out.println(problemInString);
+            startTime = System.currentTimeMillis();
+            paths = realTimeSearchManager.search();
+            numProblems++;
+            System.out.println(numProblems);
+        }
 
         //Time calculation
         long endTime = System.currentTimeMillis();
@@ -73,7 +89,7 @@ public class Main extends Application {
         controller.initialize(intGrid);
 
         Set<Agent> agents=problem.getAgentsAndStartGoalNodes().keySet();
-        for (Agent agent : agents) controller.addAgent(paths.get(agent));
+        for (Agent agent : agents) controller.addAgent(paths.get(agent),agent.getGoal());
         controller.draw();
 
 
@@ -86,7 +102,7 @@ public class Main extends Application {
         try (PrintWriter writer = new PrintWriter(new File("C:\\Users\\guys79\\Desktop\\outputs\\"+fileName+".csv"))) {
 
             StringBuilder sb = new StringBuilder();
-            System.out.println(problemInString);
+           // System.out.println(problemInString);
             String [] toCsv = problemInString.split("\n");
 
             for(int i=width-1;i>=0;i--)
@@ -152,7 +168,7 @@ public class Main extends Application {
             loc[0] = -1;
             while (( line = br.readLine()) != null) {
 
-                System.out.println(line);
+              //  System.out.println(line);
                 // use comma as separator
                 loc[0]++;
 
@@ -274,18 +290,18 @@ public class Main extends Application {
      * @param density - The density of the walls in the graph  (the ratio of the walls)
      * @return - A random problem
      */
-    public static Problem getRandomProblem(int numOfAgents,int height,int width, double density,int toDevelop)
+    public static Problem getRandomProblem(int numOfAgents,int height,int width, double density,int toDevelop,int type)
     {
         Map<Agent, Pair<Node,Node>> agent_start_goal_nodes = new HashMap<>();
         HashSet<Node> starts = new HashSet<>();
         HashSet<Node> goals = new HashSet<>();
         String path = "C:\\Users\\guys79\\Desktop\\outputs\\output.csv";
-        graph = getGraphFromCSV(path);
+      /*  graph = getGraphFromCSV(path);
         int [][] startGoal = getLocFromCSV(path);
-        Agent agent = new Agent(0,graph[startGoal[1][0]][startGoal[1][1]]);
-        agent_start_goal_nodes.put(agent,new Pair<>(graph[startGoal[0][0]][startGoal[0][1]],graph[startGoal[1][0]][startGoal[1][1]]));
-        //graph = getRandomGraph(height,width,density);
-        /*for(int i=0;i<numOfAgents;i++)
+        Agent agent = new Agent(0,graph[startGoal[1][0]][startGoal[1][1]],type);
+        agent_start_goal_nodes.put(agent,new Pair<>(graph[startGoal[0][0]][startGoal[0][1]],graph[startGoal[1][0]][startGoal[1][1]]));*/
+        graph = getRandomGraph(height,width,density);
+        for(int i=0;i<numOfAgents;i++)
         {
             int x = (int)(Math.random()*graph.length);
             int y = (int)(Math.random()*graph[x].length);
@@ -305,10 +321,10 @@ public class Main extends Application {
             }
             Node goal =graph[x][y];
 
-            Agent agent = new Agent(i,goal);
+            Agent agent = new Agent(i,goal,type);
             agent_start_goal_nodes.put(agent,new Pair<>(start,goal));
         }
-*/
+
         Problem problem = new Problem(graph,agent_start_goal_nodes,toDevelop,new GridCostFunction());
         problemInString = Problem.print(graph,agent_start_goal_nodes);
         return problem;

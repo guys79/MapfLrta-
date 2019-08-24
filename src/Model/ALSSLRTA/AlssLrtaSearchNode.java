@@ -9,12 +9,14 @@ public class AlssLrtaSearchNode {
     private Node node;
     private double gValue;
     private AlssLrtaSearchNode back;
+    private boolean updated;
 
     public AlssLrtaSearchNode(Node node)
     {
         this.node = node;
         gValue = Double.MAX_VALUE;
         back = null;
+        updated = false;
     }
 
     @Override
@@ -24,6 +26,14 @@ public class AlssLrtaSearchNode {
             return ((AlssLrtaSearchNode)obj).node.equals(node);
         }
         return false;
+    }
+
+    public void setUpdated(boolean updated) {
+        this.updated = updated;
+    }
+
+    public boolean isUpdated() {
+        return updated;
     }
 
     @Override
@@ -56,6 +66,7 @@ public class AlssLrtaSearchNode {
     public String toString() {
         return node.toString();
     }
+
 }
 
 

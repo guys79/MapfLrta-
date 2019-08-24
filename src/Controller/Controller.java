@@ -1,5 +1,6 @@
 package Controller;
 
+import Model.GridNode;
 import Model.Node;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -84,6 +85,7 @@ public class Controller{
         for (int row = 0; row < grid.length; row++) {
             for (int col = 0; col < grid[0].length; col++) {
                 if (grid[row][col] == -1) context.setFill(Color.BLACK);
+                else if(grid[row][col]==-2) context.setFill(Color.YELLOW);
                 else context.setFill(Color.WHITE);
                 context.fillRect(col * cellWidth, row * cellHeight, cellWidth+1, cellHeight+1);
             }
@@ -108,10 +110,12 @@ public class Controller{
             context.setFill(entry.getValue());
             context.fillRect(endPos[0] * cellWidth, endPos[1] * cellHeight, cellWidth, cellHeight);
 
+
             if(time.getValue() == path.length-1)
             {
                 context.setFill(Color.web("#414A4C"));
             }
+
             context.fillOval(pos[0] * cellWidth, pos[1] * cellHeight, cellWidth, cellHeight);
 
         }
@@ -133,8 +137,13 @@ public class Controller{
      * This function will add an agent to the GUI
      * @param path - The path of the agent
      */
-    public void addAgent(List<Node> path){
+    public void addAgent(List<Node> path,Node goal){
         int [] pathArr = new int[path.size()];
+        if(pathArr.length==1)//No Solution
+        {
+            GridNode gridNode = (GridNode)goal;
+            grid[gridNode.getX()][gridNode.getY()] = -2;
+        }
         for(int i=0;i<path.size();i++)
         {
             pathArr[i] = path.get(i).getId();
