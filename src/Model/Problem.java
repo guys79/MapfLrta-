@@ -58,8 +58,7 @@ public class Problem {
         for(Agent agent : agents)
         {
             toString+= "Model.Agent "+agent.getId()+" starts from "+agentsAndStartGoalNodes.get(agent).getKey()+" to "+agentsAndStartGoalNodes.get(agent).getValue()+"\n";
-
-            int x_start = ((GridNode)agentsAndStartGoalNodes.get(agent).getKey()).getX();
+            int x_start = ((GridNode) agentsAndStartGoalNodes.get(agent).getKey()).getX();
             int y_start = ((GridNode)agentsAndStartGoalNodes.get(agent).getKey()).getY();
             int index = x_start*(graph[0].length+1)+y_start;
             toString = toString.substring(0,index)+'S'+toString.substring(index+1);

@@ -47,4 +47,10 @@ public interface IProblemCreator {
      */
     public void output(String file);
 
+    /**
+     * This function will return the next problem
+     * @return - the next problem
+     */
+    public Problem next();
+
 }

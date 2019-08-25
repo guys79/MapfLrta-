@@ -11,6 +11,10 @@ public abstract class AbstractProblemCreator implements IProblemCreator {
     protected Node [][] graph;//The graph
     protected String problemInString;//The problem representation in string
 
+    @Override
+    public Problem next() {
+        return null;
+    }
 
     @Override
     public Problem getProblem(String path, int toDevelop, int type) {

@@ -1,7 +1,9 @@
 package Controller;
 
 import Model.GridNode;
+import Model.Model;
 import Model.Node;
+import Model.IProblemCreator;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.value.ChangeListener;
@@ -24,6 +26,8 @@ public class Controller{
     @FXML
     public Text timeText;//The text that indicates the time we are currently watching (t=?)
     public Canvas canvas;//The canvas
+    private Model model;//The model
+    public Button nextButton;//Moves the time forward
     public Button forwardButton;//Moves the time forward
     public Slider slider;//Can control the time
     public Button backButton;//Moves the time backwards
@@ -48,12 +52,27 @@ public class Controller{
     private double cellWidth;//The height of the cell
     private double cellHeight;//The width of the cell
     private int maxTime = 0;
+    public void next()
+    {
+        model.next();
+    }
+    public void clear()
+    {
+        slider.setBlockIncrement(1);
+        paths.clear();
+
+    }
+
+    public void setModel(Model model) {
+        this.model = model;
+    }
 
     /**
      * This function will initialize the Controller
      * @param grid - The given grid
      */
     public void initialize(int[][] grid){
+
         slider.setBlockIncrement(1);
         slider.valueProperty().addListener((ChangeListener) (arg0, arg1, arg2) -> {
 //            time.setValue((int)(slider.getValue()/100*maxTime));
@@ -66,6 +85,7 @@ public class Controller{
         context = canvas.getGraphicsContext2D();
         cellWidth = canvas.getWidth()/grid[0].length;
         cellHeight = canvas.getHeight()/grid.length;
+
     }
 
     /**

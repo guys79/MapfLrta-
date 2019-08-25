@@ -11,7 +11,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<GridPane alignment="center" hgap="10" vgap="10" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.Controller">
+<GridPane alignment="center" hgap="10" vgap="10" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.Controller">
     <columnConstraints>
         <ColumnConstraints />
     </columnConstraints>
@@ -30,6 +30,7 @@
                     <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                     <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                     <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+               <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                 </columnConstraints>
                 <rowConstraints>
                     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
@@ -41,6 +42,11 @@
                     </font>
                 </Text>
                 <Button fx:id="forwardButton" mnemonicParsing="false" onAction="#timeForward" prefHeight="48.0" prefWidth="266.0" text="&gt;" GridPane.columnIndex="4" GridPane.rowSpan="2">
+                    <font>
+                        <Font name="System Bold" size="18.0" />
+                    </font>
+                </Button>
+                <Button fx:id="nextButton" mnemonicParsing="false" onAction="#next" prefHeight="48.0" prefWidth="266.0" text="&gt;&gt;" GridPane.columnIndex="5" GridPane.rowSpan="2">
                     <font>
                         <Font name="System Bold" size="18.0" />
                     </font>
