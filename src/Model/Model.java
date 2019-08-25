@@ -3,10 +3,9 @@ package Model;
 import Controller.Controller;
 import Model.ALSSLRTA.AlssLrtaRealTimeSearchManager;
 import Model.LRTA.RealTimeSearchManager;
+import javafx.util.Pair;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 public class Model {
 
@@ -21,16 +20,32 @@ public class Model {
     private final String scenPath = "C:\\Users\\guys79\\Desktop\\AR0011SR.map.scen";
     private final String outputPath = "C:\\Users\\guys79\\Desktop\\outputs\\output.csv";
     private Controller controller;
+    Map<Agent, Pair<Node,Node>> prev;
     private ScenarioProblemCreator problemCreator;
     private IRealTimeSearchManager realTimeSearchManager;
 
     public Model(Controller controller,IProblemCreator problemCreator) {
         first = true;
+        prev = new HashMap<>();
         this.problemCreator = (ScenarioProblemCreator)problemCreator;
         this.controller = controller;
         this.controller.setModel(this);
     }
 
+
+    /**
+     * This function will check if the algorithm had found a solution for the problem
+     * @param paths - The paths found for each agent
+     * @return - True IFF a solution was found
+     */
+    public boolean isThereSolution(Map<Agent, List<Node>> paths){
+        for(List<Node> path : paths.values())
+        {
+            if(path.size()==1)
+                return false;
+        }
+        return true;
+    }
 
     public void next() {
         Problem problem;
@@ -41,7 +56,15 @@ public class Model {
             first = false;
         } else {
             problem = problemCreator.next();
-            controller.clear();
+            HashSet <int []> locs = new HashSet();
+            for(Pair<Node,Node> p : prev.values())
+            {
+                int [] a = {((GridNode)p.getKey()).getX(),((GridNode)p.getKey()).getY()};
+                int [] b = {((GridNode)p.getValue()).getX(),((GridNode)p.getValue()).getY()};
+                locs.add(a);
+                locs.add(b);
+            }
+            controller.clear(locs);
         }
         if (problem != null) {
             if(this.TYPE == 0)
@@ -73,10 +96,24 @@ public class Model {
             //Print the results
             System.out.println("TIme elapsed "+time +" ms");
             System.out.println("TIme elapsed "+timeInSeconds +" seconds");
+            prev = problem.getAgentsAndStartGoalNodes();
+            Set<Agent> agents = prev.keySet();
+
+            for (Agent agent : agents){
+                controller.addAgent(paths.get(agent), agent.getGoal());
+                printPathCost(paths.get(agent),problem);
+            }
             System.out.println();
-            Set<Agent> agents = problem.getAgentsAndStartGoalNodes().keySet();
-            for (Agent agent : agents) controller.addAgent(paths.get(agent), agent.getGoal());
             controller.draw();
         }
+    }
+    private void printPathCost(List<Node> path,Problem problem)
+    {
+        double sum = 0;
+        for(int i=0;i<path.size()-1;i++)
+        {
+            sum+= problem.getCost(path.get(i),path.get(i+1));
+        }
+        System.out.println("sum = "+sum);
     }
 }

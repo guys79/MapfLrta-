@@ -20,7 +20,7 @@
     </rowConstraints>
     <BorderPane>
         <center>
-          <Canvas fx:id="canvas" height="500.0" width="800.0" BorderPane.alignment="CENTER" />
+          <Canvas fx:id="canvas" height="900.0" width="1350.0" BorderPane.alignment="CENTER" />
         </center>
         <bottom>
             <GridPane prefHeight="38.0" style="-fx-background-color: #d2cbd2" BorderPane.alignment="CENTER">

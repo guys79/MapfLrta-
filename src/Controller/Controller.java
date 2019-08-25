@@ -16,6 +16,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 
 /**
@@ -27,6 +28,7 @@ public class Controller{
     public Text timeText;//The text that indicates the time we are currently watching (t=?)
     public Canvas canvas;//The canvas
     private Model model;//The model
+    private boolean first;//If it is the first time uploading a map
     public Button nextButton;//Moves the time forward
     public Button forwardButton;//Moves the time forward
     public Slider slider;//Can control the time
@@ -56,10 +58,16 @@ public class Controller{
     {
         model.next();
     }
-    public void clear()
+    public void clear(HashSet<int []> locs)
     {
         slider.setBlockIncrement(1);
         paths.clear();
+        context.setFill(Color.WHITE);
+        for(int [] loc : locs)
+        {
+            context.fillRect(loc[1] * cellWidth, loc[0] * cellHeight, cellWidth + 1, cellHeight + 1);
+        }
+
 
     }
 
@@ -72,7 +80,7 @@ public class Controller{
      * @param grid - The given grid
      */
     public void initialize(int[][] grid){
-
+        first = true;
         slider.setBlockIncrement(1);
         slider.valueProperty().addListener((ChangeListener) (arg0, arg1, arg2) -> {
 //            time.setValue((int)(slider.getValue()/100*maxTime));
@@ -95,19 +103,22 @@ public class Controller{
         timeText.setText("t = "+time.getValue());
         drawGrid();
         drawAgents();
+        first = false;
     }
 
     /**
      * This function will draw the grid
      */
     private void drawGrid(){
-        context.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
-        for (int row = 0; row < grid.length; row++) {
-            for (int col = 0; col < grid[0].length; col++) {
-                if (grid[row][col] == -1) context.setFill(Color.BLACK);
-                else if(grid[row][col]==-2) context.setFill(Color.YELLOW);
-                else context.setFill(Color.WHITE);
-                context.fillRect(col * cellWidth, row * cellHeight, cellWidth+1, cellHeight+1);
+        if(first) {
+            context.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
+            for (int row = 0; row < grid.length; row++) {
+                for (int col = 0; col < grid[0].length; col++) {
+                    if (grid[row][col] == -1) context.setFill(Color.BLACK);
+                    else if (grid[row][col] == -2) context.setFill(Color.YELLOW);
+                    else context.setFill(Color.WHITE);
+                    context.fillRect(col * cellWidth, row * cellHeight, cellWidth + 1, cellHeight + 1);
+                }
             }
         }
     }

@@ -20,7 +20,8 @@ import static javax.swing.JOptionPane.showOptionDialog;
 public class Main extends Application {
 
 
-    // TODO: 24/08/2019 Problem creator that read maps and scenarios
+    // TODO: 25/08/2019 Try to make the canvas change the locations of the agents only (instead of drawing everything eberyProblem) 
+    // TODO: 25/08/2019 comments 
 
     public static void main (String [] args)
     {
@@ -32,10 +33,6 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
 
-
-        IProblemCreator problemCreator = new ScenarioProblemCreator();
-
-
         //The GUI
         FXMLLoader fxmlLoader = new FXMLLoader();
         Parent root = fxmlLoader.load(getClass().getResource("Controller/view.fxml").openStream());
@@ -43,29 +40,11 @@ public class Main extends Application {
         Model model = new Model(controller, new ScenarioProblemCreator());
         model.next();
         primaryStage.setTitle("MA-LRTA*");
-        primaryStage.setScene(new Scene(root, 800/8*14, 540/8*14));
+        primaryStage.setScene(new Scene(root, 1500, 1045));
         primaryStage.show();
 
-
-
-
-
-
     }
 
-    /**
-     * This function will check if the algorithm had found a solution for the problem
-     * @param paths - The paths found for each agent
-     * @return - True IFF a solution was found
-     */
-    public static boolean isThereSolution(Map<Agent, List<Node>> paths){
-        for(List<Node> path : paths.values())
-        {
-            if(path.size()==1)
-                return false;
-        }
-        return true;
-    }
 
 
 }
