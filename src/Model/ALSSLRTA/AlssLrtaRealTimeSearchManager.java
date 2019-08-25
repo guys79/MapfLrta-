@@ -10,7 +10,10 @@ import java.util.*;
  */
 public class AlssLrtaRealTimeSearchManager extends AbstractRealTimeSearchManager {
 
-
+    /**
+     * The constructor
+     * @param problem - A given problem
+     */
     public AlssLrtaRealTimeSearchManager(Problem problem)
     {
        super(problem);

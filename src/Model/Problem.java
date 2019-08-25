@@ -14,21 +14,7 @@ public class Problem {
     private Map<Agent,Pair<Node,Node>> agentsAndStartGoalNodes;//A map from an agent to a pair of start/goal nodes
     private int numberOfNodeToDevelop;//The number of nodes that will be developed for each agent in each iteration
     private ICostFunction costFunction;//The costFunction
-    /**
-     * The constructor of the class
-     * @param pathTOFIle - the given path to the problem instance
-     * @param agentsAndStartGoalNodes - A map from an agent to a pair of start/goal nodes
-     * @param numIfNodeToDevelop - The number of nodes that will be developed for each agent in each iteration
-     * @param costFunction - The given costFunction
-     */
-    public Problem(String pathTOFIle, Map<Agent,Pair<Node,Node>> agentsAndStartGoalNodes, int numIfNodeToDevelop,ICostFunction costFunction)
-    {
-        this.agentsAndStartGoalNodes = agentsAndStartGoalNodes;
-        this.numberOfNodeToDevelop = numIfNodeToDevelop;
-        this.costFunction = costFunction;
-        initializeMap(pathTOFIle);
 
-    }
 
     public double getCost(Node origin, Node target)
     {

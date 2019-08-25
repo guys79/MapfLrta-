@@ -6,9 +6,15 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 
-public class RandomProblem extends AbstractProblemCreator {
+/**
+ * This class represents a Random Problem Creator
+ */
+public class RandomProblemCreator extends AbstractProblemCreator {
 
-    public RandomProblem()
+    /**
+     * The constructor
+     */
+    public RandomProblemCreator()
     {
         super();
     }
@@ -18,10 +24,7 @@ public class RandomProblem extends AbstractProblemCreator {
         return getRandomProblem(numOfAgents,height,width,density,toDevelop,type);
     }
 
-    @Override
-    public Problem getProblem(String path) {
-        throw new UnsupportedOperationException();
-    }
+
 
     /**
      * This function will generate a random problem with the given parameters
@@ -36,11 +39,7 @@ public class RandomProblem extends AbstractProblemCreator {
         Map<Agent, Pair<Node,Node>> agent_start_goal_nodes = new HashMap<>();
         HashSet<Node> starts = new HashSet<>();
         HashSet<Node> goals = new HashSet<>();
-        String path = "C:\\Users\\guys79\\Desktop\\outputs\\output.csv";
-      /*  graph = getGraphFromCSV(path);
-        int [][] startGoal = getLocFromCSV(path);
-        Agent agent = new Agent(0,graph[startGoal[1][0]][startGoal[1][1]],type);
-        agent_start_goal_nodes.put(agent,new Pair<>(graph[startGoal[0][0]][startGoal[0][1]],graph[startGoal[1][0]][startGoal[1][1]]));*/
+
         graph = getRandomGraph(height,width,density);
         for(int i=0;i<numOfAgents;i++)
         {

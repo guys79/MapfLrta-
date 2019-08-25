@@ -73,6 +73,9 @@ public class ALSSLRTA implements IRealTimeSearchAlgorithm {
         return prefix;
     }
 
+    /**
+     * This function will clear the open list
+     */
     private void clearOpen()
     {
         open.clear();
@@ -80,6 +83,11 @@ public class ALSSLRTA implements IRealTimeSearchAlgorithm {
         open_id.clear();
         open_min_update.clear();
     }
+
+    /**
+     * This function will add a node to the open list
+     * @param node - The given node
+     */
     private void openAdd(AlssLrtaSearchNode node)
     {
         open_min_update.add(node);
@@ -87,6 +95,11 @@ public class ALSSLRTA implements IRealTimeSearchAlgorithm {
         open_min.add(node);
         open_id.put(node.getNode().getId(),node);
     }
+
+    /**
+     * This function will remove a node from the open list
+     * @param node - The given node
+     */
     private void openRemove(AlssLrtaSearchNode node)
     {
         if(node!=null) {
@@ -96,6 +109,7 @@ public class ALSSLRTA implements IRealTimeSearchAlgorithm {
             open_id.remove(node.getNode().getId());
         }
     }
+
     /**
      * The A* procedure described in the aLSS-LRTA* algorithm
      */
@@ -154,12 +168,12 @@ public class ALSSLRTA implements IRealTimeSearchAlgorithm {
         {
             openAdd(node);
         }
-        //System.out.println(scanned);
+
 
     }
 
     /**
-     * The Dijkstra precedure described in the aLSS-LRTA* algorithm
+     * The Dijkstra procedure described in the aLSS-LRTA* algorithm
      */
     private boolean dijkstra()
     {
@@ -219,6 +233,11 @@ public class ALSSLRTA implements IRealTimeSearchAlgorithm {
 
         return true;
     }
+
+    /**
+     * The Extract-Best-State procedure in the aLSS-LRTA*
+     * @return - The best node
+     */
     private AlssLrtaSearchNode ExtractBestState()
     {
         //Init

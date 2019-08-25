@@ -3,27 +3,42 @@ package Model;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
-import java.util.List;
-import java.util.Map;
 
+/**
+ * This class represents an abstract ProblemCreator
+ */
 public abstract class AbstractProblemCreator implements IProblemCreator {
     protected Node [][] graph;//The graph
     protected String problemInString;//The problem representation in string
 
+
+    @Override
+    public Problem getProblem(String path, int toDevelop, int type) {
+        throw  new UnsupportedOperationException();
+    }
+
+    @Override
+    public Problem getProblem(String mapPath, String SenerioPath, int toDevelop, int type) {
+        throw  new UnsupportedOperationException();
+    }
+
+    @Override
+    public Problem getProblem(int numOfAgents, int height, int width, double density, int toDevelop, int type) {
+        throw  new UnsupportedOperationException();
+    }
+
+    /**
+     * The constructor of the class
+     */
     public AbstractProblemCreator()
     {
 
     }
-    public static boolean isThereSolution(Map<Agent, List<Node>> paths)
-    {
-        for(List<Node> path : paths.values())
-        {
-            if(path.size()==1)
-                return false;
-        }
-        return true;
-    }
 
+    /**
+     * This function will return the graph of the given problem
+     * @return
+     */
     public Node[][] getGraph() {
         return graph;
     }
@@ -32,6 +47,7 @@ public abstract class AbstractProblemCreator implements IProblemCreator {
     public int[][] getGridGraph() {
         return intoIntGrid(graph);
     }
+
 
     /**
      * This function will convert the Node[][] graph into int[][] graph where
@@ -59,13 +75,16 @@ public abstract class AbstractProblemCreator implements IProblemCreator {
     }
 
     @Override
-    public void output(int height,int width,String fileName)
+    public void output(String file)
     {
-        //showMessageDialog(null, problemInString);
-        try (PrintWriter writer = new PrintWriter(new File("C:\\Users\\guys79\\Desktop\\outputs\\"+fileName+".csv"))) {
+        int width = graph[0].length;
+        int height = graph.length;
+        int index1 = file.lastIndexOf("\\");
+        int index2 = file.lastIndexOf(".");
+        String fileName = file.substring(index1+1,index2);
+        try (PrintWriter writer = new PrintWriter(new File(file))) {
 
             StringBuilder sb = new StringBuilder();
-            // System.out.println(problemInString);
             String [] toCsv = problemInString.split("\n");
 
             for(int i=width-1;i>=0;i--)
@@ -90,14 +109,13 @@ public abstract class AbstractProblemCreator implements IProblemCreator {
 
             writer.write(sb.toString());
 
-            // System.out.println("done!");
 
         } catch (FileNotFoundException e) {
             char last = fileName.charAt(fileName.length()-1);
             String num;
             if(last<'0' ||last>'9')
             {
-                output(height,width,fileName+"1");
+                output(fileName+"1");
                 return;
             }
             else
@@ -112,7 +130,7 @@ public abstract class AbstractProblemCreator implements IProblemCreator {
             }
             int numInt = Integer.parseInt(num);
             numInt++;
-            output(height,width,fileName+numInt);
+            output(fileName+numInt);
         }
 
     }

@@ -29,6 +29,10 @@ public class Agent {
 
     }
 
+    /**
+     * This function will return the goal nde of the agent
+     * @return - The goal node of the agent
+     */
     public Node getGoal()
     {
         return ((AlssLrtaAgentHeuristics)heuristics).getGoal();

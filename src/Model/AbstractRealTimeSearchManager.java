@@ -4,7 +4,9 @@ import Model.LRTA.LRTA;
 import javafx.util.Pair;
 
 import java.util.*;
-
+/**
+ * This class represents an abstract Real Time Search Manager
+ */
 public abstract class AbstractRealTimeSearchManager implements IRealTimeSearchManager{
     protected Problem problem;//The instance of the problem
     protected Map<Agent, List<Node>> prefixesForAgents;//Key - agent, Value - The agent's prefix
