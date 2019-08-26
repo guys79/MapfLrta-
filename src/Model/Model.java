@@ -21,8 +21,8 @@ public class Model {
     private final double DENSITY = 0.6;//The ratio between the number of walls to the overall number of nodes in the grid
     private final int NUM_OF_NODES_TO_DEVELOP = 15;//The number of nodes that can be developed in a single iteration
     private final int TYPE =2;// 0 - LRTA*, 1-aLSS-LRTA* 2- MA-aLSS-LRTA*
-    private final String fileName = "arena";//The name of the file
-    //private final String fileName = "AR0011SR";//The name of the file
+    //private final String fileName = "arena";//The name of the file
+    private final String fileName = "AR0011SR";//The name of the file
     private String rel = "C:\\Users\\guys7\\IdeaProjects\\MapfLrta-\\res";//The path to the project's resource dir
     private final String mapPath = rel+"\\Maps\\"+fileName+".map";//The path to the map file
     private final String scenPath =rel+"\\Scenarios\\"+fileName+".map.scen";//The path to the scenario file

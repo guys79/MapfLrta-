@@ -18,11 +18,13 @@ public class MAALSSLRTA extends ALSSLRTA {
     private Set<Agent> agents;//The agents
     private Agent currentAgent;
     //private Agent currentAgent;//The current agent
-    private Map<Integer,Map<Integer,AlssLrtaSearchNode>> closed;
-    private Map<Integer,PriorityQueue<AlssLrtaSearchNode>> open;
-    private Map<Integer,PriorityQueue<AlssLrtaSearchNode>> open_min;
-    private Map<Integer,PriorityQueue<AlssLrtaSearchNode>> open_min_update;
-    private Map<Integer,Map<Integer,AlssLrtaSearchNode>> open_id;
+    private Map<Integer,Map<Integer,AlssLrtaSearchNode>> closed;//The cosed list fr each agent
+    private Map<Integer,PriorityQueue<AlssLrtaSearchNode>> open;//The open list for each agent
+    private Map<Integer,PriorityQueue<AlssLrtaSearchNode>> open_min;//The open list for each agent
+    private Map<Integer,PriorityQueue<AlssLrtaSearchNode>> open_min_update;//The open list for each agent
+    private Map<Integer,Map<Integer,AlssLrtaSearchNode>> open_id;//key -Agent's id, value  - dic
+    //Key - node's id, Value - the search node itself
+    private IRules rules;//The rules for Real Time MAPF
 
 
     /**
@@ -33,6 +35,7 @@ public class MAALSSLRTA extends ALSSLRTA {
     public MAALSSLRTA(Problem problem) {
         super(problem);
         closed = new HashMap<>();
+        rules = new RuleBook(this);
         open =new HashMap<>();
         open_min = new HashMap<>();
         open_min_update = new HashMap<>();
