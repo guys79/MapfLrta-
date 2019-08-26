@@ -40,7 +40,9 @@ public class Main extends Application {
         Model model = new Model(controller, new ScenarioProblemCreator());
         model.next();
         primaryStage.setTitle("MA-LRTA*");
-        primaryStage.setScene(new Scene(root, 1500, 1045));
+        primaryStage.setScene(new Scene(root, 1200, 600));
+        //<Canvas fx:id="canvas" height="900.0" width="1350.0" BorderPane.alignment="CENTER" />
+        //primaryStage.setScene(new Scene(root, 1500, 1045));
         primaryStage.show();
 
     }

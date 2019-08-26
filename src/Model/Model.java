@@ -20,15 +20,22 @@ public class Model {
     private final double DENSITY = 0.6;//The ratio between the number of walls to the overall number of nodes in the grid
     private final int NUM_OF_NODES_TO_DEVELOP = 15;//The number of nodes that can be developed in a single iteration
     private final int TYPE =1;// 0 - LRTA*, 1-aLSS-LRTA*
-    private final String fileName = "AR0011SR";
-    private final String mapPath = "C:\\Users\\guys79\\IdeaProjects\\MapfLrta-\\res\\Maps\\"+fileName+".map";
-    private final String scenPath = "C:\\Users\\guys79\\IdeaProjects\\MapfLrta-\\res\\Scenarios\\"+fileName+".map.scen";
-    private final String outputPath = "C:\\Users\\guys79\\Desktop\\outputs\\output.csv";
-    private Controller controller;
-    private Map<Agent, Pair<Node,Node>> prev;
-    private ScenarioProblemCreator problemCreator;
-    private IRealTimeSearchManager realTimeSearchManager;
+    private final String fileName = "arena";//The name of the file
+    //private final String fileName = "AR0011SR";//The name of the file
+    private String rel = "C:\\Users\\guys7\\IdeaProjects\\MapfLrta-\\res";//The path to the project's resource dir
+    private final String mapPath = rel+"\\Maps\\"+fileName+".map";//The path to the map file
+    private final String scenPath =rel+"\\Scenarios\\"+fileName+".map.scen";//The path to the scenario file
+    private final String outputPath = "C:\\Users\\guys79\\Desktop\\outputs\\output.csv";//The path to the output file
+    private Controller controller;//The controller
+    private Map<Agent, Pair<Node,Node>> prev;//The previous agent's goals
+    private ScenarioProblemCreator problemCreator;//The problem creator
+    private IRealTimeSearchManager realTimeSearchManager;//The real time search manager
 
+    /**
+     * The constructor of the class
+     * @param controller - The controller
+     * @param problemCreator - The problem creator
+     */
     public Model(Controller controller,IProblemCreator problemCreator) {
 
         first = true;
@@ -53,6 +60,10 @@ public class Model {
         return true;
     }
 
+    /**
+     * This function will move to the next scenario on the same map
+     * The function will solve the problem and present the solution
+     */
     public void next() {
         Problem problem;
         if (first) {
@@ -112,6 +123,12 @@ public class Model {
 
         }
     }
+
+    /**
+     * This function will print the cost of the path
+     * @param path - The given path
+     * @param problem - The given problem
+     */
     private void printPathCost(List<Node> path,Problem problem)
     {
         double sum = 0;

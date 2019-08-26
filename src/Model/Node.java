@@ -10,7 +10,7 @@ import java.util.Map;
 public class Node {
     private int id;//The id of the node
     private Map<Node,Double> neighbors;//The neighbors of the node
-    public static int numOfNodes = 0;
+    public static int numOfNodes = 0;//Determines the id of the node
     private int occupationId;//The id of the agent that is currently occupying the node
 
     /**

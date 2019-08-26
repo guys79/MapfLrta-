@@ -113,7 +113,7 @@ public class ALSSLRTA implements IRealTimeSearchAlgorithm {
     /**
      * The A* procedure described in the aLSS-LRTA* algorithm
      */
-    private void aStarPrecedure()
+    protected void aStarPrecedure()
     {
 
         current.setG(0);
