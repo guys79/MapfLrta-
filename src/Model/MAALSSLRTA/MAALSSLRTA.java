@@ -4,7 +4,6 @@ import Model.ALSSLRTA.ALSSLRTA;
 
 import Model.ALSSLRTA.AlssLrtaSearchNode;
 import Model.Agent;
-import Model.IRealTimeSearchAlgorithm;
 import Model.Node;
 import Model.Problem;
 
@@ -17,7 +16,7 @@ public class MAALSSLRTA extends ALSSLRTA {
     private Map<Integer,Map<Integer,Integer>> ocuupied_times;//Key - Node's id, value - dic
     //Key - Agent's id, int time
     private Set<Agent> agents;//The agents
-    private Agent current;
+    private Agent currentAgent;
     //private Agent currentAgent;//The current agent
     private Map<Integer,Map<Integer,AlssLrtaSearchNode>> closed;
     private Map<Integer,PriorityQueue<AlssLrtaSearchNode>> open;
@@ -53,7 +52,11 @@ public class MAALSSLRTA extends ALSSLRTA {
 
     }
 
-
+    /**
+     * This function will return the prefixes of the agents after an iteration
+     * @param numOfNodesToDevelop - The number of nodes allowed to develop
+     * @return - The prefixes of the agents after an iteration
+     */
     public Map<Integer,List<Node>> getPrefixes(int numOfNodesToDevelop)
     {
         //Maybe prioritize by heuristic of goal (the smaller the better)
@@ -61,13 +64,13 @@ public class MAALSSLRTA extends ALSSLRTA {
         Map<Integer,List<Node>> prefixes = new HashMap<>();
         for(Agent currentAgent: agents)
         {
-            current = currentAgent;
+            this.currentAgent = currentAgent;
             id = currentAgent.getId();
             PriorityQueue<AlssLrtaSearchNode> open_curr = open.get(id);
             PriorityQueue<AlssLrtaSearchNode> open_min_curr = open_min.get(id);
             PriorityQueue<AlssLrtaSearchNode> open_min_update_curr= open_min_update.get(id);
             Map<Integer,AlssLrtaSearchNode> closed_curr = closed.get(id);
-            List<Node> prefix =super.calculatePrefix(currentAgent.getCurrent(),currentAgent.getGoal(),numOfNodesToDevelop,currentAgent,open_curr,open_min_curr,open_min_update_curr,closed_curr);
+            List<Node> prefix = super.calculatePrefix(currentAgent.getCurrent(),currentAgent.getGoal(),numOfNodesToDevelop,currentAgent,open_curr,open_min_curr,open_min_update_curr,closed_curr);
             if(prefix == null)
                 return null;
             prefixes.put(id,prefix);
@@ -75,7 +78,25 @@ public class MAALSSLRTA extends ALSSLRTA {
         return prefixes;
     }
 
+    @Override
+    protected void aStarPrecedure() {
+        super.aStarPrecedure();
+        // TODO: 8/27/2019 Complete this 
+    }
 
+    @Override
+    protected void updateNode(int nodeId,int time) {
+
+
+        if(!this.ocuupied_times.containsKey(nodeId))
+        {
+            this.ocuupied_times.put(nodeId,new HashMap<>());
+        }
+        Map<Integer, Integer> occupations = this.ocuupied_times.get(nodeId);
+        occupations.put(currentAgent.getId(),time);
+    }
+
+    @Override
     protected List<Node> calculatePrefix(Node start, Node goal, int numOfNodesToDevelop, Agent agent, PriorityQueue<AlssLrtaSearchNode> open,PriorityQueue<AlssLrtaSearchNode> open_min,PriorityQueue<AlssLrtaSearchNode> open_min_update,Map<Integer,AlssLrtaSearchNode> closed) {
         return super.calculatePrefix(start,goal,numOfNodesToDevelop,agent,open,open_min,open_min_update,closed);
     }
@@ -101,7 +122,7 @@ public class MAALSSLRTA extends ALSSLRTA {
             {
                 this.ocuupied_times.put(nodeId,new HashMap<>());
             }
-            this.ocuupied_times.get(nodeId).put(this.current.getId(),time);
+            this.ocuupied_times.get(nodeId).put(this.currentAgent.getId(),time);
             return true;
         }
         return false;
@@ -125,12 +146,19 @@ public class MAALSSLRTA extends ALSSLRTA {
      * It means that the agent has reached it's goal and now he is not moving from that spot
      * @param nodeId - The node's id
      */
-    public void inhabitAgent(int nodeId)
+    @Override
+    protected void inhabitAgent(int nodeId)
     {
         this.ocuupied_times.put(nodeId,null);
     }
 
-
+    /**
+     * This function will return the agent that is occupying he node with the given node's id
+     * at the given time
+     * @param nodeId - The given node's id
+     * @param time - The given time
+     * @return
+     */
     public int getAgent(int nodeId,int time)
     {
         return this.ocuupied_times.get(nodeId).get(time);

@@ -42,6 +42,10 @@ public class ALSSLRTA implements IRealTimeSearchAlgorithm {
         this.closed = closed;
         return calculatePrefix(start,goal,numOfNodesToDevelop,agent);
     }
+    protected void inhabitAgent(int nodeId)
+    {
+
+    }
     @Override
     public  List<Node> calculatePrefix(Node start, Node goal, int numOfNodesToDevelop, Agent agent) {
         this.goal = goal;
@@ -71,15 +75,34 @@ public class ALSSLRTA implements IRealTimeSearchAlgorithm {
             }
 
         }
+        AlssLrtaSearchNode prev= next;
         while(next != current)
         {
+
             prefix.add(0,next.getNode());
             next = next.getBack();
         }
         prefix.add(0,next.getNode());
+        for(int i=0;i<prefix.size();i++)
+        {
+            updateNode(next.getNode().getId(),i);
+        }
+        if(prev.getNode().equals(goal))
+        {
+            inhabitAgent(prev.getNode().getId());
+        }
         return prefix;
     }
 
+    /**
+     * This function will update the node's occupation
+     * @param nodeId - The given node id
+     * @param time - The time when the agent is occupying the node
+     */
+    protected void updateNode(int nodeId,int time)
+    {
+
+    }
     /**
      * This function will clear the open list
      */

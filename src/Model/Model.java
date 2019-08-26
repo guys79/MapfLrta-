@@ -13,7 +13,7 @@ import java.util.*;
  */
 public class Model {
 
-    private boolean first;
+    private boolean first;//True IFF it's the first scenario
  //   public boolean toPrint = false;
     private final int NUM_OF_AGENTS = 1;//Number of agents
     private final int HEIGHT = 12;//The number of columns
