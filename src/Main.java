@@ -46,7 +46,8 @@ public class Main extends Application {
         primaryStage.show();
 
     }
-
+//I want to check two nodes for validation of move (updated differently in every agent
+    //Solution , in the MALSSLRTA class, have a Map<Integer(id),Set<Integer(time)>
 
 
 }

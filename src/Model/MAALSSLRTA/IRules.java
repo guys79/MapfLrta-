@@ -15,5 +15,5 @@ public interface IRules {
      * @param time - The given time
      * @return - True IFF the move described is valid
      */
-    public boolean isValidMove(AlssLrtaSearchNode origin, AlssLrtaSearchNode target,int time);
+    public boolean isValidMove(int origin, int target,int time);
 }

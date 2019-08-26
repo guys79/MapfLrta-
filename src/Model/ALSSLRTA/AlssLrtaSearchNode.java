@@ -8,8 +8,9 @@ import Model.Node;
 public class AlssLrtaSearchNode {
     private Node node;//The actual node
     private double gValue;//The g value of the node
-    private AlssLrtaSearchNode back;//The prede
-    private boolean updated;//True IFF the node's heuristics wer eupdated
+    private AlssLrtaSearchNode back;//The predecessor
+    private boolean updated;//True IFF the node's heuristics were updated
+    private int timeStamp;//The time stamp
 
     /**
      * The constructor of the class
@@ -21,6 +22,7 @@ public class AlssLrtaSearchNode {
         gValue = Double.MAX_VALUE;
         back = null;
         updated = false;
+        this.timeStamp=0;
     }
 
     /**

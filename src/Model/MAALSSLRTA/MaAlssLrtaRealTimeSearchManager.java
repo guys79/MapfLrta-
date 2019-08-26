@@ -19,5 +19,6 @@ public class MaAlssLrtaRealTimeSearchManager extends AbstractRealTimeSearchManag
     @Override
     protected void calculatePrefix() {
         // TODO: 8/26/2019 conplete this motherfucker
+        //Remember that the function calculatePrefix in NAALSSLRTA is PER agent (a single agent)
     }
 }

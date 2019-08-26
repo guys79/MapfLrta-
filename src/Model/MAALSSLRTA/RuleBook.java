@@ -1,17 +1,35 @@
 package Model.MAALSSLRTA;
 
-import Model.ALSSLRTA.AlssLrtaSearchNode;
 
 /**
  * This class represents the Rule Book for MAPF
  */
 public class RuleBook implements IRules {
 
+    private MAALSSLRTA maalsslrta;//The Multi Agent aLSS-LRTA* algorithm
+
+    /**
+     * The constructor
+     * @param maalsslrta - The Multi Agent aLSS-LRTA* algorithm
+     */
+    public RuleBook(MAALSSLRTA maalsslrta)
+    {
+        this.maalsslrta = maalsslrta;
+    }
+
+    /**
+     * This function will set the Multi Agent aLSS-LRTA* algorithm
+     * @param maalsslrta - The Multi Agent aLSS-LRTA* algorithm
+     */
+    public void setMaalsslrta(MAALSSLRTA maalsslrta) {
+        this.maalsslrta = maalsslrta;
+    }
+
+
     @Override
-    public boolean isValidMove(AlssLrtaSearchNode origin, AlssLrtaSearchNode target, int time) {
-        if(!(origin instanceof MaAlssLrtaSearchNode && target instanceof MaAlssLrtaSearchNode))
-            return false;
-        // TODO: 8/26/2019  complete the function..
+    public boolean isValidMove(int origin, int target, int time) {
+
+
         // 1.  No collisions
         if(!this.checkForCollisions(target,time))
             return false;
@@ -27,8 +45,8 @@ public class RuleBook implements IRules {
      * @param time - The given time
      * @return - True IFF there will be no collision if an agent will move there
      */
-    private boolean checkForCollisions(AlssLrtaSearchNode target,int time) {
-        return ((MaAlssLrtaSearchNode)target).canReserve(time);
+    private boolean checkForCollisions(int target,int time) {
+        return maalsslrta.canReserve(time,target);
     }
 
     /**
@@ -38,13 +56,13 @@ public class RuleBook implements IRules {
      * @param time - The given time
      * @return - True IFF there will be no swapping if the move described will cause no swapping between agents
      */
-    private boolean checkForSwappings(AlssLrtaSearchNode origin, AlssLrtaSearchNode target,int time) {
+    private boolean checkForSwappings(int origin, int target,int time) {
         //At time 0 is the start positioning
         //The assumption the time>1 when swapping
-        int id1 = ((MaAlssLrtaSearchNode)origin).getAgent(time);
+        int id1 = this.maalsslrta.getAgent(origin,time);
         if(id1 == -1)
             return true;
-        int id2 = ((MaAlssLrtaSearchNode)target).getAgent(time-1);
+        int id2 = this.maalsslrta.getAgent(target,time-1);
         if(id2 == -1)
             return true;
 
