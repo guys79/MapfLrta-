@@ -3,6 +3,7 @@ package Model;
 import Controller.Controller;
 import Model.ALSSLRTA.AlssLrtaRealTimeSearchManager;
 import Model.LRTA.RealTimeSearchManager;
+import Model.MAALSSLRTA.MaAlssLrtaRealTimeSearchManager;
 import javafx.util.Pair;
 
 import java.util.*;
@@ -19,7 +20,7 @@ public class Model {
     private final int WIDTH = 12;//The number of rows
     private final double DENSITY = 0.6;//The ratio between the number of walls to the overall number of nodes in the grid
     private final int NUM_OF_NODES_TO_DEVELOP = 15;//The number of nodes that can be developed in a single iteration
-    private final int TYPE =1;// 0 - LRTA*, 1-aLSS-LRTA*
+    private final int TYPE =2;// 0 - LRTA*, 1-aLSS-LRTA* 2- MA-aLSS-LRTA*
     private final String fileName = "arena";//The name of the file
     //private final String fileName = "AR0011SR";//The name of the file
     private String rel = "C:\\Users\\guys7\\IdeaProjects\\MapfLrta-\\res";//The path to the project's resource dir
@@ -90,7 +91,10 @@ public class Model {
             }
             else
             {
-                realTimeSearchManager = new AlssLrtaRealTimeSearchManager(problem);
+                if(this.TYPE == 1)
+                    realTimeSearchManager = new AlssLrtaRealTimeSearchManager(problem);
+                else
+                    realTimeSearchManager = new MaAlssLrtaRealTimeSearchManager(problem);
             }
             Map<Agent, List<Node>> paths;//The paths for each agent
 
@@ -137,5 +141,18 @@ public class Model {
             sum+= problem.getCost(path.get(i),path.get(i+1));
         }
         System.out.println("sum = "+sum);
+    }
+
+    @Override
+    public String toString() {
+        if(this.TYPE == 0)
+        {
+            return "LRTA*";
+        }
+        if(TYPE == 1)
+        {
+            return "aLSS-LRTA*";
+        }
+        return "Multi Agent aLSS-LRTA*";
     }
 }

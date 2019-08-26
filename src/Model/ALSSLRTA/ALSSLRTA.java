@@ -15,7 +15,7 @@ public class ALSSLRTA implements IRealTimeSearchAlgorithm {
     private PriorityQueue<AlssLrtaSearchNode> open_min;//The open list
     private Map<Integer,AlssLrtaSearchNode> open_id;//Key - node's id, Value - the search node itself
     private Map<Integer,AlssLrtaSearchNode> closed;//The closed list
-    private Problem problem;//Tye given problem
+    protected Problem problem;//Tye given problem
     private Agent agent;// The given agent
     private Node goal;//The goal node
 
@@ -35,8 +35,15 @@ public class ALSSLRTA implements IRealTimeSearchAlgorithm {
 
     }
 
+    protected List<Node> calculatePrefix(Node start, Node goal, int numOfNodesToDevelop, Agent agent, PriorityQueue<AlssLrtaSearchNode> open,PriorityQueue<AlssLrtaSearchNode> open_min,PriorityQueue<AlssLrtaSearchNode> open_min_update,Map<Integer,AlssLrtaSearchNode> closed) {
+        this.open = open;
+        this.open_min = open_min;
+        this.open_min_update = open_min_update;
+        this.closed = closed;
+        return calculatePrefix(start,goal,numOfNodesToDevelop,agent);
+    }
     @Override
-    public List<Node> calculatePrefix(Node start, Node goal, int numOfNodesToDevelop, Agent agent) {
+    public  List<Node> calculatePrefix(Node start, Node goal, int numOfNodesToDevelop, Agent agent) {
         this.goal = goal;
         clearOpen();
         closed.clear();

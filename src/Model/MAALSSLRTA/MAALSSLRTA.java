@@ -2,6 +2,7 @@ package Model.MAALSSLRTA;
 
 import Model.ALSSLRTA.ALSSLRTA;
 
+import Model.ALSSLRTA.AlssLrtaSearchNode;
 import Model.Agent;
 import Model.IRealTimeSearchAlgorithm;
 import Model.Node;
@@ -12,26 +13,72 @@ import java.util.*;
 /**
  * This class represents the Multi Agent aLSS-LRTA*
  */
-public class MAALSSLRTA implements IRealTimeSearchAlgorithm {
-
+public class MAALSSLRTA extends ALSSLRTA {
     private Map<Integer,Map<Integer,Integer>> ocuupied_times;//Key - Node's id, value - dic
-                                                             //Key - Agent's id, int time
-    private Agent currentAgent;//The current agent
-    private IRules rules;//The rules defining the RT-MAPF
-    private Problem problem;//Th eproblem
+    //Key - Agent's id, int time
+    private Set<Agent> agents;//The agents
+    private Agent current;
+    //private Agent currentAgent;//The current agent
+    private Map<Integer,Map<Integer,AlssLrtaSearchNode>> closed;
+    private Map<Integer,PriorityQueue<AlssLrtaSearchNode>> open;
+    private Map<Integer,PriorityQueue<AlssLrtaSearchNode>> open_min;
+    private Map<Integer,PriorityQueue<AlssLrtaSearchNode>> open_min_update;
+    private Map<Integer,Map<Integer,AlssLrtaSearchNode>> open_id;
+
+
     /**
      * The constructor
      *
      * @param problem - The given problem
-     *
      */
     public MAALSSLRTA(Problem problem) {
+        super(problem);
+        closed = new HashMap<>();
+        open =new HashMap<>();
+        open_min = new HashMap<>();
+        open_min_update = new HashMap<>();
+        open_id = new HashMap<>();
         ocuupied_times = new HashMap<>();
-        this.rules = new RuleBook(this);
-        this.problem = problem;
+        agents = problem.getAgentsAndStartGoalNodes().keySet();
+        int id;
+        for(Agent agent : agents)
+        {
+            id =agent.getId();
+            open.put(id,new PriorityQueue<>(new CompareAlssNode()));
+            open_min.put(id, new PriorityQueue<>(new CompareHeuristicAlssNode()));
+            open_min_update.put(id, new PriorityQueue<>(new CompareHeuristicUpdateAlssNode()));
+            open_id.put(id, new HashMap<>());
+            closed.put(id,new HashMap<>());
+        }
+
     }
 
 
+    public Map<Integer,List<Node>> getPrefixes(int numOfNodesToDevelop)
+    {
+        //Maybe prioritize by heuristic of goal (the smaller the better)
+        int id;
+        Map<Integer,List<Node>> prefixes = new HashMap<>();
+        for(Agent currentAgent: agents)
+        {
+            current = currentAgent;
+            id = currentAgent.getId();
+            PriorityQueue<AlssLrtaSearchNode> open_curr = open.get(id);
+            PriorityQueue<AlssLrtaSearchNode> open_min_curr = open_min.get(id);
+            PriorityQueue<AlssLrtaSearchNode> open_min_update_curr= open_min_update.get(id);
+            Map<Integer,AlssLrtaSearchNode> closed_curr = closed.get(id);
+            List<Node> prefix =super.calculatePrefix(currentAgent.getCurrent(),currentAgent.getGoal(),numOfNodesToDevelop,currentAgent,open_curr,open_min_curr,open_min_update_curr,closed_curr);
+            if(prefix == null)
+                return null;
+            prefixes.put(id,prefix);
+        }
+        return prefixes;
+    }
+
+
+    protected List<Node> calculatePrefix(Node start, Node goal, int numOfNodesToDevelop, Agent agent, PriorityQueue<AlssLrtaSearchNode> open,PriorityQueue<AlssLrtaSearchNode> open_min,PriorityQueue<AlssLrtaSearchNode> open_min_update,Map<Integer,AlssLrtaSearchNode> closed) {
+        return super.calculatePrefix(start,goal,numOfNodesToDevelop,agent,open,open_min,open_min_update,closed);
+    }
     /**
      * This function will clear the reserves
      */
@@ -54,7 +101,7 @@ public class MAALSSLRTA implements IRealTimeSearchAlgorithm {
             {
                 this.ocuupied_times.put(nodeId,new HashMap<>());
             }
-            this.ocuupied_times.get(nodeId).put(time,currentAgent.getId());
+            this.ocuupied_times.get(nodeId).put(this.current.getId(),time);
             return true;
         }
         return false;
@@ -83,10 +130,7 @@ public class MAALSSLRTA implements IRealTimeSearchAlgorithm {
         this.ocuupied_times.put(nodeId,null);
     }
 
-    @Override
-    public List<Node> calculatePrefix(Node start, Node goal, int numOfNodesToDevelop, Agent agent) {
-        return null;
-    }
+
     public int getAgent(int nodeId,int time)
     {
         return this.ocuupied_times.get(nodeId).get(time);
