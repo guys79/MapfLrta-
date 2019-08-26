@@ -3,7 +3,6 @@ package Controller;
 import Model.GridNode;
 import Model.Model;
 import Model.Node;
-import Model.IProblemCreator;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.value.ChangeListener;
@@ -28,7 +27,6 @@ public class Controller{
     public Text timeText;//The text that indicates the time we are currently watching (t=?)
     public Canvas canvas;//The canvas
     private Model model;//The model
-    private boolean first;//If it is the first time uploading a map
     public Button nextButton;//Moves the time forward
     public Button forwardButton;//Moves the time forward
     public Slider slider;//Can control the time
@@ -39,7 +37,7 @@ public class Controller{
     public HashMap<Integer, int[]> nodeLocations = new HashMap<>();//Key - node's id, value - the location of the node [x,y]
     public HashMap<int[], Color> paths = new HashMap<>();//Key - path, Value - Agent's color
     private int agentCount = 0;//Number of agents
-    private Color[] colors = {
+    private Color[] colors = {//The colors available
             Color.RED,
             Color.DARKRED,
             Color.ORANGE,
@@ -54,13 +52,22 @@ public class Controller{
     private double cellWidth;//The height of the cell
     private double cellHeight;//The width of the cell
     private int maxTime = 0;
+
+    /**
+     * This function will handle the next problem drawing
+     */
     public void next()
     {
         model.next();
     }
+
+    /**
+     * This function will the controller
+     * @param locs - The locations of the prev agents
+     */
     public void clear(HashSet<int []> locs)
     {
-        slider.setBlockIncrement(1);
+        slider.setValue(0);
         paths.clear();
         context.setFill(Color.WHITE);
         for(int [] loc : locs)
@@ -71,6 +78,10 @@ public class Controller{
 
     }
 
+    /**
+     * This function will set the model of the controller
+     * @param model - The given model
+     */
     public void setModel(Model model) {
         this.model = model;
     }
@@ -80,7 +91,6 @@ public class Controller{
      * @param grid - The given grid
      */
     public void initialize(int[][] grid){
-        first = true;
         slider.setBlockIncrement(1);
         slider.valueProperty().addListener((ChangeListener) (arg0, arg1, arg2) -> {
 //            time.setValue((int)(slider.getValue()/100*maxTime));
@@ -103,14 +113,14 @@ public class Controller{
         timeText.setText("t = "+time.getValue());
         drawGrid();
         drawAgents();
-        first = false;
+        //first = false;
     }
 
     /**
      * This function will draw the grid
      */
     private void drawGrid(){
-        if(first) {
+       // if(first) {
             context.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
             for (int row = 0; row < grid.length; row++) {
                 for (int col = 0; col < grid[0].length; col++) {
@@ -120,7 +130,7 @@ public class Controller{
                     context.fillRect(col * cellWidth, row * cellHeight, cellWidth + 1, cellHeight + 1);
                 }
             }
-        }
+      //  }
     }
 
     /**
@@ -128,7 +138,7 @@ public class Controller{
      */
     private void drawAgents(){
         if (grid == null) return;
-        drawGrid();
+        //drawGrid();
         for (HashMap.Entry<int[], Color> entry : paths.entrySet()){
             int[] path = entry.getKey();
             int nodeID = getNode(path, time.getValue());

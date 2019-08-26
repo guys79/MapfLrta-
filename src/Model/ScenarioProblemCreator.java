@@ -11,18 +11,25 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * This class represents a Problem Creator that imports the maps and scenarios from a .map and .map.scen files
+ */
 public class ScenarioProblemCreator extends AbstractProblemCreator{
-    private int index;
-    private String [][] scenarios;
-    private int toDevelop;
-    private int type;
+
+    private int index;//The Scenario index
+    private String [][] scenarios;//All the scenarios (and their data)
+    private int toDevelop;//Number of nodes to develop
+    private int type;//The type of search
 
 
-
+    /**
+     * This constructor of the class
+     */
     public ScenarioProblemCreator()
     {
         super();
     }
+
     @Override
     public Problem getProblem(String mapPath, String senerioPath, int toDevelop, int type) {
         index =0;
@@ -64,6 +71,7 @@ public class ScenarioProblemCreator extends AbstractProblemCreator{
             return next();
         }
         System.out.println("scenario "+(index+1) +" in map "+scen[0]);
+        System.out.println("Optimal cost - "+scen[5]);
         /*
         scenario[0] = split[1];//The name of the map
         scenario[1] = split[4];//Start - x
@@ -75,15 +83,27 @@ public class ScenarioProblemCreator extends AbstractProblemCreator{
         Agent agent = new Agent(0,goal,type);
         start_and_goal.put(agent,new Pair<>(start,goal));
         index++;
-        problemInString = Problem.print(graph,start_and_goal);
+        //problemInString = Problem.print(graph,start_and_goal);
         return new Problem(this.graph,start_and_goal,toDevelop,new GridCostFunction());
     }
+
+    /**
+     * This function will import the graph and the scenarios from the files
+     * @param mapPath - The path for the map file
+     * @param scenariosPath - The path for the scenario files
+     */
     private void getGraphAndScenarios(String mapPath,String scenariosPath)
-    { 
+    {
+
         getGraph(mapPath);
         getScenarios(scenariosPath);
+
     }
-    
+
+    /**
+     * This function will import the graph from the file
+     * @param path - The path to the file
+     */
     private void getGraph(String path)
     {
         BufferedReader br = null;
@@ -138,6 +158,11 @@ public class ScenarioProblemCreator extends AbstractProblemCreator{
         this.graph = grid;
     }
 
+    /**
+     * Thgis function will take a scenario represented by a string and will parse it
+     * @param scen - The scenario
+     * @return - An array of Strings that describes the scenario
+     */
     private String [] parseScenerio(String scen) {
         String[] split = scen.split("\t");
         String[] scenario = new String[6];
@@ -150,6 +175,11 @@ public class ScenarioProblemCreator extends AbstractProblemCreator{
         scenario[5] = split[8];//Optimal length
         return scenario;
     }
+
+    /**
+     * This function will import the scenarios from the file
+     * @param path - The path to the file
+     */
     private void getScenarios(String path)
     {
         BufferedReader br = null;
