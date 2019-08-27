@@ -30,19 +30,24 @@ public class ScenarioProblemCreator extends AbstractProblemCreator{
         super();
     }
 
+    public int getToDevelop() {
+        return toDevelop;
+    }
+
     @Override
     public Problem getProblem(String mapPath, String senerioPath, int toDevelop, int type) {
-        index =0;
+
         this.toDevelop = toDevelop;
         this.type = type;
         this.scenarios = null;
         getGraphAndScenarios(mapPath,senerioPath);
+        index =scenarios.length-1;
         return next();
     }
 
     @Override
     public Problem next() {
-        if(index==scenarios.length)
+        if(index<0)
         {
             return null;
         }
@@ -67,7 +72,7 @@ public class ScenarioProblemCreator extends AbstractProblemCreator{
                 message+= "goal node ["+x_end+","+y_end+"] is null ";
             }
             System.out.println(message);
-            index++;
+            index--;
             return next();
         }
         System.out.println("scenario "+(index+1) +" in map "+scen[0]);
@@ -82,9 +87,20 @@ public class ScenarioProblemCreator extends AbstractProblemCreator{
          */
         Agent agent = new Agent(0,goal,type);
         start_and_goal.put(agent,new Pair<>(start,goal));
-        index++;
+        index--;
         //problemInString = Problem.print(graph,start_and_goal);
         return new Problem(this.graph,start_and_goal,toDevelop,new GridCostFunction());
+    }
+
+    public Problem setScenarios(int index)
+    {
+
+        if(index>=scenarios.length)
+        {
+            return null;
+        }
+        this.index = index;
+        return next();
     }
 
     /**
@@ -92,7 +108,7 @@ public class ScenarioProblemCreator extends AbstractProblemCreator{
      * @param mapPath - The path for the map file
      * @param scenariosPath - The path for the scenario files
      */
-    private void getGraphAndScenarios(String mapPath,String scenariosPath)
+    protected void getGraphAndScenarios(String mapPath,String scenariosPath)
     {
 
         getGraph(mapPath);
@@ -104,7 +120,7 @@ public class ScenarioProblemCreator extends AbstractProblemCreator{
      * This function will import the graph from the file
      * @param path - The path to the file
      */
-    private void getGraph(String path)
+    protected void getGraph(String path)
     {
         BufferedReader br = null;
         String line="";

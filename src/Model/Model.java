@@ -6,6 +6,9 @@ import Model.LRTA.RealTimeSearchManager;
 import Model.MAALSSLRTA.MaAlssLrtaRealTimeSearchManager;
 import javafx.util.Pair;
 
+import java.io.File;
+import java.io.IOException;
+import java.net.URL;
 import java.util.*;
 
 /**
@@ -21,12 +24,11 @@ public class Model {
     private final double DENSITY = 0.6;//The ratio between the number of walls to the overall number of nodes in the grid
     private final int NUM_OF_NODES_TO_DEVELOP = 15;//The number of nodes that can be developed in a single iteration
     private final int TYPE =2;// 0 - LRTA*, 1-aLSS-LRTA* 2- MA-aLSS-LRTA*
-    //private final String fileName = "arena";//The name of the file
-    private final String fileName = "AR0011SR";//The name of the file
-    private String rel = "C:\\Users\\guys7\\IdeaProjects\\MapfLrta-\\res";//The path to the project's resource dir
-    private final String mapPath = rel+"\\Maps\\"+fileName+".map";//The path to the map file
-    private final String scenPath =rel+"\\Scenarios\\"+fileName+".map.scen";//The path to the scenario file
-    private final String outputPath = "C:\\Users\\guys79\\Desktop\\outputs\\output.csv";//The path to the output file
+    private final String fileName = "arena";//The name of the file
+    //private final String fileName = "AR0011SR";//The name of the file
+    private String mapPath;//The path to the map file
+    private String scenPath;//The path to the scenario file
+    private String outputPath = "C:\\Users\\guys79\\Desktop\\outputs\\output.csv";//The path to the output file
     private Controller controller;//The controller
     private Map<Agent, Pair<Node,Node>> prev;//The previous agent's goals
     private ScenarioProblemCreator problemCreator;//The problem creator
@@ -38,6 +40,10 @@ public class Model {
      * @param problemCreator - The problem creator
      */
     public Model(Controller controller,IProblemCreator problemCreator) {
+        String rel = new File("help.txt").getAbsolutePath();
+        rel = rel.substring(0,rel.indexOf("help.txt"));
+        mapPath = rel+"res\\Maps\\"+fileName+".map";
+        scenPath =rel+"res\\Scenarios\\"+fileName+".map.scen";
 
         first = true;
         prev = new HashMap<>();
@@ -60,7 +66,61 @@ public class Model {
         }
         return true;
     }
+    public void setScenario(int index)
+    {
 
+        Problem problem = problemCreator.setScenarios(index);
+        HashSet <int []> locs = new HashSet();
+        for(Pair<Node,Node> p : prev.values())
+        {
+            int [] a = {((GridNode)p.getKey()).getX(),((GridNode)p.getKey()).getY()};
+            int [] b = {((GridNode)p.getValue()).getX(),((GridNode)p.getValue()).getY()};
+            locs.add(a);
+            locs.add(b);
+        }
+        controller.clear(locs);
+        if (problem != null) {
+            if(this.TYPE == 0)
+            {
+                realTimeSearchManager = new RealTimeSearchManager(problem);
+            }
+            else
+            {
+                if(this.TYPE == 1)
+                    realTimeSearchManager = new AlssLrtaRealTimeSearchManager(problem);
+                else
+                    realTimeSearchManager = new MaAlssLrtaRealTimeSearchManager(problem);
+            }
+            Map<Agent, List<Node>> paths;//The paths for each agent
+
+            long startTime;
+
+            startTime = System.currentTimeMillis();
+            paths = realTimeSearchManager.search();
+
+            //Time calculation
+            long endTime = System.currentTimeMillis();
+            long time = endTime-startTime;
+            final int NUMBER_OF_DIGITS = 4;
+            int help = (int)Math.pow(10,NUMBER_OF_DIGITS);
+            double timeInSeconds = (time*1.0)/1000;
+            timeInSeconds = Math.round(timeInSeconds*help)/(help*1.0);
+
+            //Print the results
+            prev = problem.getAgentsAndStartGoalNodes();
+            Set<Agent> agents = prev.keySet();
+
+            for (Agent agent : agents){
+                controller.addAgent(paths.get(agent), agent.getGoal());
+                printPathCost(paths.get(agent),problem);
+            }
+            System.out.println("TIme elapsed "+time +" ms");
+            System.out.println("TIme elapsed "+timeInSeconds +" seconds");
+            System.out.println();
+            controller.draw();
+
+        }
+    }
     /**
      * This function will move to the next scenario on the same map
      * The function will solve the problem and present the solution

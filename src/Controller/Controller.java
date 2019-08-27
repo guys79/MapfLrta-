@@ -11,6 +11,8 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.control.Slider;
+
+import javafx.scene.control.TextField;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 
@@ -32,6 +34,8 @@ public class Controller{
     public Slider slider;//Can control the time
     public Button backButton;//Moves the time backwards
     public GraphicsContext context;//The context
+    public TextField text_field;//The text field get as an input the scenario number
+    public Button scen_btn;//The enter button for the scenario number
     public IntegerProperty time = new SimpleIntegerProperty();
     public int[][] grid;//The graph
     public HashMap<Integer, int[]> nodeLocations = new HashMap<>();//Key - node's id, value - the location of the node [x,y]
@@ -61,6 +65,16 @@ public class Controller{
         model.next();
     }
 
+    /**
+     * This function will set the scenario
+     */
+    public void setScenario()
+    {
+        System.out.println("text "+ text_field.getText());
+        int index = Integer.parseInt(text_field.getText());
+        model.setScenario(index);
+
+    }
     /**
      * This function will the controller
      * @param locs - The locations of the prev agents

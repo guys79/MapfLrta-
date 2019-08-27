@@ -4,6 +4,7 @@
 <?import javafx.scene.canvas.Canvas?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Slider?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
@@ -20,7 +21,7 @@
     </rowConstraints>
     <BorderPane>
         <center>
-          <Canvas fx:id="canvas" height="540.0" width="1150.0" BorderPane.alignment="CENTER" />
+            <Canvas fx:id="canvas" height="850.0" width="1300.0" BorderPane.alignment="CENTER" />
         </center>
         <bottom>
             <GridPane prefHeight="38.0" style="-fx-background-color: #d2cbd2" BorderPane.alignment="CENTER">
@@ -63,5 +64,32 @@
                 </Button>
             </GridPane>
         </bottom>
+      <top>
+         <GridPane BorderPane.alignment="CENTER">
+           <columnConstraints>
+             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+           </columnConstraints>
+           <rowConstraints>
+             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+               <RowConstraints />
+
+           </rowConstraints>
+            <children>
+               <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Enter scenario number" GridPane.columnSpan="1" GridPane.rowIndex="1" GridPane.rowSpan="1">
+                <font>
+                    <Font name="System Bold" size="30.0" />
+                </font>
+               </Text>
+               <TextField fx:id="text_field" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="320.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                  <GridPane.margin>
+                     <Insets />
+                  </GridPane.margin>
+               </TextField>
+               <Button fx:id="scen_btn" mnemonicParsing="false" onAction="#setScenario" prefHeight="25.0" prefWidth="320.0" text="Enter" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+            </children>
+         </GridPane>
+      </top>
     </BorderPane>
 </GridPane>
