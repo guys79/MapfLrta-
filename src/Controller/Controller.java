@@ -64,15 +64,30 @@ public class Controller{
     {
         model.next();
     }
-
+    private boolean checkIfInt(String str)
+    {
+        try{
+            int g = Integer.parseInt(str);
+        }
+        catch (NumberFormatException e)
+        {
+            return false;
+        }
+        return true;
+    }
     /**
      * This function will set the scenario
      */
     public void setScenario()
     {
-        System.out.println("text "+ text_field.getText());
-        int index = Integer.parseInt(text_field.getText());
-        model.setScenario(index);
+
+        String text = text_field.getText();
+        if(checkIfInt(text)) {
+            int index = Integer.parseInt(text);
+            model.setScenario(index-1);
+            return;
+        }
+        model.setFileName(text);
 
     }
     /**

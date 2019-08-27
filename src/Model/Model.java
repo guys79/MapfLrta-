@@ -22,10 +22,10 @@ public class Model {
     private final int HEIGHT = 12;//The number of columns
     private final int WIDTH = 12;//The number of rows
     private final double DENSITY = 0.6;//The ratio between the number of walls to the overall number of nodes in the grid
-    private final int NUM_OF_NODES_TO_DEVELOP = 15;//The number of nodes that can be developed in a single iteration
+    private final int NUM_OF_NODES_TO_DEVELOP = 25;//The number of nodes that can be developed in a single iteration
     private final int TYPE =2;// 0 - LRTA*, 1-aLSS-LRTA* 2- MA-aLSS-LRTA*
-    private final String fileName = "arena";//The name of the file
-    //private final String fileName = "AR0011SR";//The name of the file
+    //private String fileName = "arena";//The name of the file
+    private String fileName = "AR0011SR";//The name of the file
     private String mapPath;//The path to the map file
     private String scenPath;//The path to the scenario file
     private String outputPath = "C:\\Users\\guys79\\Desktop\\outputs\\output.csv";//The path to the output file
@@ -33,7 +33,36 @@ public class Model {
     private Map<Agent, Pair<Node,Node>> prev;//The previous agent's goals
     private ScenarioProblemCreator problemCreator;//The problem creator
     private IRealTimeSearchManager realTimeSearchManager;//The real time search manager
+    private double test;
+    /**
+     * This function will srt the filename with the given file name
+     * @param fileName - The given file name
+     */
+    public void setFileName(String fileName) {
 
+
+        String rel = new File("help.txt").getAbsolutePath();
+        rel = rel.substring(0,rel.indexOf("help.txt"));
+        mapPath = rel+"res\\Maps\\"+fileName+".map";
+        File f = new File(mapPath);
+        if(!f.exists() || f.isDirectory()) {
+            return;
+        }
+        scenPath =rel+"res\\Scenarios\\"+fileName+".map.scen";
+        this.fileName = fileName;
+        first = true;
+        next();
+    }
+    public void test()
+    {
+        for(int i=0;i<300;i++)
+        {
+            System.out.println("scenario "+(i+1));
+            next();
+        }
+        System.out.println("test result "+test);
+        System.out.println("Avg "+(test));
+    }
     /**
      * The constructor of the class
      * @param controller - The controller
@@ -44,7 +73,7 @@ public class Model {
         rel = rel.substring(0,rel.indexOf("help.txt"));
         mapPath = rel+"res\\Maps\\"+fileName+".map";
         scenPath =rel+"res\\Scenarios\\"+fileName+".map.scen";
-
+        test = 0;
         first = true;
         prev = new HashMap<>();
         this.problemCreator = (ScenarioProblemCreator)problemCreator;
@@ -167,6 +196,7 @@ public class Model {
             //Time calculation
             long endTime = System.currentTimeMillis();
             long time = endTime-startTime;
+            test+=time;
             final int NUMBER_OF_DIGITS = 4;
             int help = (int)Math.pow(10,NUMBER_OF_DIGITS);
             double timeInSeconds = (time*1.0)/1000;
@@ -183,7 +213,7 @@ public class Model {
             System.out.println("TIme elapsed "+time +" ms");
             System.out.println("TIme elapsed "+timeInSeconds +" seconds");
             System.out.println();
-            controller.draw();
+           // controller.draw();
 
         }
     }
@@ -192,6 +222,7 @@ public class Model {
      * This function will print the cost of the path
      * @param path - The given path
      * @param problem - The given problem
+     *
      */
     private void printPathCost(List<Node> path,Problem problem)
     {
@@ -201,6 +232,7 @@ public class Model {
             sum+= problem.getCost(path.get(i),path.get(i+1));
         }
         System.out.println("sum = "+sum);
+
     }
 
     @Override

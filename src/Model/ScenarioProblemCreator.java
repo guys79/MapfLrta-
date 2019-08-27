@@ -28,6 +28,7 @@ public class ScenarioProblemCreator extends AbstractProblemCreator{
     public ScenarioProblemCreator()
     {
         super();
+        scenarios = new String[1][1];
     }
 
     public int getToDevelop() {
@@ -39,7 +40,7 @@ public class ScenarioProblemCreator extends AbstractProblemCreator{
 
         this.toDevelop = toDevelop;
         this.type = type;
-        this.scenarios = null;
+        //this.scenarios = null;
         getGraphAndScenarios(mapPath,senerioPath);
         index =scenarios.length-1;
         return next();
@@ -71,7 +72,7 @@ public class ScenarioProblemCreator extends AbstractProblemCreator{
             {
                 message+= "goal node ["+x_end+","+y_end+"] is null ";
             }
-            System.out.println(message);
+          //  System.out.println(message);
             index--;
             return next();
         }

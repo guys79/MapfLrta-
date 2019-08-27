@@ -23,9 +23,10 @@ public class Main extends Application {
         Model model = new Model(controller, new ScenarioProblemCreator());
         //Model model = new Model(controller, new MAScenarioProblemCreator(1));
         model.next();
-        primaryStage.setTitle(model.toString());
-        primaryStage.setScene(new Scene(root, 1400, 975));
-        primaryStage.show();
+        model.test();
+    //    primaryStage.setTitle(model.toString());
+  //      primaryStage.setScene(new Scene(root, 1400, 975));
+//        primaryStage.show();
 
 
         //Laptop

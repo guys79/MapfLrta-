@@ -70,8 +70,17 @@ public class MAScenarioProblemCreator extends ScenarioProblemCreator {
 
 
     }
+    @Override
+    public Problem setScenarios(int index)
+    {
 
-
+        if(index>=scenarios.length)
+        {
+            return null;
+        }
+        this.scenIndex = index;
+        return next();
+    }
 
     @Override
     public Problem next() {
