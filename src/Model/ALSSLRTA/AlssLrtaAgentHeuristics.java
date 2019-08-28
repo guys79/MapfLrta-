@@ -73,7 +73,13 @@ public class AlssLrtaAgentHeuristics implements IAgentHeuristics {
         if(n instanceof GridNode && goal instanceof GridNode) {
             GridNode gd1 = (GridNode) n;
             GridNode gd2 = (GridNode) goal;
-            value = Math.sqrt(Math.pow(gd1.getX()-gd2.getX(),2)+Math.pow(gd1.getY()-gd2.getY(),2));
+            double D=1;
+            double D2 = Math.sqrt(2);
+            double dx = Math.abs(gd1.getX() - gd2.getX());
+            double dy = Math.abs(gd1.getY() - gd2.getY());
+
+            value = D * (dx + dy) + (D2 - 2 * D) * Math.min(dx, dy);
+
         }
         else//In case the node is not GridNode, in our case it is unexpected
         {

@@ -57,7 +57,7 @@ public abstract class AbstractRealTimeSearchManager implements IRealTimeSearchMa
             {
                 return;
             }
-         //   System.out.println("Model.Agent "+agent.getId()+"'s prefix is : "+ prefix);
+            System.out.println("Model.Agent "+agent.getId()+"'s prefix is : "+ prefix);
 
             for(int i=1;i<prefix.size();i++)
             {
@@ -97,15 +97,16 @@ public abstract class AbstractRealTimeSearchManager implements IRealTimeSearchMa
         int i=0;
         while(!isDone())
         {
-            if(i==500)
-            {
-                System.out.println();
-            }
+            setIteration(i);
             calculatePrefix();
             move();
             i++;
         }
         return this.pathsForAgents;
+    }
+    protected void setIteration(int interation)
+    {
+
     }
 
 }

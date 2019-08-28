@@ -18,6 +18,7 @@ public class ALSSLRTA implements IRealTimeSearchAlgorithm {
     protected Problem problem;//Tye given problem
     private Agent agent;// The given agent
     private Node goal;//The goal node
+    int iteration;
 
 
     /**
@@ -35,7 +36,11 @@ public class ALSSLRTA implements IRealTimeSearchAlgorithm {
 
     }
 
-    protected List<Node> calculatePrefix(Node start, Node goal, int numOfNodesToDevelop, Agent agent, PriorityQueue<AlssLrtaSearchNode> open,PriorityQueue<AlssLrtaSearchNode> open_min,PriorityQueue<AlssLrtaSearchNode> open_min_update,Map<Integer,AlssLrtaSearchNode> closed) {
+    public void setIteration(int iteration) {
+        this.iteration = iteration;
+    }
+
+    protected List<Node> calculatePrefix(Node start, Node goal, int numOfNodesToDevelop, Agent agent, PriorityQueue<AlssLrtaSearchNode> open, PriorityQueue<AlssLrtaSearchNode> open_min, PriorityQueue<AlssLrtaSearchNode> open_min_update, Map<Integer,AlssLrtaSearchNode> closed) {
         this.open = open;
         this.open_min = open_min;
         this.open_min_update = open_min_update;
@@ -167,6 +172,7 @@ public class ALSSLRTA implements IRealTimeSearchAlgorithm {
             iter.remove();
 
 
+
          //   scanned.add(state);
             //Insert to close
             closed.put(state.getNode().getId(),state);
@@ -180,7 +186,7 @@ public class ALSSLRTA implements IRealTimeSearchAlgorithm {
             for(AlssLrtaSearchNode node : comp_neighbors)
             {
                 double temp = state.getG()+ problem.getCost(state.getNode(),node.getNode());
-                if(node.getG()>temp)
+                if(node.getG(iteration)>temp)
                 {
                     node.setG(temp);
                     node.setBack(state);
@@ -229,10 +235,10 @@ public class ALSSLRTA implements IRealTimeSearchAlgorithm {
             }
 
             AlssLrtaSearchNode min_h_node = open_min.poll();
-            if(min_h_node == null)
-            {
-                return false;
-            }
+           // if(min_h_node == null)
+            //{
+            //    return false;
+            //}
             openRemove(min_h_node);
 
             if(agent.getHeuristicValue(min_h_node.getNode()) > agent.getInitialHeuristicValue(min_h_node.getNode()))

@@ -10,6 +10,7 @@ import java.util.*;
  */
 public class AlssLrtaRealTimeSearchManager extends AbstractRealTimeSearchManager {
 
+    private int iteration;
     /**
      * The constructor
      * @param problem - A given problem
@@ -17,6 +18,11 @@ public class AlssLrtaRealTimeSearchManager extends AbstractRealTimeSearchManager
     public AlssLrtaRealTimeSearchManager(Problem problem)
     {
        super(problem);
+       iteration = 0;
+    }
+
+    public void setIteration(int iteration) {
+        this.iteration = iteration;
     }
 
     @Override
@@ -28,6 +34,7 @@ public class AlssLrtaRealTimeSearchManager extends AbstractRealTimeSearchManager
         for(Agent agent: agents)
         {
             ALSSLRTA alsslrta = new ALSSLRTA(problem);
+            alsslrta.setIteration(iteration);
             Node current = agent.getCurrent();
             List<Node> prefix = alsslrta.calculatePrefix(current,agent_goal_start.get(agent).getValue(),problem.getNumberOfNodeToDevelop(),agent);
             if(prefix==null)

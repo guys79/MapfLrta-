@@ -31,7 +31,7 @@ public class Model {
     private String outputPath = "C:\\Users\\guys79\\Desktop\\outputs\\output.csv";//The path to the output file
     private Controller controller;//The controller
     private Map<Agent, Pair<Node,Node>> prev;//The previous agent's goals
-    private ScenarioProblemCreator problemCreator;//The problem creator
+    private IProblemCreator problemCreator;//The problem creator
     private IRealTimeSearchManager realTimeSearchManager;//The real time search manager
     private double test;
 
@@ -90,7 +90,9 @@ public class Model {
         {
             if(TYPE == 1)
             {
-                this.problemCreator = new ScenarioProblemCreator();
+
+                this.problemCreator = new CSVProblem();
+                //this.problemCreator = new ScenarioProblemCreator();
             }
             else
             {
@@ -119,7 +121,7 @@ public class Model {
     public void setScenario(int index)
     {
 
-        Problem problem = problemCreator.setScenarios(index);
+        Problem problem = ((ScenarioProblemCreator)problemCreator).setScenarios(index);
         HashSet <int []> locs = new HashSet();
         for(Pair<Node,Node> p : prev.values())
         {
@@ -179,7 +181,8 @@ public class Model {
 
         Problem problem;
         if (first) {
-            problem = problemCreator.getProblem(mapPath, scenPath, NUM_OF_NODES_TO_DEVELOP, TYPE);
+            //problem = problemCreator.getProblem(mapPath, scenPath, NUM_OF_NODES_TO_DEVELOP, TYPE);
+            problem = problemCreator.getProblem(outputPath,NUM_OF_NODES_TO_DEVELOP,TYPE);
             int[][] intGrid = problemCreator.getGridGraph();
             controller.initialize(intGrid);
             first = false;
