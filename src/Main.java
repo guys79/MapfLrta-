@@ -20,13 +20,14 @@ public class Main extends Application {
         FXMLLoader fxmlLoader = new FXMLLoader();
         Parent root = fxmlLoader.load(getClass().getResource("Controller/view.fxml").openStream());
         Controller controller = fxmlLoader.getController();
-        Model model = new Model(controller, new ScenarioProblemCreator());
+
+        Model model = new Model(controller);
         //Model model = new Model(controller, new MAScenarioProblemCreator(1));
         model.next();
-        model.test();
-    //    primaryStage.setTitle(model.toString());
-  //      primaryStage.setScene(new Scene(root, 1400, 975));
-//        primaryStage.show();
+        //model.test();
+        primaryStage.setTitle(model.toString());
+        primaryStage.setScene(new Scene(root, 1400, 975));
+        primaryStage.show();
 
 
         //Laptop

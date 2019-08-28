@@ -23,7 +23,7 @@ public class Model {
     private final int WIDTH = 12;//The number of rows
     private final double DENSITY = 0.6;//The ratio between the number of walls to the overall number of nodes in the grid
     private final int NUM_OF_NODES_TO_DEVELOP = 25;//The number of nodes that can be developed in a single iteration
-    private final int TYPE =2;// 0 - LRTA*, 1-aLSS-LRTA* 2- MA-aLSS-LRTA*
+    private final int TYPE =1;// 0 - LRTA*, 1-aLSS-LRTA* 2- MA-aLSS-LRTA*
     //private String fileName = "arena";//The name of the file
     private String fileName = "AR0011SR";//The name of the file
     private String mapPath;//The path to the map file
@@ -34,6 +34,12 @@ public class Model {
     private ScenarioProblemCreator problemCreator;//The problem creator
     private IRealTimeSearchManager realTimeSearchManager;//The real time search manager
     private double test;
+
+
+    public int getTYPE() {
+        return TYPE;
+    }
+
     /**
      * This function will srt the filename with the given file name
      * @param fileName - The given file name
@@ -66,9 +72,9 @@ public class Model {
     /**
      * The constructor of the class
      * @param controller - The controller
-     * @param problemCreator - The problem creator
+     *
      */
-    public Model(Controller controller,IProblemCreator problemCreator) {
+    public Model(Controller controller) {
         String rel = new File("help.txt").getAbsolutePath();
         rel = rel.substring(0,rel.indexOf("help.txt"));
         mapPath = rel+"res\\Maps\\"+fileName+".map";
@@ -76,7 +82,22 @@ public class Model {
         test = 0;
         first = true;
         prev = new HashMap<>();
-        this.problemCreator = (ScenarioProblemCreator)problemCreator;
+        if(this.TYPE == 0)
+        {
+            throw new UnsupportedOperationException();
+        }
+        else
+        {
+            if(TYPE == 1)
+            {
+                this.problemCreator = new ScenarioProblemCreator();
+            }
+            else
+            {
+                this.problemCreator = new MAScenarioProblemCreator(this.NUM_OF_AGENTS);
+            }
+        }
+
         this.controller = controller;
         this.controller.setModel(this);
     }
@@ -155,6 +176,7 @@ public class Model {
      * The function will solve the problem and present the solution
      */
     public void next() {
+
         Problem problem;
         if (first) {
             problem = problemCreator.getProblem(mapPath, scenPath, NUM_OF_NODES_TO_DEVELOP, TYPE);
@@ -213,7 +235,7 @@ public class Model {
             System.out.println("TIme elapsed "+time +" ms");
             System.out.println("TIme elapsed "+timeInSeconds +" seconds");
             System.out.println();
-           // controller.draw();
+            controller.draw();
 
         }
     }
@@ -227,11 +249,20 @@ public class Model {
     private void printPathCost(List<Node> path,Problem problem)
     {
         double sum = 0;
+        double delta;
+        int numOfDIag = 0;
         for(int i=0;i<path.size()-1;i++)
         {
-            sum+= problem.getCost(path.get(i),path.get(i+1));
+            delta = problem.getCost(path.get(i),path.get(i+1));
+            if(delta!= 1)
+            {
+                numOfDIag++;
+            }
+            sum+= delta;
         }
         System.out.println("sum = "+sum);
+        System.out.println("number of diagonal "+numOfDIag);
+        System.out.println("number of non-diagonal "+(path.size()-numOfDIag-1));
 
     }
 

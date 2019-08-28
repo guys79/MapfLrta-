@@ -94,10 +94,16 @@ public abstract class AbstractRealTimeSearchManager implements IRealTimeSearchMa
      */
     public Map<Agent,List<Node>> search()
     {
+        int i=0;
         while(!isDone())
         {
+            if(i==500)
+            {
+                System.out.println();
+            }
             calculatePrefix();
             move();
+            i++;
         }
         return this.pathsForAgents;
     }

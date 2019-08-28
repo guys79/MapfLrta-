@@ -50,7 +50,7 @@ public class ALSSLRTA implements IRealTimeSearchAlgorithm {
     public  List<Node> calculatePrefix(Node start, Node goal, int numOfNodesToDevelop, Agent agent) {
         this.goal = goal;
         clearOpen();
-        closed.clear();
+        this.closed = agent.getClosed();
         List<Node> prefix = new ArrayList<>();
         current = new AlssLrtaSearchNode(start);
         this.agent = agent;
@@ -91,6 +91,7 @@ public class ALSSLRTA implements IRealTimeSearchAlgorithm {
         {
             inhabitAgent(prev.getNode().getId());
         }
+        agent.setClosed(this.closed);
         return prefix;
     }
 
@@ -108,10 +109,10 @@ public class ALSSLRTA implements IRealTimeSearchAlgorithm {
      */
     private void clearOpen()
     {
-        open.clear();
-        open_min.clear();
-        open_id.clear();
-        open_min_update.clear();
+        open = new PriorityQueue<>(new CompareAlssNode());
+        open_min = new PriorityQueue<>(new CompareHeuristicAlssNode());
+        open_min_update = new PriorityQueue<>(new CompareHeuristicUpdateAlssNode());
+        open_id = new HashMap<>();
     }
 
     /**
@@ -120,10 +121,12 @@ public class ALSSLRTA implements IRealTimeSearchAlgorithm {
      */
     private void openAdd(AlssLrtaSearchNode node)
     {
-        open_min_update.add(node);
-        open.add(node);
-        open_min.add(node);
-        open_id.put(node.getNode().getId(),node);
+        if(!open_id.containsKey(node.getNode().getId())) {
+            open_min_update.add(node);
+            open.add(node);
+            open_min.add(node);
+            open_id.put(node.getNode().getId(), node);
+        }
     }
 
     /**
@@ -169,7 +172,7 @@ public class ALSSLRTA implements IRealTimeSearchAlgorithm {
             closed.put(state.getNode().getId(),state);
             //openRemove(state);
 
-            //Get the neigbors
+            //Get the neighbors
             Set<Node> neighbors = state.getNode().getNeighbors().keySet();
             Set<AlssLrtaSearchNode> comp_neighbors = transformNodes(neighbors);
 
@@ -186,7 +189,7 @@ public class ALSSLRTA implements IRealTimeSearchAlgorithm {
             }
             expansions++;
 
-            if(min_f_value_nodes.size()==0)
+           if(min_f_value_nodes.size()==0)
             {
                 min_f_value_nodes = getMinFNodes();
                 iter = min_f_value_nodes.iterator();
@@ -247,7 +250,7 @@ public class ALSSLRTA implements IRealTimeSearchAlgorithm {
             //For each neighbor
             for(AlssLrtaSearchNode node : comp_neighbors)
             {
-                double temp = problem.getCost(min_h_node.getNode(),node.getNode())+heuristic_value;
+                double temp = problem.getCost(node.getNode(),min_h_node.getNode())+heuristic_value;
                 if(closed.containsKey(node.getNode().getId()) && agent.getHeuristicValue(node.getNode())>temp)
                 {
                     agent.updateHeuristic(node.getNode(),temp);

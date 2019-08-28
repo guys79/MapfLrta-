@@ -52,6 +52,10 @@ public class ScenarioProblemCreator extends AbstractProblemCreator{
         {
             return null;
         }
+        if(index == 1934)
+        {
+            System.out.println();
+        }
         Map<Agent,Pair<Node,Node>> start_and_goal = new HashMap<>();
         String [] scen = this.scenarios[index];
 
@@ -77,6 +81,7 @@ public class ScenarioProblemCreator extends AbstractProblemCreator{
             return next();
         }
         System.out.println("scenario "+(index+1) +" in map "+scen[0]);
+        System.out.println("Start - "+start +" Goal - "+goal);
         System.out.println("Optimal cost - "+scen[5]);
         /*
         scenario[0] = split[1];//The name of the map
@@ -185,10 +190,10 @@ public class ScenarioProblemCreator extends AbstractProblemCreator{
         String[] scenario = new String[6];
 
         scenario[0] = split[1];//The name of the map
-        scenario[1] = split[4];//Start - x
-        scenario[2] = split[5];//Start - y
-        scenario[3] = split[6];//End - x
-        scenario[4] = split[7];//End - y
+        scenario[1] = split[7];//Start - x
+        scenario[2] = split[6];//Start - y
+        scenario[3] = split[5];//End - x
+        scenario[4] = split[4];//End - y
         scenario[5] = split[8];//Optimal length
         return scenario;
     }
@@ -215,6 +220,10 @@ public class ScenarioProblemCreator extends AbstractProblemCreator{
             scenarios = new String[scen.size()][6];
             for(int i=0;i<this.scenarios.length;i++)
             {
+                if(scen.get(i).equals("193\tAR0011SR.map\t512\t512\t62\t307\t318\t468\t774.82041778"))
+                {
+                    System.out.println();
+                }
                 scenarios[i] = this.parseScenerio(scen.get(i));
             }
 
