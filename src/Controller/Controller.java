@@ -103,6 +103,7 @@ public class Controller{
         {
             context.fillRect(loc[1] * cellWidth, loc[0] * cellHeight, cellWidth + 1, cellHeight + 1);
         }
+        this.maxTime = 0;
 
 
     }
