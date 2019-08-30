@@ -91,7 +91,7 @@ public class Model {
             if(TYPE == 1)
             {
 
-                //this.problemCreator = new CSVProblem();
+               //this.problemCreator = new CSVProblem();
                 this.problemCreator = new ScenarioProblemCreator();
             }
             else
@@ -186,7 +186,6 @@ public class Model {
             int[][] intGrid = problemCreator.getGridGraph();
             controller.initialize(intGrid);
             first = false;
-            controller.clear(new HashSet<>());
         } else {
             problem = problemCreator.next();
             HashSet <int []> locs = new HashSet();
