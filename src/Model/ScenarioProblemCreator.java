@@ -23,7 +23,7 @@ public class ScenarioProblemCreator extends AbstractProblemCreator{
 
 
     /**
-     * This constructor of the class
+     * This constructor of the class.
      */
     public ScenarioProblemCreator()
     {
