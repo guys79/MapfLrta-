@@ -34,7 +34,10 @@ public class Agent {
         this.closed = new HashMap<>();
 
     }
-
+    public boolean isUpdatesd(Node node)
+    {
+        return this.heuristics.getHeuristics(node)!= this.heuristics.getHeuristicsFromFunction(node);
+    }
     public void setClosed(Map<Integer, AlssLrtaSearchNode> closed) {
         this.closed = closed;
     }

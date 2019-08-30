@@ -13,6 +13,7 @@ public class Main extends Application {
         launch(args);
     }
 
+    // TODO: 8/30/2019 Figure out why so long paths 
     @Override
     public void start(Stage primaryStage) throws Exception {
 

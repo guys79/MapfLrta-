@@ -24,8 +24,8 @@ public class Model {
     private final double DENSITY = 0.6;//The ratio between the number of walls to the overall number of nodes in the grid
     private final int NUM_OF_NODES_TO_DEVELOP = 25;//The number of nodes that can be developed in a single iteration
     private final int TYPE =1;// 0 - LRTA*, 1-aLSS-LRTA* 2- MA-aLSS-LRTA*
-    private String fileName = "arena";//The name of the file
-    //private String fileName = "AR0011SR";//The name of the file
+    //private String fileName = "arena";//The name of the file
+    private String fileName = "AR0011SR";//The name of the file
     private String mapPath;//The path to the map file
     private String scenPath;//The path to the scenario file
     private String outputPath = "C:\\Users\\guys79\\Desktop\\outputs\\output.csv";//The path to the output file

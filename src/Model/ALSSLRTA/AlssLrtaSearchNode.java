@@ -48,18 +48,12 @@ public class AlssLrtaSearchNode {
     /**
      * This function will set the g value of the node
      * @param g - The new g value
+     * @param iteration - number of iterations
      */
-    public void setG(double g)
+    public void setG(double g,int iteration)
     {
         this.gValue = g;
-    }
-
-    /**
-     * This function will return the g value of this node
-     * @return - The gValue of the node
-     */
-    public double getG() {
-        return gValue;
+        this.timeStamp = iteration;
     }
 
     /**
@@ -71,7 +65,7 @@ public class AlssLrtaSearchNode {
         if(iteration>timeStamp)
         {
             gValue = Double.MAX_VALUE;
-            this.timeStamp = iteration;
+        //    this.timeStamp = iteration;
         }
         return gValue;
     }

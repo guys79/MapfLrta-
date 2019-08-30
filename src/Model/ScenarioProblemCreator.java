@@ -42,7 +42,7 @@ public class ScenarioProblemCreator extends AbstractProblemCreator{
         this.type = type;
         //this.scenarios = null;
         getGraphAndScenarios(mapPath,senerioPath);
-        index =0;
+        index =999;
         return next();
     }
 
@@ -52,7 +52,10 @@ public class ScenarioProblemCreator extends AbstractProblemCreator{
         {
             return null;
         }
-
+        if(index == 999)
+        {
+            System.out.println();
+        }
         Map<Agent,Pair<Node,Node>> start_and_goal = new HashMap<>();
         String [] scen = this.scenarios[index];
 
