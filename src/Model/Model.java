@@ -24,8 +24,8 @@ public class Model {
     private final double DENSITY = 0.6;//The ratio between the number of walls to the overall number of nodes in the grid
     private final int NUM_OF_NODES_TO_DEVELOP = 25;//The number of nodes that can be developed in a single iteration
     private final int TYPE =1;// 0 - LRTA*, 1-aLSS-LRTA* 2- MA-aLSS-LRTA*
-    //private String fileName = "arena";//The name of the file
-    private String fileName = "AR0011SR";//The name of the file
+    private String fileName = "arena";//The name of the file
+    //private String fileName = "AR0011SR";//The name of the file
     private String mapPath;//The path to the map file
     private String scenPath;//The path to the scenario file
     private String outputPath = "C:\\Users\\guys79\\Desktop\\outputs\\output.csv";//The path to the output file
@@ -91,8 +91,8 @@ public class Model {
             if(TYPE == 1)
             {
 
-                this.problemCreator = new CSVProblem();
-                //this.problemCreator = new ScenarioProblemCreator();
+                //this.problemCreator = new CSVProblem();
+                this.problemCreator = new ScenarioProblemCreator();
             }
             else
             {
@@ -181,11 +181,12 @@ public class Model {
 
         Problem problem;
         if (first) {
-            //problem = problemCreator.getProblem(mapPath, scenPath, NUM_OF_NODES_TO_DEVELOP, TYPE);
-            problem = problemCreator.getProblem(outputPath,NUM_OF_NODES_TO_DEVELOP,TYPE);
+            problem = problemCreator.getProblem(mapPath, scenPath, NUM_OF_NODES_TO_DEVELOP, TYPE);
+            //problem = problemCreator.getProblem(outputPath,NUM_OF_NODES_TO_DEVELOP,TYPE);
             int[][] intGrid = problemCreator.getGridGraph();
             controller.initialize(intGrid);
             first = false;
+            controller.clear(new HashSet<>());
         } else {
             problem = problemCreator.next();
             HashSet <int []> locs = new HashSet();

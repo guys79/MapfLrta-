@@ -57,7 +57,7 @@ public abstract class AbstractRealTimeSearchManager implements IRealTimeSearchMa
             {
                 return;
             }
-            System.out.println("Model.Agent "+agent.getId()+"'s prefix is : "+ prefix);
+          //  System.out.println("Model.Agent "+agent.getId()+"'s prefix is : "+ prefix);
 
             for(int i=1;i<prefix.size();i++)
             {

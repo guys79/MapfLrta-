@@ -26,7 +26,7 @@ public class Main extends Application {
         model.next();
         //model.test();
         primaryStage.setTitle(model.toString());
-        primaryStage.setScene(new Scene(root, 1400, 975));
+        primaryStage.setScene(new Scene(root, 1200, 700));
         primaryStage.show();
 
 
@@ -35,8 +35,8 @@ public class Main extends Application {
         //<Canvas fx:id="canvas" height="540.0" width="1150.0" BorderPane.alignment="CENTER" />
 
         //PC
-        //<Canvas fx:id="canvas" height="900.0" width="1350.0" BorderPane.alignment="CENTER" />
-        //primaryStage.setScene(new Scene(root, 1500, 1045));
+        //primaryStage.setScene(new Scene(root, 1400, 975));
+        //<Canvas fx:id="canvas" height="850.0" width="1300.0" BorderPane.alignment="CENTER" />
 
 
     }

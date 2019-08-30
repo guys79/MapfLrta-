@@ -42,20 +42,17 @@ public class ScenarioProblemCreator extends AbstractProblemCreator{
         this.type = type;
         //this.scenarios = null;
         getGraphAndScenarios(mapPath,senerioPath);
-        index =scenarios.length-1;
+        index =0;
         return next();
     }
 
     @Override
     public Problem next() {
-        if(index<0)
+        if(index>scenarios.length-1)
         {
             return null;
         }
-        if(index == 1934)
-        {
-            System.out.println();
-        }
+
         Map<Agent,Pair<Node,Node>> start_and_goal = new HashMap<>();
         String [] scen = this.scenarios[index];
 
@@ -77,7 +74,7 @@ public class ScenarioProblemCreator extends AbstractProblemCreator{
                 message+= "goal node ["+x_end+","+y_end+"] is null ";
             }
           //  System.out.println(message);
-            index--;
+            index++;
             return next();
         }
         System.out.println("scenario "+(index+1) +" in map "+scen[0]);
@@ -93,7 +90,7 @@ public class ScenarioProblemCreator extends AbstractProblemCreator{
          */
         Agent agent = new Agent(0,goal,type);
         start_and_goal.put(agent,new Pair<>(start,goal));
-        index--;
+        index++;
         //problemInString = Problem.print(graph,start_and_goal);
         return new Problem(this.graph,start_and_goal,toDevelop,new GridCostFunction());
     }
