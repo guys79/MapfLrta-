@@ -152,7 +152,7 @@ public class ScenarioProblemCreator extends AbstractProblemCreator{
                 line = br.readLine();
                 for(int j=0;j<width;j++) {
 
-                    if(line.charAt(j)=='.' || line.charAt(j)=='G')
+                    if(line.charAt(j)=='.' || line.charAt(j)=='G' || line.charAt(j)=='T')
                         grid[i][j] = new GridNode(i, j);
                     else {
                         grid[i][j] = null;

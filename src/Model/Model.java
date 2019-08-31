@@ -186,6 +186,7 @@ public class Model {
             int[][] intGrid = problemCreator.getGridGraph();
             controller.initialize(intGrid);
             first = false;
+            controller.clear(new HashSet<>());
         } else {
             problem = problemCreator.next();
             HashSet <int []> locs = new HashSet();

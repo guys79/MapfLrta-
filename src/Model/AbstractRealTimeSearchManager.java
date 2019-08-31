@@ -97,16 +97,14 @@ public abstract class AbstractRealTimeSearchManager implements IRealTimeSearchMa
         int i=0;
         while(!isDone())
         {
-            System.out.println("Iteration number "+i);
-            if(i==1)
-            {
-                System.out.println();
-            }
+
+
             setIteration(i);
             calculatePrefix();
             move();
             i++;
         }
+        System.out.println("Number of iterations "+i);
         return this.pathsForAgents;
     }
     protected void setIteration(int interation)

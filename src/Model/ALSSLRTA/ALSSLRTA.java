@@ -167,11 +167,7 @@ public class ALSSLRTA implements IRealTimeSearchAlgorithm {
             openRemove(node);
             openAdd(node);
         }
-        if(closed.containsKey(node.getNode().getId()))
-        {
-            closed.remove(node.getNode().getId());
-            closed.put(node.getNode().getId(),node);
-        }
+
     }
     /**
      * The A* procedure described in the aLSS-LRTA* algorithm
@@ -270,10 +266,14 @@ public class ALSSLRTA implements IRealTimeSearchAlgorithm {
             //}
             openRemove(min_h_node);
 
-            if(agent.getHeuristicValue(min_h_node.getNode()) > agent.getInitialHeuristicValue(min_h_node.getNode()))
+            /*if(agent.getHeuristicValue(min_h_node.getNode()) > agent.getInitialHeuristicValue(min_h_node.getNode()))
             {
+                if(!agent.checkIfUpdated(min_h_node.getNode()))
+                {
+                    System.out.println("Fucking fuck");
+                }
                 min_h_node.setUpdated(true);
-            }
+            }*/
             if(closed.containsKey(min_h_node.getNode().getId()))
             {
                 closed.remove(min_h_node.getNode().getId());
@@ -470,16 +470,13 @@ public class ALSSLRTA implements IRealTimeSearchAlgorithm {
 
         @Override
         public int compare(AlssLrtaSearchNode o1, AlssLrtaSearchNode o2) {
-            int x1 = ((GridNode)o1.getNode()).getX();
-            int y1 = ((GridNode)o1.getNode()).getY();
-            int x2 = ((GridNode)o2.getNode()).getX();
-            int y2 = ((GridNode)o2.getNode()).getY();
-            if((( x1== 98 && y1 == 238)&&( x2== 100 && y2 == 241)) ||(( x2== 98 && y2 == 238)&&( x1== 100 && y1 == 241)))
-            {
-                System.out.println();
-            }
+
             double f1 = getF(o1);
             double f2 = getF(o2);
+            if(f1==o1.getG(iteration) && o1.getG(iteration)!=Double.MAX_VALUE)
+                return -1;
+            if(f2==o2.getG(iteration) && o2.getG(iteration)!=Double.MAX_VALUE)
+                return 1;
             if(f1==f2)
                 return 0;
             if(f1<f2)
