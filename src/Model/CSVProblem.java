@@ -39,6 +39,7 @@ public class CSVProblem extends AbstractProblemCreator {
         agent_start_goal_nodes.put(agent,new Pair<>(graph[x_start][y_start],graph[x_end][y_end]));
         Problem problem = new Problem(graph,agent_start_goal_nodes,toDevelop,new GridCostFunction());
         problemInString = Problem.print(graph,agent_start_goal_nodes);
+        System.out.println(problemInString);
         return problem;
     }
 
@@ -62,7 +63,7 @@ public class CSVProblem extends AbstractProblemCreator {
             String lastNumber = lineSplit[0];
             //int num_of_colums = Integer.parseInt(lastNumber);
             int num_of_colums = Integer.parseInt(lastNumber)+1;
-
+            System.out.println(num_of_colums);
             line = br.readLine();
             lineSplit = line.split(",");
 
