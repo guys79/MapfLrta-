@@ -5,6 +5,7 @@ import Model.ALSSLRTA.AlssLrtaSearchNode;
 import Model.LRTA.AgentHeuristics;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 
 /**
@@ -17,7 +18,7 @@ public class Agent {
     private Node current;//The current node the agent is on
     private boolean isDone;//True IFF the agent reached the goal
     private Map<Integer,AlssLrtaSearchNode> closed;//The closed list
-
+    private HashMap<Integer,AlssLrtaSearchNode> needToBeUpdated;
     /**
      * The constructor of the agent
      * @param id - The id of the agent
@@ -32,7 +33,7 @@ public class Agent {
         this.id = id;
         this.isDone = false;
         this.closed = new HashMap<>();
-
+        this.needToBeUpdated = new HashMap<>();
     }
     public boolean isUpdatesd(Node node)
     {
@@ -44,6 +45,14 @@ public class Agent {
 
     public Map<Integer, AlssLrtaSearchNode> getClosed() {
         return closed;
+    }
+
+    public void setNeedToBeUpdated(HashMap<Integer, AlssLrtaSearchNode> needToBeUpdated) {
+        this.needToBeUpdated = needToBeUpdated;
+    }
+
+    public HashMap<Integer, AlssLrtaSearchNode> getNeedToBeUpdated() {
+        return needToBeUpdated;
     }
 
     /**
