@@ -17,8 +17,7 @@ public class Agent {
     private int id;//The id of the agent
     private Node current;//The current node the agent is on
     private boolean isDone;//True IFF the agent reached the goal
-    private Map<Integer,AlssLrtaSearchNode> closed;//The closed list
-    private HashMap<Integer,AlssLrtaSearchNode> needToBeUpdated;
+    private HashMap<Integer,Node> needToBeUpdated;
     /**
      * The constructor of the agent
      * @param id - The id of the agent
@@ -32,26 +31,20 @@ public class Agent {
             heuristics = new AlssLrtaAgentHeuristics(goal);
         this.id = id;
         this.isDone = false;
-        this.closed = new HashMap<>();
+
         this.needToBeUpdated = new HashMap<>();
     }
     public boolean isUpdatesd(Node node)
     {
         return this.heuristics.getHeuristics(node)!= this.heuristics.getHeuristicsFromFunction(node);
     }
-    public void setClosed(Map<Integer, AlssLrtaSearchNode> closed) {
-        this.closed = closed;
-    }
 
-    public Map<Integer, AlssLrtaSearchNode> getClosed() {
-        return closed;
-    }
 
-    public void setNeedToBeUpdated(HashMap<Integer, AlssLrtaSearchNode> needToBeUpdated) {
+    public void setNeedToBeUpdated(HashMap<Integer, Node> needToBeUpdated) {
         this.needToBeUpdated = needToBeUpdated;
     }
 
-    public HashMap<Integer, AlssLrtaSearchNode> getNeedToBeUpdated() {
+    public HashMap<Integer, Node> getNeedToBeUpdated() {
         return needToBeUpdated;
     }
 

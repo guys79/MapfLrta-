@@ -6,10 +6,7 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * This class represents a Problem Creator that imports the maps and scenarios from a .map and .map.scen files
@@ -52,10 +49,7 @@ public class ScenarioProblemCreator extends AbstractProblemCreator{
         {
             return null;
         }
-        if(index == 999)
-        {
-            System.out.println();
-        }
+
         Map<Agent,Pair<Node,Node>> start_and_goal = new HashMap<>();
         String [] scen = this.scenarios[index];
 
@@ -228,7 +222,7 @@ public class ScenarioProblemCreator extends AbstractProblemCreator{
             }
 
 
-
+            sortScenarios();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -244,6 +238,19 @@ public class ScenarioProblemCreator extends AbstractProblemCreator{
         }
 
 
+
+    }
+    private void sortScenarios()
+    {
+        /*
+
+        scenario[0] = split[1];//The name of the map
+        scenario[1] = split[7];//Start - x
+        scenario[2] = split[6];//Start - y
+        scenario[3] = split[5];//End - x
+        scenario[4] = split[4];//End - y
+        scenario[5] = split[8];//Optimal length
+         */
 
     }
 }

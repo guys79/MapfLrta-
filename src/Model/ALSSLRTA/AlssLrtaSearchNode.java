@@ -10,11 +10,9 @@ public class AlssLrtaSearchNode {
     private double gValue;//The g value of the node
     private AlssLrtaSearchNode back;//The predecessor
     private boolean updated;//True IFF the node's heuristics were updated
-    private int timeStamp;//The time stamp
 
-    public int getTimeStamp() {
-        return timeStamp;
-    }
+
+
 
     /**
      * The constructor of the class
@@ -26,7 +24,7 @@ public class AlssLrtaSearchNode {
         gValue = Double.MAX_VALUE;
         back = null;
         updated = false;
-        this.timeStamp=0;
+
     }
 
     /**
@@ -48,25 +46,19 @@ public class AlssLrtaSearchNode {
     /**
      * This function will set the g value of the node
      * @param g - The new g value
-     * @param iteration - number of iterations
+
      */
-    public void setG(double g,int iteration)
+    public void setG(double g)
     {
         this.gValue = g;
-        this.timeStamp = iteration;
     }
 
     /**
      * This function will return the g value of this node
-     * @param iteration - number of iterations
      * @return - The gValue of the node
      */
-    public double getG(int iteration) {
-        if(iteration>timeStamp)
-        {
-            gValue = Double.MAX_VALUE;
-        //    this.timeStamp = iteration;
-        }
+    public double getG() {
+
         return gValue;
     }
 

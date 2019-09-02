@@ -6,6 +6,7 @@ import Model.ALSSLRTA.AlssLrtaSearchNode;
 import Model.Agent;
 import Model.Node;
 import Model.Problem;
+import javafx.util.Pair;
 
 import java.util.*;
 
@@ -16,13 +17,9 @@ public class MAALSSLRTA extends ALSSLRTA {
     private Map<Integer,Map<Integer,Integer>> ocuupied_times;//Key - Node's id, value - dic
     //Key - Agent's id, int time
     private Set<Agent> agents;//The agents
+
     private Agent currentAgent;
-    //private Agent currentAgent;//The current agent
-    private Map<Integer,Map<Integer,AlssLrtaSearchNode>> closed;//The cosed list fr each agent
-    private Map<Integer,PriorityQueue<AlssLrtaSearchNode>> open;//The open list for each agent
-    private Map<Integer,PriorityQueue<AlssLrtaSearchNode>> open_min;//The open list for each agent
-    private Map<Integer,PriorityQueue<AlssLrtaSearchNode>> open_min_update;//The open list for each agent
-    private Map<Integer,Map<Integer,AlssLrtaSearchNode>> open_id;//key -Agent's id, value  - dic
+
     //Key - node's id, Value - the search node itself
     private IRules rules;//The rules for Real Time MAPF
 
@@ -34,24 +31,12 @@ public class MAALSSLRTA extends ALSSLRTA {
      */
     public MAALSSLRTA(Problem problem) {
         super(problem);
-        closed = new HashMap<>();
         rules = new RuleBook(this);
-        open =new HashMap<>();
-        open_min = new HashMap<>();
-        open_min_update = new HashMap<>();
-        open_id = new HashMap<>();
+
         ocuupied_times = new HashMap<>();
-        agents = problem.getAgentsAndStartGoalNodes().keySet();
-        int id;
-        for(Agent agent : agents)
-        {
-            id =agent.getId();
-            open.put(id,new PriorityQueue<>(new CompareAlssNode()));
-            open_min.put(id, new PriorityQueue<>(new CompareHeuristicAlssNode()));
-            open_min_update.put(id, new PriorityQueue<>(new CompareHeuristicUpdateAlssNode()));
-            open_id.put(id, new HashMap<>());
-            closed.put(id,new HashMap<>());
-        }
+        this.currentAgent = getAgent();
+
+
 
     }
 
@@ -62,22 +47,32 @@ public class MAALSSLRTA extends ALSSLRTA {
      */
     public Map<Integer,List<Node>> getPrefixes(int numOfNodesToDevelop)
     {
-        //Maybe prioritize by heuristic of goal (the smaller the better)
-        int id;
+        Map<Agent,Pair<Node,Node>> agent_goal_start = problem.getAgentsAndStartGoalNodes();
+        Set<Agent> agents = agent_goal_start.keySet();
         Map<Integer,List<Node>> prefixes = new HashMap<>();
-        for(Agent currentAgent: agents)
+
+        for(Agent agent: agents)
         {
-            this.currentAgent = currentAgent;
-            id = currentAgent.getId();
-            PriorityQueue<AlssLrtaSearchNode> open_curr = open.get(id);
-            PriorityQueue<AlssLrtaSearchNode> open_min_curr = open_min.get(id);
-            PriorityQueue<AlssLrtaSearchNode> open_min_update_curr= open_min_update.get(id);
-            Map<Integer,AlssLrtaSearchNode> closed_curr = closed.get(id);
-            List<Node> prefix = super.calculatePrefix(currentAgent.getCurrent(),currentAgent.getGoal(),numOfNodesToDevelop,currentAgent,open_curr,open_min_curr,open_min_update_curr,closed_curr);
-            if(prefix == null)
+            if(agent.getId() ==2)
+            {
+                System.out.println();
+            }
+            Node current = agent.getCurrent();
+
+            List<Node> prefix = super.calculatePrefix(current,agent_goal_start.get(agent).getValue(),numOfNodesToDevelop,agent);
+
+            if(prefix==null)
+            {
+                System.out.println("No Solution agent "+agent);
                 return null;
-            prefixes.put(id,prefix);
+            }
+
+            prefixes.put(agent.getId(),prefix);
+
         }
+
+
+
         return prefixes;
     }
 
@@ -96,7 +91,7 @@ public class MAALSSLRTA extends ALSSLRTA {
             this.ocuupied_times.put(nodeId,new HashMap<>());
         }
         Map<Integer, Integer> occupations = this.ocuupied_times.get(nodeId);
-        occupations.put(currentAgent.getId(),time);
+        occupations.put(getAgent().getId(),time);
     }
 
     @Override
