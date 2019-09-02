@@ -85,7 +85,8 @@ public class Model {
         prev = new HashMap<>();
         if(this.TYPE == 0)
         {
-            throw new UnsupportedOperationException();
+            //throw new UnsupportedOperationException();
+            this.problemCreator = new RandomProblemCreator();
         }
         else
         {

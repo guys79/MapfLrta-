@@ -257,7 +257,7 @@ public class ALSSLRTA implements IRealTimeSearchAlgorithm {
             setHNode(node, Double.MAX_VALUE);
         }
 
-        boolean first = true;
+        //boolean first = true;
         while(closed.size()!=0)
         {
           /*  if(first)

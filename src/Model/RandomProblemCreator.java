@@ -92,7 +92,6 @@ public class RandomProblemCreator extends AbstractProblemCreator {
                 numOfRemainingNodes = height*width -(i*width+ j) - numOfRemainingWalls;
                 probForHole = numOfRemainingWalls*1.0/(numOfRemainingNodes+numOfRemainingWalls);
                 double rand  = Math.random();
-                //System.out.println("rand "+rand+" prob "+probForHole +" holes "+numOfRemainingWalls+ " nodes "+numOfRemainingNodes);
                 if(rand<=probForHole)
                 {
                     graph[i][j]=null;
