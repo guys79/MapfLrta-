@@ -13,7 +13,8 @@ public class Main extends Application {
         launch(args);
     }
 
-    // TODO: 8/30/2019 Figure out why so long paths 
+    // TODO: 05/09/2019 comments 
+    // TODO: 05/09/2019 Fix Transition from map A to B in MA (create he scenarios) 
     @Override
     public void start(Stage primaryStage) throws Exception {
 

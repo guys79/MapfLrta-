@@ -18,12 +18,12 @@ public class Model {
 
     private boolean first;//True IFF it's the first scenario
  //   public boolean toPrint = false;
-    private final int NUM_OF_AGENTS = 4;//Number of agents
+    private final int NUM_OF_AGENTS = 2;//Number of agents
     private final int HEIGHT = 12;//The number of columns
     private final int WIDTH = 12;//The number of rows
     private final double DENSITY = 0.6;//The ratio between the number of walls to the overall number of nodes in the grid
     private final int NUM_OF_NODES_TO_DEVELOP = 25;//The number of nodes that can be developed in a single iteration
-    private final int TYPE =1;// 0 - LRTA*, 1-aLSS-LRTA* 2- MA-aLSS-LRTA*
+    private final int TYPE =2;// 0 - LRTA*, 1-aLSS-LRTA* 2- MA-aLSS-LRTA*
     //private String fileName = "arena";//The name of the file
     private String fileName = "AR0011SR";//The name of the file
     private String mapPath;//The path to the map file

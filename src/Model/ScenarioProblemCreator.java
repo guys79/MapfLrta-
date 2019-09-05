@@ -17,8 +17,7 @@ public class ScenarioProblemCreator extends AbstractProblemCreator{
     private String [][] scenarios;//All the scenarios (and their data)
     private int toDevelop;//Number of nodes to develop
     private int type;//The type of search
-
-
+    protected boolean canT;
     /**
      * This constructor of the class.
      */
@@ -40,7 +39,12 @@ public class ScenarioProblemCreator extends AbstractProblemCreator{
         //this.scenarios = null;
         getGraphAndScenarios(mapPath,senerioPath);
         index =999;
+        canT = true;
         return next();
+    }
+
+    public void setCanT(boolean canT) {
+        this.canT = canT;
     }
 
     @Override
@@ -122,6 +126,14 @@ public class ScenarioProblemCreator extends AbstractProblemCreator{
      */
     protected void getGraph(String path)
     {
+        if(!path.contains("arena"))
+        {
+            canT = true;
+        }
+        else
+        {
+            canT = false;
+        }
         BufferedReader br = null;
         String line="";
         Node[][] grid = null;
@@ -146,7 +158,7 @@ public class ScenarioProblemCreator extends AbstractProblemCreator{
                 line = br.readLine();
                 for(int j=0;j<width;j++) {
 
-                    if(line.charAt(j)=='.' || line.charAt(j)=='G' || line.charAt(j)=='T')
+                    if(line.charAt(j)=='.' || line.charAt(j)=='G' || (line.charAt(j)=='T' && canT))
                         grid[i][j] = new GridNode(i, j);
                     else {
                         grid[i][j] = null;
@@ -214,10 +226,7 @@ public class ScenarioProblemCreator extends AbstractProblemCreator{
             scenarios = new String[scen.size()][6];
             for(int i=0;i<this.scenarios.length;i++)
             {
-                if(scen.get(i).equals("193\tAR0011SR.map\t512\t512\t62\t307\t318\t468\t774.82041778"))
-                {
-                    System.out.println();
-                }
+
                 scenarios[i] = this.parseScenerio(scen.get(i));
             }
 

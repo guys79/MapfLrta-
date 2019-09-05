@@ -41,6 +41,7 @@ public class Controller{
     public HashMap<Integer, int[]> nodeLocations = new HashMap<>();//Key - node's id, value - the location of the node [x,y]
     public HashMap<int[], Color> paths = new HashMap<>();//Key - path, Value - Agent's color
     private int agentCount = 0;//Number of agents
+    private HashSet<int [] > noSolLocs;
     private Color[] colors = {//The colors available
             Color.RED,
             Color.DARKRED,
@@ -99,10 +100,18 @@ public class Controller{
         slider.setValue(0);
         paths.clear();
         context.setFill(Color.WHITE);
+       // System.out.println("CLEARRRRRRRRRR");
         for(int [] loc : locs)
         {
             context.fillRect(loc[1] * cellWidth, loc[0] * cellHeight, cellWidth + 1, cellHeight + 1);
         }
+        for(int [] loc : noSolLocs)
+        {
+            context.fillRect(loc[1] * cellWidth, loc[0] * cellHeight, cellWidth + 1, cellHeight + 1);
+            this.grid[loc[0]][loc[1]] = 0;
+
+        }
+        this.noSolLocs.clear();
         this.maxTime = 0;
 
 
@@ -122,6 +131,7 @@ public class Controller{
      */
     public void initialize(int[][] grid){
         slider.setBlockIncrement(1);
+        this.noSolLocs = new HashSet<>();
         slider.valueProperty().addListener((ChangeListener) (arg0, arg1, arg2) -> {
 //            time.setValue((int)(slider.getValue()/100*maxTime));
             time.setValue((int)slider.getValue());
@@ -182,7 +192,7 @@ public class Controller{
             context.fillRect(endPos[0] * cellWidth, endPos[1] * cellHeight, cellWidth, cellHeight);
 
 
-            if(time.getValue() == path.length-1)
+            if(time.getValue() >= path.length-1)
             {
                 context.setFill(Color.web("#414A4C"));
             }
@@ -213,7 +223,14 @@ public class Controller{
         if(pathArr.length==1)//No Solution
         {
             GridNode gridNode = (GridNode)goal;
-            grid[gridNode.getX()][gridNode.getY()] = -2;
+            int [] loc = new int[2];
+            loc[0] = gridNode.getX();
+            loc[1] = gridNode.getY();
+            this.noSolLocs.add(loc);
+            grid[loc[0]][loc[1]] = -2;
+
+
+
         }
         for(int i=0;i<path.size();i++)
         {

@@ -84,11 +84,13 @@ public class MAScenarioProblemCreator extends ScenarioProblemCreator {
 
     @Override
     public Problem next() {
-        System.out.println("lklkjl");
+     //   System.out.println("lklkjl");
         if(scenIndex == NUM_OF_SCENARIOS)
             return null;
+
         Map<Agent,Pair<Node,Node>> start_and_goal = new HashMap<>();
         Map<Integer,String []> scenerio = this.scenarios[this.scenIndex];
+        scenIndex++;
         Set<Integer> agent_ids = scenerio.keySet();
         for(int id : agent_ids)
         {
@@ -110,7 +112,7 @@ public class MAScenarioProblemCreator extends ScenarioProblemCreator {
                 {
                     message+= "goal node ["+x_end+","+y_end+"] is null ";
                 }
-                System.out.println(message);
+                System.out.println(message+" Message");
                 this.scenIndex++;
                 return next();
             }

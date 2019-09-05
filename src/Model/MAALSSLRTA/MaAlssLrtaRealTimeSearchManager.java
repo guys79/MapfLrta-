@@ -38,7 +38,7 @@ public class MaAlssLrtaRealTimeSearchManager extends AbstractRealTimeSearchManag
         {
             for(Agent agent: agents)
             {
-                System.out.println("No Solution");
+                //System.out.println("No Solution");
                 prefixesForAgents.put(agent,null);
                 List<Node> fail = new ArrayList<>();
                 fail.add(agent_goal_start.get(agent).getKey());
@@ -48,7 +48,6 @@ public class MaAlssLrtaRealTimeSearchManager extends AbstractRealTimeSearchManag
         }
         for(Agent agent: agents)
         {
-
             this.prefixesForAgents.put(agent,prefixes.get(agent.getId()));
             List<Node> path = pathsForAgents.get(agent);
             path.remove(path.size()-1);

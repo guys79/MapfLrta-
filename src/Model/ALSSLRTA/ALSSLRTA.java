@@ -17,7 +17,6 @@ public class ALSSLRTA implements IRealTimeSearchAlgorithm {
     private Map<Integer,AlssLrtaSearchNode> closed;//The closed list
     protected Problem problem;//Tye given problem
     private Agent agent;// The given agent
-    private Node goal;//The goal node
     private HashSet<Integer> needToBeUpdated;
 
 
@@ -31,7 +30,6 @@ public class ALSSLRTA implements IRealTimeSearchAlgorithm {
         //this.needToBeUpdated = new HashSet<>();
         this.problem = problem;
         this.closed = new HashMap<>();
-        //open = new PriorityQueue<>(new CompareHeuristicUpdateAlssNode());
         open = new PriorityQueue<>(new CompareAlssNode());
         open_min = new PriorityQueue<>(new CompareHeuristicAlssNode());
         open_min_update = new PriorityQueue<>(new CompareHeuristicUpdateAlssNode());
@@ -44,20 +42,13 @@ public class ALSSLRTA implements IRealTimeSearchAlgorithm {
         return agent;
     }
 
-    protected List<Node> calculatePrefix(Node start, Node goal, int numOfNodesToDevelop, Agent agent, PriorityQueue<AlssLrtaSearchNode> open, PriorityQueue<AlssLrtaSearchNode> open_min, PriorityQueue<AlssLrtaSearchNode> open_min_update, Map<Integer,AlssLrtaSearchNode> closed) {
-        this.open = open;
-        this.open_min = open_min;
-        this.open_min_update = open_min_update;
-        this.closed = closed;
-        return calculatePrefix(start,goal,numOfNodesToDevelop,agent);
-    }
+
     protected void inhabitAgent(int nodeId)
     {
 
     }
     @Override
     public  List<Node> calculatePrefix(Node start, Node goal, int numOfNodesToDevelop, Agent agent) {
-        this.goal = goal;
         clearOpen();
         List<Node> prefix = new ArrayList<>();
         this.agent = agent;
@@ -67,7 +58,9 @@ public class ALSSLRTA implements IRealTimeSearchAlgorithm {
 
 
         aStarPrecedure();
-
+  //      System.out.println("Agent "+agent.getId());
+  //      System.out.println(" open "+open );
+   //     System.out.println(" closed "+closed);
         if(open.size() == 0) {
             System.out.println("No solution due to 0 size in a star precedure");
             return null;
@@ -77,32 +70,33 @@ public class ALSSLRTA implements IRealTimeSearchAlgorithm {
 
         if(next.getNode().equals(goal))
         {
+     //       System.out.println("Right?");
             agent.done();
         }
         else
         {
-            if(!dijkstra())
-            {
+            if(!dijkstra()){
                 return null;
             }
 
         }
-        AlssLrtaSearchNode prev= next;
-        while(next != current)
+        //AlssLrtaSearchNode prev= next;
+        int id = current.getNode().getId();
+        while(next.getNode().getId() != id)
         {
 
             prefix.add(0,next.getNode());
             next = next.getBack();
         }
         prefix.add(0,next.getNode());
-        for(int i=0;i<prefix.size();i++)
+        /* for(int i=0;i<prefix.size();i++)
         {
             updateNode(next.getNode().getId(),i);
         }
-        if(prev.getNode().equals(goal))
+       if(prev.getNode().equals(goal))
         {
             inhabitAgent(prev.getNode().getId());
-        }
+        }*/
         agent.setNeedToBeUpdated(needToBeUpdated);
         return prefix;
     }
@@ -198,10 +192,13 @@ public class ALSSLRTA implements IRealTimeSearchAlgorithm {
             state = open.peek();
             if(state == null)
             {
+                System.out.println("No solution, but weird");
                 return;
             }
             if(state.getNode().getId() == this.agent.getGoal().getId())
             {
+              //  System.out.println("Reached Goal "+agent.getId());
+                closed.clear();
                 return;
             }
             openRemove(state);
@@ -254,6 +251,7 @@ public class ALSSLRTA implements IRealTimeSearchAlgorithm {
 
             if(min_h_node == null)
             {
+               // System.out.println("GOD DAMMIT");
                 return false;
             }
             if(agent.getHeuristicValue(min_h_node.getNode()) > agent.getInitialHeuristicValue(min_h_node.getNode()))

@@ -53,13 +53,17 @@ public class MAALSSLRTA extends ALSSLRTA {
 
         for(Agent agent: agents)
         {
-            if(agent.getId() ==2)
+            if(agent.isDone())
             {
-                System.out.println();
+                List<Node> done = new ArrayList<>();
+               // System.out.println("as;lkjd;aksdkqaskd'kalsssssssssssssssssssssssssssssssssssssssssss");
+                done.add(agent.getGoal());
+                prefixes.put(agent.getId(),done);
+                continue;
             }
             Node current = agent.getCurrent();
 
-            List<Node> prefix = super.calculatePrefix(current,agent_goal_start.get(agent).getValue(),numOfNodesToDevelop,agent);
+            List<Node> prefix = super.calculatePrefix(current,agent.getGoal(),numOfNodesToDevelop,agent);
 
             if(prefix==null)
             {
@@ -94,10 +98,7 @@ public class MAALSSLRTA extends ALSSLRTA {
         occupations.put(getAgent().getId(),time);
     }
 
-    @Override
-    protected List<Node> calculatePrefix(Node start, Node goal, int numOfNodesToDevelop, Agent agent, PriorityQueue<AlssLrtaSearchNode> open,PriorityQueue<AlssLrtaSearchNode> open_min,PriorityQueue<AlssLrtaSearchNode> open_min_update,Map<Integer,AlssLrtaSearchNode> closed) {
-        return super.calculatePrefix(start,goal,numOfNodesToDevelop,agent,open,open_min,open_min_update,closed);
-    }
+
     /**
      * This function will clear the reserves
      */
