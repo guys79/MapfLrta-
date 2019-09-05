@@ -27,4 +27,10 @@ public interface IAgentHeuristics {
      * @return - The heuristic value of a given node
      */
     public double getHeuristicsFromFunction(Node n);
+    /**
+     * This function will return the heuristic value of the node from this agent's perspective.
+     * @param n - The given node
+     * @return - The heuristic value
+     */
+    public double getInitialHeuristicValue(Node n);
 }

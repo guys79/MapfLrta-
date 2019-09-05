@@ -79,5 +79,10 @@ public class AgentHeuristics implements IAgentHeuristics {
         }
         return value;
     }
+
+    @Override
+    public double getInitialHeuristicValue(Node n) {
+        return getHeuristicsFromFunction(n);
+    }
 }
 

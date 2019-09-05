@@ -10,7 +10,7 @@ import java.util.Map;
  * This class describes a node that participates in the
  */
 public class AlssLrtaAgentHeuristics implements IAgentHeuristics {
-    private Map<Node,Double> localHeuristics;//Key - nodeId, value - heuristic value
+    private Map<Integer,Double> localHeuristics;//Key - nodeId, value - heuristic value
     private Node goal;//The goal node
 
     /**
@@ -21,7 +21,7 @@ public class AlssLrtaAgentHeuristics implements IAgentHeuristics {
     {
         localHeuristics = new HashMap<>();
         this.goal = goal;
-        localHeuristics.put(goal,0d);
+        localHeuristics.put(goal.getId(),0d);
     }
 
     /**
@@ -32,7 +32,7 @@ public class AlssLrtaAgentHeuristics implements IAgentHeuristics {
     @Override
     public double getHeuristics(Node node) {
 
-        if(localHeuristics.containsKey(node))
+        if(localHeuristics.containsKey(node.getId()))
             return getHeuristicsFromMemory(node);
         return getHeuristicsFromFunction(node);
     }
@@ -45,7 +45,7 @@ public class AlssLrtaAgentHeuristics implements IAgentHeuristics {
      */
     @Override
     public void updateHeuristics(Node node, double newVal) {
-        this.localHeuristics.put(node,newVal);
+        this.localHeuristics.put(node.getId(),newVal);
     }
 
     /**
@@ -56,7 +56,7 @@ public class AlssLrtaAgentHeuristics implements IAgentHeuristics {
      */
     private double getHeuristicsFromMemory(Node n)
     {
-        return this.localHeuristics.get(n);
+        return this.localHeuristics.get(n.getId());
     }
 
 
@@ -86,6 +86,11 @@ public class AlssLrtaAgentHeuristics implements IAgentHeuristics {
             System.out.println("Fuck");
         }
         return value;
+    }
+
+    @Override
+    public double getInitialHeuristicValue(Node n) {
+        return getHeuristicsFromFunction(n);
     }
 
     /**

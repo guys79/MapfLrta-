@@ -124,37 +124,52 @@ public class Problem {
      */
     private void initializeMap(Node [][] graph)
     {
-
+        boolean right,left,up,down;
         for(int i=0;i<graph.length;i++)
         {
             for(int j=0;j<graph[i].length;j++)
             {
                 if(graph[i][j]==null)
                     continue;
+                right = false;
+                left = false;
+                up = false;
+                down = false;
+
                 //Up
-                if(i>0 && graph[i-1][j]!=null)
-                    createDirectedEdge(graph[i][j],graph[i-1][j],costFunction.getCost(graph[i][j],graph[i-1][j]));
+                if(i>0 && graph[i-1][j]!=null) {
+                    createDirectedEdge(graph[i][j], graph[i - 1][j], costFunction.getCost(graph[i][j], graph[i - 1][j]));
+                    up = true;
+                }
                 //Down
-                if(i<graph.length-1 && graph[i+1][j]!=null)
-                    createDirectedEdge(graph[i][j],graph[i+1][j],costFunction.getCost(graph[i][j],graph[i+1][j]));
+                if(i<graph.length-1 && graph[i+1][j]!=null) {
+                    createDirectedEdge(graph[i][j], graph[i + 1][j], costFunction.getCost(graph[i][j], graph[i + 1][j]));
+                    down = true;
+                }
                 //Left
-                if(j>0 && graph[i][j-1]!=null)
-                    createDirectedEdge(graph[i][j],graph[i][j-1],costFunction.getCost(graph[i][j],graph[i][j-1]));
+                if(j>0 && graph[i][j-1]!=null) {
+                    createDirectedEdge(graph[i][j], graph[i][j - 1], costFunction.getCost(graph[i][j], graph[i][j - 1]));
+                    left = true;
+                }
                 //Right
-                if(j<graph[i].length-1 && graph[i][j+1]!=null)
-                    createDirectedEdge(graph[i][j],graph[i][j+1],costFunction.getCost(graph[i][j],graph[i][j+1]));
+                if(j<graph[i].length-1 && graph[i][j+1]!=null) {
+                    createDirectedEdge(graph[i][j], graph[i][j + 1], costFunction.getCost(graph[i][j], graph[i][j + 1]));
+                    right = true;
+                }
+                /*
                 //Up-left
-                if(i>0 && j>0 && graph[i-1][j-1]!=null)
+                if(i>0 && j>0 && graph[i-1][j-1]!=null && (up || left))
                     createDirectedEdge(graph[i][j],graph[i-1][j-1],costFunction.getCost(graph[i][j],graph[i-1][j-1]));
                 //Up-right
-                if(i>0 && j<graph[i].length-1 && graph[i-1][j+1]!=null)
+                if(i>0 && j<graph[i].length-1 && graph[i-1][j+1]!=null && (up || right))
                     createDirectedEdge(graph[i][j],graph[i-1][j+1],costFunction.getCost(graph[i][j],graph[i-1][j+1]));
                 //Down-left
-                if(i<graph.length-1 && j>0 && graph[i+1][j-1]!=null)
+                if(i<graph.length-1 && j>0 && graph[i+1][j-1]!=null && (down ||  left))
                     createDirectedEdge(graph[i][j],graph[i+1][j-1],costFunction.getCost(graph[i][j],graph[i+1][j-1]));
                 //Down-right
-                if(i<graph.length-1 && j<graph[i].length-1 && graph[i+1][j+1]!=null)
+                if(i<graph.length-1 && j<graph[i].length-1 && graph[i+1][j+1]!=null && (down || right))
                     createDirectedEdge(graph[i][j],graph[i+1][j+1],costFunction.getCost(graph[i][j],graph[i+1][j+1]));
+                    */
 
             }
         }

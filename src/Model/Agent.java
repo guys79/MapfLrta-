@@ -17,7 +17,7 @@ public class Agent {
     private int id;//The id of the agent
     private Node current;//The current node the agent is on
     private boolean isDone;//True IFF the agent reached the goal
-    private HashMap<Integer,Node> needToBeUpdated;
+    private HashSet<Integer> needToBeUpdated;
     /**
      * The constructor of the agent
      * @param id - The id of the agent
@@ -32,7 +32,7 @@ public class Agent {
         this.id = id;
         this.isDone = false;
 
-        this.needToBeUpdated = new HashMap<>();
+        this.needToBeUpdated = new HashSet();
     }
     public boolean isUpdatesd(Node node)
     {
@@ -40,11 +40,11 @@ public class Agent {
     }
 
 
-    public void setNeedToBeUpdated(HashMap<Integer, Node> needToBeUpdated) {
+    public void setNeedToBeUpdated(HashSet<Integer> needToBeUpdated) {
         this.needToBeUpdated = needToBeUpdated;
     }
 
-    public HashMap<Integer, Node> getNeedToBeUpdated() {
+    public HashSet<Integer> getNeedToBeUpdated() {
         return needToBeUpdated;
     }
 
@@ -100,7 +100,7 @@ public class Agent {
      */
     public double getInitialHeuristicValue(Node n)
     {
-        return this.heuristics.getHeuristics(n);
+        return this.heuristics.getInitialHeuristicValue(n);
     }
     /**
      * This function will return the current state of the agent
