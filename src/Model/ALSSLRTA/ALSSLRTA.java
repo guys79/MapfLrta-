@@ -59,7 +59,6 @@ public class ALSSLRTA implements IRealTimeSearchAlgorithm {
     public  List<Node> calculatePrefix(Node start, Node goal, int numOfNodesToDevelop, Agent agent) {
         this.goal = goal;
         clearOpen();
-        //this.closed = agent.getClosed();
         List<Node> prefix = new ArrayList<>();
         this.agent = agent;
         this.needToBeUpdated = agent.getNeedToBeUpdated();
@@ -104,7 +103,6 @@ public class ALSSLRTA implements IRealTimeSearchAlgorithm {
         {
             inhabitAgent(prev.getNode().getId());
         }
-        //agent.setClosed(this.closed);
         agent.setNeedToBeUpdated(needToBeUpdated);
         return prefix;
     }
@@ -223,8 +221,6 @@ public class ALSSLRTA implements IRealTimeSearchAlgorithm {
 
                     setGNode(node,temp);
                     node.setBack(state);
-                    if(open_id.containsKey(node.getNode().getId()))
-                        openRemove(node);
                     openAdd(node);
                 }
             }
@@ -303,13 +299,9 @@ public class ALSSLRTA implements IRealTimeSearchAlgorithm {
      */
     private AlssLrtaSearchNode ExtractBestState()
     {
-        //Init
-      //  AlssLrtaSearchNode temp = open_min_update.poll();
-        //if(temp!=null)
-          //  open_min_update.add(temp);
-        AlssLrtaSearchNode best =open_min_update.peek();
-        testOpenMinUpdate(best);
-       // openRemove(best);
+
+        AlssLrtaSearchNode best =open_min_update.poll();
+
         return best;
     }
     /**
@@ -334,22 +326,15 @@ public class ALSSLRTA implements IRealTimeSearchAlgorithm {
             else
             {
                 new_node = new AlssLrtaSearchNode(node);
-             //   System.out.println(agent);
                 if(this.needToBeUpdated.contains(node.getId()))
                 {
-                //    System.out.println(new_node+" updated back to be true");
                     new_node.setUpdated(true);
 
                 }
 
 
             }
-        /*    System.out.println(this.needToBeUpdated);
-            if(!this.needToBeUpdated.contains(node.getId()))
-            {
-                //System.out.println(new_node+" NOT updated back to be true");
-            }
-            */
+
         }
 
         return new_node;

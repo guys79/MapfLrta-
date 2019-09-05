@@ -156,7 +156,7 @@ public class Problem {
                     createDirectedEdge(graph[i][j], graph[i][j + 1], costFunction.getCost(graph[i][j], graph[i][j + 1]));
                     right = true;
                 }
-                /*
+
                 //Up-left
                 if(i>0 && j>0 && graph[i-1][j-1]!=null && (up || left))
                     createDirectedEdge(graph[i][j],graph[i-1][j-1],costFunction.getCost(graph[i][j],graph[i-1][j-1]));
@@ -169,7 +169,7 @@ public class Problem {
                 //Down-right
                 if(i<graph.length-1 && j<graph[i].length-1 && graph[i+1][j+1]!=null && (down || right))
                     createDirectedEdge(graph[i][j],graph[i+1][j+1],costFunction.getCost(graph[i][j],graph[i+1][j+1]));
-                    */
+
 
             }
         }
