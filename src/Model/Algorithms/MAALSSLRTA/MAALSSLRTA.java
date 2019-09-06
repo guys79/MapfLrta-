@@ -3,6 +3,7 @@ package Model.Algorithms.MAALSSLRTA;
 import Model.Algorithms.ALSSLRTA.ALSSLRTA;
 
 import Model.Agent;
+import Model.Algorithms.ALSSLRTA.AlssLrtaSearchNode;
 import Model.Node;
 import Model.Problem;
 import javafx.util.Pair;
@@ -17,7 +18,9 @@ public class MAALSSLRTA extends ALSSLRTA {
     //Key - Agent's id, int time
     private Agent currentAgent;//The current agent
     private IRules rules;//The rules for Real Time MAPF
-
+    private int visionRadius;//The vision radius of all agents
+    private Set<Integer> goals;//The agent's fulfilled goals
+    private Map<Integer,Map<Integer,AlssLrtaSearchNode>> open_time;//Key - node id, value - key-time, value - node
 
     /**
      * The constructor
@@ -26,13 +29,29 @@ public class MAALSSLRTA extends ALSSLRTA {
      */
     public MAALSSLRTA(Problem problem) {
         super(problem);
-        rules = new RuleBook(this);
 
+        Set<Agent> agents = problem.getAgentsAndStartGoalNodes().keySet();
+        this.goals = new HashSet<>();
+        for(Agent agent: agents)
+        {
+            if(agent.isDone())
+                this.goals.add(agent.getGoal().getId());
+        }
+        rules = new RuleBook(this);
         ocuupied_times = new HashMap<>();
         this.currentAgent = getAgent();
 
+        this.visionRadius = problem.getVisionRadius();
+
+    }
 
 
+    /**
+     * This function will return the vision radius of akk the agents
+     * @return - The vision radius of akk the agents
+     */
+    public int getVisionRadius() {
+        return visionRadius;
     }
 
     /**
@@ -51,18 +70,21 @@ public class MAALSSLRTA extends ALSSLRTA {
         {
             pAgents.add(agent);
         }
-
+        System.out.println("start");
         while(pAgents.size()>0)
         {
             Agent agent = pAgents.poll();
             if(agent.isDone())
             {
+                System.out.println("DONE");
                 List<Node> done = new ArrayList<>();
                 done.add(agent.getGoal());
                 prefixes.put(agent.getId(),done);
+                inhabitAgent(agent.getGoal().getId());
 
             }
             else {
+                System.out.println("Not done");
                 Node current = agent.getCurrent();
 
                 List<Node> prefix = super.calculatePrefix(current, agent.getGoal(), numOfNodesToDevelop, agent);
@@ -70,6 +92,11 @@ public class MAALSSLRTA extends ALSSLRTA {
                 if (prefix == null) {
                     System.out.println("No Solution agent " + agent.getId());
                     return null;
+                }
+                //Updating node
+                for(int i=0;i<prefix.size();i++)
+                {
+                    updateNode(prefix.get(i).getId(),i);
                 }
 
                 prefixes.put(agent.getId(), prefix);
@@ -97,6 +124,11 @@ public class MAALSSLRTA extends ALSSLRTA {
             this.ocuupied_times.put(nodeId,new HashMap<>());
         }
         Map<Integer, Integer> occupations = this.ocuupied_times.get(nodeId);
+        if(occupations==null)
+        {
+            return;
+        }
+
         occupations.put(getAgent().getId(),time);
     }
 
@@ -138,7 +170,17 @@ public class MAALSSLRTA extends ALSSLRTA {
      */
     public boolean canReserve(int time,int nodeId)
     {
-        return this.ocuupied_times.get(nodeId) !=null && !this.ocuupied_times.get(nodeId).containsKey(time);
+        if(this.ocuupied_times.get(nodeId) ==null)
+        {
+            if(this.goals.contains(nodeId))
+                return false;
+            Map<Integer,Integer> map = new HashMap<>();
+            this.ocuupied_times.put(nodeId,map);
+            return true;
+        }
+
+        return !this.ocuupied_times.get(nodeId).containsKey(time);
+
 
     }
 
@@ -151,6 +193,7 @@ public class MAALSSLRTA extends ALSSLRTA {
     protected void inhabitAgent(int nodeId)
     {
         this.ocuupied_times.put(nodeId,null);
+        this.goals.add(nodeId);
     }
 
     /**
@@ -162,7 +205,19 @@ public class MAALSSLRTA extends ALSSLRTA {
      */
     public int getAgent(int nodeId,int time)
     {
-        return this.ocuupied_times.get(nodeId).get(time);
+        if(this.ocuupied_times.get(nodeId) ==null)
+        {
+            if(this.goals.contains(nodeId))
+                return -2;
+            Map<Integer,Integer> map = new HashMap<>();
+            this.ocuupied_times.put(nodeId,map);
+            return -1;
+        }
+        Integer id = this.ocuupied_times.get(nodeId).get(time);
+        if(id== null)
+            return -1;
+        return id;
+
     }
     public class CompareAgentsHeurstics implements Comparator<Agent>
     {
@@ -183,4 +238,108 @@ public class MAALSSLRTA extends ALSSLRTA {
         }
     }
 
+    @Override
+    protected boolean canBeAtTime(int time, Node origin, Node target) {
+        return rules.isValidMove(origin.getId(),target.getId(),time);
+    }
+
+    @Override
+    protected AlssLrtaSearchNode transformSingleNode(Node node,int time)
+    {
+        AlssLrtaSearchNode res = super.transformSingleNode(node,time);
+       return new MaAlssLrtaSearchNode(res,time);
+    }
+
+    @Override
+    protected int time(AlssLrtaSearchNode node) {
+        if(node instanceof MaAlssLrtaSearchNode)
+        {
+            return ((MaAlssLrtaSearchNode)node).getTime()+1;
+        }
+        return super.time(node);
+    }
+
+    @Override
+    protected Set<Node> getNeighbors(Node node) {
+        Set<Node> superNodes =  new HashSet<>(super.getNeighbors(node));
+        superNodes.add(node);
+        return superNodes;
+
+    }
+    /**
+     * This function will clear the open list
+     */
+    protected void clearOpen()
+    {
+        super.clearOpen();
+        this.open_time = new HashMap<>();
+    }
+
+    @Override
+    protected boolean canAdd(AlssLrtaSearchNode node) {
+
+        MaAlssLrtaSearchNode maNode = (MaAlssLrtaSearchNode)node;
+        if(!this.open_time.containsKey(node.getNode().getId()))
+        {
+            Map<Integer,AlssLrtaSearchNode> set = new HashMap<>();
+            set.put(maNode.getTime(),maNode);
+            open_time.put(node.getNode().getId(),set);
+            return true;
+        }
+
+        Map<Integer,AlssLrtaSearchNode> list = this.open_time.get(node.getNode().getId());
+        if(!list.containsKey(maNode.getTime()))
+        {
+            list.put(maNode.getTime(),maNode);
+            return true;
+        }
+        return false;
+
+    }
+
+    /**
+     * This function will remove a node from the open list
+     * @param node - The given node
+     */
+    protected void openRemove(AlssLrtaSearchNode node)
+    {
+        //If not null
+      if(node!=null)
+      {
+          //If the node exists in open
+          AlssLrtaSearchNode alsn = this.open_id.get(node.getNode().getId());
+          if(alsn == null)
+              return;
+          //Remove the node from open_time
+          MaAlssLrtaSearchNode maNode = (MaAlssLrtaSearchNode)node;
+          Map<Integer,AlssLrtaSearchNode> set = this.open_time.get(node.getNode().getId());
+          set.remove(maNode.getTime());
+
+          //If this node was the last one in the map
+          if(set.size() ==0) {
+              this.open_time.remove(node.getNode().getId());
+              //Remove from others
+              super.openRemove(node);
+              return;
+          }
+
+
+          //If the node is the node of the open_id - replace it
+          if(((MaAlssLrtaSearchNode)alsn).getTime() == ((MaAlssLrtaSearchNode)node).getTime())
+          {
+              //Remove from others
+              super.openRemove(node);
+
+              for(AlssLrtaSearchNode node2: set.values())
+              {
+                  this.open_id.put(node2.getNode().getId(),node2);
+                  return;
+              }
+
+          }
+          super.openRemoveNoId(node);
+
+      }
+
+    }
 }

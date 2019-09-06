@@ -178,6 +178,14 @@ public class Problem {
     }
 
     /**
+     * This function will return the vision radius of akk the agents
+     * @return - The vision radius of akk the agents
+     */
+    public int getVisionRadius() {
+        return visionRadius;
+    }
+
+    /**
      * This function will create a directed edge from the origin to the target wighting the given wight
      * @param origin - The origin node
      * @param target - The target node

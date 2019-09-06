@@ -20,6 +20,8 @@ public class GridCostFunction implements ICostFunction {
             //Diagonal
             if(Math.abs(x_origin-x_target)==1 && Math.abs((y_origin-y_target))==1)
                 return sqrt2;
+            if(x_origin == x_target&& y_origin == y_target )
+                return 0;
         }
         return 1;
     }

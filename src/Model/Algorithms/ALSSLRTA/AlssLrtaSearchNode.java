@@ -26,7 +26,18 @@ public class AlssLrtaSearchNode {
         updated = false;
 
     }
+    /**
+     * The constructor of the class
+     * @param node - The node that this class represents
+     */
+    public AlssLrtaSearchNode(AlssLrtaSearchNode node)
+    {
+        this.node = node.getNode();
+        gValue = node.getG();
+        back = node.getBack();
+        updated = node.updated;
 
+    }
     /**
      * This function will change the 'updated' status of the node
      * @param updated - The new status value

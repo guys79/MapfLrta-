@@ -31,12 +31,16 @@ public class RuleBook implements IRules {
 
 
         // 1.  No collisions
-        if(!this.checkForCollisions(target,time))
+        if(!this.checkForCollisions(target,time)) {
+            System.out.println("Interesting");
             return false;
+        }
+
         // 2. No swapping
         // 3. Agents do not disappear (Should be ok...)
         return this.checkForSwappings(origin,target,time);
     }
+
 
     /**
      * This function check if the move to the target node will cause a collision
@@ -65,7 +69,12 @@ public class RuleBook implements IRules {
         int id2 = this.maalsslrta.getAgent(target,time-1);
         if(id2 == -1)
             return true;
-
+        if(id2==-2)
+            return false;
+        if(id2==id1)
+        {
+            System.out.println("well ");
+        }
         //agent 1 wants to move from origin to target
         return id1!=id2;
     }

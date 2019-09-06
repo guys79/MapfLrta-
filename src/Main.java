@@ -13,7 +13,8 @@ public class Main extends Application {
         launch(args);
     }
 
-    // TODO: 05/09/2019 comments
+    // TODO: 06/09/2019 Cannot sync open lists for some reason (in the MA) 
+    // TODO: 06/09/2019 Inhabits dont work 
     @Override
     public void start(Stage primaryStage) throws Exception {
 
