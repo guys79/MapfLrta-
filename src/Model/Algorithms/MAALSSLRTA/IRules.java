@@ -1,6 +1,4 @@
-package Model.MAALSSLRTA;
-
-import Model.ALSSLRTA.AlssLrtaSearchNode;
+package Model.Algorithms.MAALSSLRTA;
 
 /**
  * This interface represents a generic set of rules

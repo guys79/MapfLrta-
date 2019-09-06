@@ -1,4 +1,4 @@
-package Model.MAALSSLRTA;
+package Model.Algorithms.MAALSSLRTA;
 
 
 /**

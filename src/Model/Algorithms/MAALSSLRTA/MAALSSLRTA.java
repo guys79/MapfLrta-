@@ -1,8 +1,7 @@
-package Model.MAALSSLRTA;
+package Model.Algorithms.MAALSSLRTA;
 
-import Model.ALSSLRTA.ALSSLRTA;
+import Model.Algorithms.ALSSLRTA.ALSSLRTA;
 
-import Model.ALSSLRTA.AlssLrtaSearchNode;
 import Model.Agent;
 import Model.Node;
 import Model.Problem;
@@ -16,11 +15,7 @@ import java.util.*;
 public class MAALSSLRTA extends ALSSLRTA {
     private Map<Integer,Map<Integer,Integer>> ocuupied_times;//Key - Node's id, value - dic
     //Key - Agent's id, int time
-    private Set<Agent> agents;//The agents
-
-    private Agent currentAgent;
-
-    //Key - node's id, Value - the search node itself
+    private Agent currentAgent;//The current agent
     private IRules rules;//The rules for Real Time MAPF
 
 
@@ -56,22 +51,22 @@ public class MAALSSLRTA extends ALSSLRTA {
             if(agent.isDone())
             {
                 List<Node> done = new ArrayList<>();
-               // System.out.println("as;lkjd;aksdkqaskd'kalsssssssssssssssssssssssssssssssssssssssssss");
                 done.add(agent.getGoal());
                 prefixes.put(agent.getId(),done);
-                continue;
+
             }
-            Node current = agent.getCurrent();
+            else {
+                Node current = agent.getCurrent();
 
-            List<Node> prefix = super.calculatePrefix(current,agent.getGoal(),numOfNodesToDevelop,agent);
+                List<Node> prefix = super.calculatePrefix(current, agent.getGoal(), numOfNodesToDevelop, agent);
 
-            if(prefix==null)
-            {
-                System.out.println("No Solution agent "+agent);
-                return null;
+                if (prefix == null) {
+                    System.out.println("No Solution agent " + agent.getId());
+                    return null;
+                }
+
+                prefixes.put(agent.getId(), prefix);
             }
-
-            prefixes.put(agent.getId(),prefix);
 
         }
 
@@ -156,10 +151,11 @@ public class MAALSSLRTA extends ALSSLRTA {
      * at the given time
      * @param nodeId - The given node's id
      * @param time - The given time
-     * @return
+     * @return - The id of the agent that will occupy the node at the given time
      */
     public int getAgent(int nodeId,int time)
     {
         return this.ocuupied_times.get(nodeId).get(time);
     }
+
 }

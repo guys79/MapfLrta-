@@ -1,4 +1,4 @@
-package Model.ALSSLRTA;
+package Model.Algorithms.ALSSLRTA;
 
 import Model.Node;
 

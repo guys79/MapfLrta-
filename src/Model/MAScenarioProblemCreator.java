@@ -7,13 +7,20 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+/**
+ * This class represents a MAPF problem creator
+ */
 public class MAScenarioProblemCreator extends ScenarioProblemCreator {
 
-    private int num_of_agents;
-    Map<Integer,String []>[] scenarios;
-    final int NUM_OF_SCENARIOS = 2000;
-    private HashSet<Agent> agents;
-    private int scenIndex;
+    private int num_of_agents;//Number of agents
+    Map<Integer,String []>[] scenarios;//The scenarios
+    final int NUM_OF_SCENARIOS = 2000;// Number of wanted scenarios pre map
+    private int scenIndex;//The index of the current scenario
+
+    /**
+     * The constructor.
+     * @param num_of_agents - Number of agents
+     */
     public MAScenarioProblemCreator(int num_of_agents)
     {
         super();
@@ -22,19 +29,29 @@ public class MAScenarioProblemCreator extends ScenarioProblemCreator {
         this.scenarios = new Map[NUM_OF_SCENARIOS];
 
     }
+
     @Override
     protected void getGraphAndScenarios(String mapPath, String scenariosPath) {
         getGraph(mapPath);
         getScenario();
     }
 
-    private void getScenario()
+
+    /**
+     * This function sets the scenarios
+     */
+    protected void getScenario()
     {
         for(int i=0;i<this.NUM_OF_SCENARIOS;i++)
         {
             getSingleScenario(i);
         }
     }
+
+    /**
+     * This function sets a single random scenario
+     * @param index - Thee index of the scenario
+     */
     private void getSingleScenario(int index)
     {
 
@@ -69,17 +86,6 @@ public class MAScenarioProblemCreator extends ScenarioProblemCreator {
         this.scenarios[index] = scen;
 
 
-    }
-    @Override
-    public Problem setScenarios(int index)
-    {
-
-        if(index>=scenarios.length)
-        {
-            return null;
-        }
-        this.scenIndex = index;
-        return next();
     }
 
     @Override

@@ -1,4 +1,4 @@
-package Model.ALSSLRTA;
+package Model.Algorithms.ALSSLRTA;
 
 import Model.*;
 import javafx.util.Pair;
@@ -10,7 +10,7 @@ import java.util.*;
  */
 public class AlssLrtaRealTimeSearchManager extends AbstractRealTimeSearchManager {
 
-    private int iteration;
+
     /**
      * The constructor
      * @param problem - A given problem
@@ -18,11 +18,7 @@ public class AlssLrtaRealTimeSearchManager extends AbstractRealTimeSearchManager
     public AlssLrtaRealTimeSearchManager(Problem problem)
     {
        super(problem);
-       iteration = 0;
-    }
 
-    public void setIteration(int iteration) {
-        this.iteration = iteration;
     }
 
     @Override

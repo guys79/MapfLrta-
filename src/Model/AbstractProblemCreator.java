@@ -41,7 +41,7 @@ public abstract class AbstractProblemCreator implements IProblemCreator {
 
     /**
      * This function will return the graph of the given problem
-     * @return
+     * @return - The graph
      */
     public Node[][] getGraph() {
         return graph;

@@ -1,6 +1,5 @@
 package Model;
 
-import Model.LRTA.LRTA;
 import javafx.util.Pair;
 
 import java.util.*;
@@ -57,7 +56,7 @@ public abstract class AbstractRealTimeSearchManager implements IRealTimeSearchMa
             {
                 return;
             }
-       //     System.out.println("Agent "+agent.getId()+"'s prefix is : "+ prefix);
+            System.out.println("Agent "+agent.getId()+"'s prefix is : "+ prefix);
 
             for(int i=1;i<prefix.size();i++)
             {
@@ -98,8 +97,6 @@ public abstract class AbstractRealTimeSearchManager implements IRealTimeSearchMa
         while(!isDone())
         {
             //System.out.println("Iteration number "+(i+1));
-
-          //  setIteration(i);
             calculatePrefix();
             move();
             i++;
@@ -107,10 +104,7 @@ public abstract class AbstractRealTimeSearchManager implements IRealTimeSearchMa
         System.out.println("Number of iterations "+i);
         return this.pathsForAgents;
     }
-    protected void setIteration(int interation)
-    {
 
-    }
 
 }
 

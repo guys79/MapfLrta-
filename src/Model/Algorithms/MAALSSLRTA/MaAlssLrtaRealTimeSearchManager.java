@@ -1,6 +1,5 @@
-package Model.MAALSSLRTA;
+package Model.Algorithms.MAALSSLRTA;
 
-import Model.ALSSLRTA.ALSSLRTA;
 import Model.AbstractRealTimeSearchManager;
 import Model.Agent;
 import Model.Node;

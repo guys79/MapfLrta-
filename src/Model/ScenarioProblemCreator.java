@@ -17,7 +17,8 @@ public class ScenarioProblemCreator extends AbstractProblemCreator{
     private String [][] scenarios;//All the scenarios (and their data)
     private int toDevelop;//Number of nodes to develop
     private int type;//The type of search
-    protected boolean canT;
+    protected boolean canT;//True if the char 'T' represents a passable way in the map
+
     /**
      * This constructor of the class.
      */
@@ -27,6 +28,10 @@ public class ScenarioProblemCreator extends AbstractProblemCreator{
         scenarios = new String[1][1];
     }
 
+    /**
+     * This function will return the number of nodes to develop
+     * @return - Number of nodes
+     */
     public int getToDevelop() {
         return toDevelop;
     }
@@ -43,9 +48,6 @@ public class ScenarioProblemCreator extends AbstractProblemCreator{
         return next();
     }
 
-    public void setCanT(boolean canT) {
-        this.canT = canT;
-    }
 
     @Override
     public Problem next() {
@@ -74,31 +76,26 @@ public class ScenarioProblemCreator extends AbstractProblemCreator{
             {
                 message+= "goal node ["+x_end+","+y_end+"] is null ";
             }
-          //  System.out.println(message);
+            System.out.println(message);
             index++;
             return next();
         }
         System.out.println("scenario "+(index+1) +" in map "+scen[0]);
         System.out.println("Start - "+start +" Goal - "+goal);
-        System.out.println("Optimal cost - "+scen[5]);
-        /*
-        scenario[0] = split[1];//The name of the map
-        scenario[1] = split[4];//Start - x
-        scenario[2] = split[5];//Start - y
-        scenario[3] = split[6];//End - x
-        scenario[4] = split[7];//End - y
-        scenario[5] = split[8];//Optimal length
-         */
+
         Agent agent = new Agent(0,goal,type);
         start_and_goal.put(agent,new Pair<>(start,goal));
         index++;
-        //problemInString = Problem.print(graph,start_and_goal);
         return new Problem(this.graph,start_and_goal,toDevelop,new GridCostFunction());
     }
 
+    /**
+     * This function will set the scenario at the given index
+     * @param index - the given index
+     * @return - The problem that the scenario represents
+     */
     public Problem setScenarios(int index)
     {
-
         if(index>=scenarios.length)
         {
             return null;
@@ -106,6 +103,7 @@ public class ScenarioProblemCreator extends AbstractProblemCreator{
         this.index = index;
         return next();
     }
+
 
     /**
      * This function will import the graph and the scenarios from the files
@@ -231,7 +229,7 @@ public class ScenarioProblemCreator extends AbstractProblemCreator{
             }
 
 
-            sortScenarios();
+
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -249,17 +247,5 @@ public class ScenarioProblemCreator extends AbstractProblemCreator{
 
 
     }
-    private void sortScenarios()
-    {
-        /*
 
-        scenario[0] = split[1];//The name of the map
-        scenario[1] = split[7];//Start - x
-        scenario[2] = split[6];//Start - y
-        scenario[3] = split[5];//End - x
-        scenario[4] = split[4];//End - y
-        scenario[5] = split[8];//Optimal length
-         */
-
-    }
 }

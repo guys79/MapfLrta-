@@ -1,8 +1,6 @@
-package Model.LRTA;
+package Model.Algorithms.LRTA;
 
 import Model.*;
-import Model.LRTA.LRTA;
-import javafx.util.Pair;
 
 import java.util.*;
 

@@ -1,12 +1,9 @@
 package Model;
 
-import Model.ALSSLRTA.AlssLrtaAgentHeuristics;
-import Model.ALSSLRTA.AlssLrtaSearchNode;
-import Model.LRTA.AgentHeuristics;
+import Model.Algorithms.ALSSLRTA.AlssLrtaAgentHeuristics;
+import Model.Algorithms.LRTA.AgentHeuristics;
 
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Map;
 
 /**
  * This class represents an agent
@@ -17,11 +14,12 @@ public class Agent {
     private int id;//The id of the agent
     private Node current;//The current node the agent is on
     private boolean isDone;//True IFF the agent reached the goal
-    private HashSet<Integer> needToBeUpdated;
+    private HashSet<Integer> needToBeUpdated;//The set of nodes that their "updated" flag  = true
     /**
      * The constructor of the agent
      * @param id - The id of the agent
      * @param goal - The goal node
+     * @param type - The type of search
      */
     public Agent(int id,Node goal,int type)
     {
@@ -34,16 +32,20 @@ public class Agent {
 
         this.needToBeUpdated = new HashSet();
     }
-    public boolean isUpdatesd(Node node)
-    {
-        return this.heuristics.getHeuristics(node)!= this.heuristics.getHeuristicsFromFunction(node);
-    }
 
 
+    /**
+     * This funciton will set the Set of agents that their "updated" flag is true
+     * @param needToBeUpdated - The Set
+     */
     public void setNeedToBeUpdated(HashSet<Integer> needToBeUpdated) {
         this.needToBeUpdated = needToBeUpdated;
     }
 
+    /**
+     * This function will return a Set of the agents that their "updated" flag is true
+     * @return - a Set of the agents that their "updated" flag is true
+     */
     public HashSet<Integer> getNeedToBeUpdated() {
         return needToBeUpdated;
     }
@@ -134,9 +136,9 @@ public class Agent {
     public boolean moveAgent(Node target)
     {
         //If the node is a neighbor of the current node and is not occupied
-        if(!current.isNeighbor(target) || !target.moveIn(this.id))
-            return false;
-        current.moveOut();
+   //     if(!current.isNeighbor(target) || !target.moveIn(this.id))
+   //         return false;
+    //    current.moveOut();
         current = target;
 
         return true;

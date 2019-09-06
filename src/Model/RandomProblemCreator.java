@@ -32,6 +32,8 @@ public class RandomProblemCreator extends AbstractProblemCreator {
      * @param height - The height of the graph
      * @param width - The width of the graph
      * @param density - The density of the walls in the graph  (the ratio of the walls)
+     * @param type - The given search type
+     * @param toDevelop  - number of nodes allowed to be developed in one iteration
      * @return - A random problem
      */
     public Problem getRandomProblem(int numOfAgents,int height,int width, double density,int toDevelop,int type)

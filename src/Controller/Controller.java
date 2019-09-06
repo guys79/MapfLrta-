@@ -65,6 +65,12 @@ public class Controller{
     {
         model.next();
     }
+
+    /**
+     * This function check whether he given string represents an integer
+     * @param str - The given string
+     * @return - True IFF the String represents an integer
+     */
     private boolean checkIfInt(String str)
     {
         try{
@@ -217,6 +223,7 @@ public class Controller{
     /**
      * This function will add an agent to the GUI
      * @param path - The path of the agent
+     * @param goal - The goal node
      */
     public void addAgent(List<Node> path,Node goal){
         int [] pathArr = new int[path.size()];

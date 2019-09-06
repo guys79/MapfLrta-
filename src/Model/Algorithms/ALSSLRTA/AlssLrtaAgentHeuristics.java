@@ -1,4 +1,4 @@
-package Model.ALSSLRTA;
+package Model.Algorithms.ALSSLRTA;
 
 import Model.GridNode;
 import Model.IAgentHeuristics;
@@ -103,6 +103,10 @@ public class AlssLrtaAgentHeuristics implements IAgentHeuristics {
         return localHeuristics.containsKey(node);
     }
 
+    /**
+     * This function will return the goal state of the agent
+     * @return - The goal state
+     */
     public Node getGoal() {
         return goal;
     }

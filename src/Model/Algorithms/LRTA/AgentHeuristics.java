@@ -1,4 +1,4 @@
-package Model.LRTA;
+package Model.Algorithms.LRTA;
 
 import Model.GridNode;
 import Model.IAgentHeuristics;

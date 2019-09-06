@@ -1,6 +1,5 @@
 package Model;
 
-import Model.ALSSLRTA.AlssLrtaSearchNode;
 import javafx.util.Pair;
 
 import java.util.Map;

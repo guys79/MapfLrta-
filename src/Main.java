@@ -13,8 +13,7 @@ public class Main extends Application {
         launch(args);
     }
 
-    // TODO: 05/09/2019 comments 
-    // TODO: 05/09/2019 Fix Transition from map A to B in MA (create he scenarios) 
+    // TODO: 05/09/2019 comments
     @Override
     public void start(Stage primaryStage) throws Exception {
 
