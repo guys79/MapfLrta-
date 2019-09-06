@@ -44,10 +44,17 @@ public class MAALSSLRTA extends ALSSLRTA {
     {
         Map<Agent,Pair<Node,Node>> agent_goal_start = problem.getAgentsAndStartGoalNodes();
         Set<Agent> agents = agent_goal_start.keySet();
-        Map<Integer,List<Node>> prefixes = new HashMap<>();
+        PriorityQueue<Agent> pAgents = new PriorityQueue<>(new CompareAgentsHeurstics());
 
+        Map<Integer,List<Node>> prefixes = new HashMap<>();
         for(Agent agent: agents)
         {
+            pAgents.add(agent);
+        }
+
+        while(pAgents.size()>0)
+        {
+            Agent agent = pAgents.poll();
             if(agent.isDone())
             {
                 List<Node> done = new ArrayList<>();
@@ -156,6 +163,24 @@ public class MAALSSLRTA extends ALSSLRTA {
     public int getAgent(int nodeId,int time)
     {
         return this.ocuupied_times.get(nodeId).get(time);
+    }
+    public class CompareAgentsHeurstics implements Comparator<Agent>
+    {
+        public CompareAgentsHeurstics()
+        {
+
+        }
+
+        @Override
+        public int compare(Agent o1, Agent o2) {
+            double h1 = o1.getHeuristicValue(o1.getCurrent());
+            double h2 = o2.getHeuristicValue(o2.getCurrent());
+            if(h1==h2)
+                return 0;
+            if(h1<h2)
+                return -1;
+            return 1;
+        }
     }
 
 }

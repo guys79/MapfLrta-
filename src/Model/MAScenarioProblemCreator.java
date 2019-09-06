@@ -90,7 +90,6 @@ public class MAScenarioProblemCreator extends ScenarioProblemCreator {
 
     @Override
     public Problem next() {
-     //   System.out.println("lklkjl");
         if(scenIndex == NUM_OF_SCENARIOS)
             return null;
 
@@ -128,6 +127,6 @@ public class MAScenarioProblemCreator extends ScenarioProblemCreator {
             start_and_goal.put(agent,new Pair<>(start,goal));
         }
         System.out.println("scenario "+(this.scenIndex+1));
-        return new Problem(this.graph,start_and_goal,getToDevelop(),new GridCostFunction());
+        return new Problem(this.graph,start_and_goal,getToDevelop(),new GridCostFunction(),getVisionRadius());
     }
 }

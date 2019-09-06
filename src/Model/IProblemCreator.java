@@ -12,18 +12,20 @@ public interface IProblemCreator {
      * @param density - The density of the walls in the overall grid
      * @param toDevelop - The number of nodes allowed to be developed in a single iteration
      * @param type - Thw type of search
+     * @param visionRadius - The vision radius for each agent
      * @return - A problem
      */
-    public Problem getProblem(int numOfAgents,int height,int width, double density,int toDevelop,int type);
+    public Problem getProblem(int numOfAgents,int height,int width, double density,int toDevelop,int type,int visionRadius);
 
     /**
      * This function will import a problem from a file
      * @param path - The path to the file
      * @param toDevelop - The number of nodes allowed to be developed in a single iteration
      * @param type - Thw type of search
+     * @param visionRadius - The vision radius for each agent
      * @return - The problem from the file
      */
-    public Problem getProblem(String path, int toDevelop, int type);
+    public Problem getProblem(String path, int toDevelop, int type,int visionRadius);
 
     /**
      * This function will import a problem from a file
@@ -31,9 +33,10 @@ public interface IProblemCreator {
      * @param scenarioPath- The path to the scenario file
      * @param toDevelop - The number of nodes allowed to be developed in a single iteration
      * @param type - Thw type of search
+     * @param visionRadius - The vision radius for each agent
      * @return - The problem from the file
      */
-    public Problem getProblem(String mapPath,String scenarioPath, int toDevelop, int type);
+    public Problem getProblem(String mapPath,String scenarioPath, int toDevelop, int type,int visionRadius);
 
     /**
      * This function will return the graph as a integer matrix

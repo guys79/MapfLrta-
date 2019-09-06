@@ -13,6 +13,7 @@ public class Problem {
     private Map<Agent,Pair<Node,Node>> agentsAndStartGoalNodes;//A map from an agent to a pair of start/goal nodes
     private int numberOfNodeToDevelop;//The number of nodes that will be developed for each agent in each iteration
     private ICostFunction costFunction;//The costFunction
+    private int visionRadius;//The vision radius for each agent
 
 
     public double getCost(Node origin, Node target)
@@ -25,12 +26,14 @@ public class Problem {
      * @param agentsAndStartGoalNodes - A map from an agent to a pair of start/goal nodes
      * @param numIfNodeToDevelop - The number of nodes that will be developed for each agent in each iteration
      * @param costFunction - The given costFunction
+     * @param visionRadius - The vision radius for each agent
      */
-    public Problem(Node[][] graph, Map<Agent,Pair<Node,Node>> agentsAndStartGoalNodes, int numIfNodeToDevelop,ICostFunction costFunction)
+    public Problem(Node[][] graph, Map<Agent,Pair<Node,Node>> agentsAndStartGoalNodes, int numIfNodeToDevelop,ICostFunction costFunction,int visionRadius)
     {
         this.agentsAndStartGoalNodes = agentsAndStartGoalNodes;
         this.numberOfNodeToDevelop = numIfNodeToDevelop;
         this.costFunction = costFunction;
+        this.visionRadius = visionRadius;
         initializeMap(graph);
 
 
@@ -56,7 +59,7 @@ public class Problem {
 
         for(Agent agent : agents)
         {
-            toString+= "Model.Agent "+agent.getId()+" starts from "+agentsAndStartGoalNodes.get(agent).getKey()+" to "+agentsAndStartGoalNodes.get(agent).getValue()+"\n";
+            toString+= "Agent "+agent.getId()+" starts from "+agentsAndStartGoalNodes.get(agent).getKey()+" to "+agentsAndStartGoalNodes.get(agent).getValue()+"\n";
             int x_start = ((GridNode) agentsAndStartGoalNodes.get(agent).getKey()).getX();
             int y_start = ((GridNode)agentsAndStartGoalNodes.get(agent).getKey()).getY();
             int index = x_start*(graph[0].length+1)+y_start;

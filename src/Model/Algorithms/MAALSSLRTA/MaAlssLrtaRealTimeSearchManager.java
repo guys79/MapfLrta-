@@ -2,14 +2,12 @@ package Model.Algorithms.MAALSSLRTA;
 
 import Model.AbstractRealTimeSearchManager;
 import Model.Agent;
+import Model.Algorithms.ALSSLRTA.AlssLrtaSearchNode;
 import Model.Node;
 import Model.Problem;
 import javafx.util.Pair;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * This class represents a Multi Agent aLSS-LRTA*
@@ -53,4 +51,7 @@ public class MaAlssLrtaRealTimeSearchManager extends AbstractRealTimeSearchManag
             path.addAll(prefixes.get(agent.getId()));
         }
     }
+
+
+
 }

@@ -136,9 +136,9 @@ public class Agent {
     public boolean moveAgent(Node target)
     {
         //If the node is a neighbor of the current node and is not occupied
-   //     if(!current.isNeighbor(target) || !target.moveIn(this.id))
-   //         return false;
-    //    current.moveOut();
+        if(!current.isNeighbor(target) || !target.moveIn(this.id))
+            return false;
+        current.moveOut();
         current = target;
 
         return true;

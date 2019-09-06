@@ -16,6 +16,7 @@ public class Model {
 
     private boolean first;//True IFF it's the first scenario
     private final int NUM_OF_AGENTS = 20;//Number of agents
+    private final int VISION_RADIUS = 20;//Number of agents
     private final int HEIGHT = 12;//The number of columns
     private final int WIDTH = 12;//The number of rows
     private final double DENSITY = 0.6;//The ratio between the number of walls to the overall number of nodes in the grid
@@ -154,7 +155,7 @@ public class Model {
 
         Problem problem;
         if (first) {
-            problem = problemCreator.getProblem(mapPath, scenPath, NUM_OF_NODES_TO_DEVELOP, TYPE);
+            problem = problemCreator.getProblem(mapPath, scenPath, NUM_OF_NODES_TO_DEVELOP, TYPE,VISION_RADIUS );
             int[][] intGrid = problemCreator.getGridGraph();
             controller.initialize(intGrid);
             first = false;

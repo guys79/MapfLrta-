@@ -56,12 +56,15 @@ public abstract class AbstractRealTimeSearchManager implements IRealTimeSearchMa
             {
                 return;
             }
-            System.out.println("Agent "+agent.getId()+"'s prefix is : "+ prefix);
+            //System.out.println("Agent "+agent.getId()+"'s prefix is : "+ prefix);
 
             for(int i=1;i<prefix.size();i++)
             {
-                if(!agent.moveAgent(prefix.get(i)))
-                    System.out.println("Collision");
+                if(!agent.moveAgent(prefix.get(i))) {
+                    System.out.println("Collision between agent "+agent.getId()+" and agent "+prefix.get(i).getOccupationId());
+                    prefixesForAgents.put(agent,null);
+                    return;
+                }
             }
         }
     }

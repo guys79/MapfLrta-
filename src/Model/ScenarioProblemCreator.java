@@ -16,6 +16,7 @@ public class ScenarioProblemCreator extends AbstractProblemCreator{
     private int index;//The Scenario index
     private String [][] scenarios;//All the scenarios (and their data)
     private int toDevelop;//Number of nodes to develop
+    private int visionRadius;//The vision radius for each agent
     private int type;//The type of search
     protected boolean canT;//True if the char 'T' represents a passable way in the map
 
@@ -29,6 +30,22 @@ public class ScenarioProblemCreator extends AbstractProblemCreator{
     }
 
     /**
+     * This function will set the vision radius of each agent in the problem
+     * @param visionRadius - The given vision radius
+     */
+    public void setVisionRadius(int visionRadius) {
+        this.visionRadius = visionRadius;
+    }
+
+    /**
+     * This function will return the vision radius of all the agents
+     * @return - The vision radius of all the agents
+     */
+    public int getVisionRadius() {
+        return visionRadius;
+    }
+
+    /**
      * This function will return the number of nodes to develop
      * @return - Number of nodes
      */
@@ -37,10 +54,11 @@ public class ScenarioProblemCreator extends AbstractProblemCreator{
     }
 
     @Override
-    public Problem getProblem(String mapPath, String senerioPath, int toDevelop, int type) {
+    public Problem getProblem(String mapPath, String senerioPath, int toDevelop, int type,int visionRadius) {
 
         this.toDevelop = toDevelop;
         this.type = type;
+        this.visionRadius = visionRadius;
         //this.scenarios = null;
         getGraphAndScenarios(mapPath,senerioPath);
         index =999;
@@ -86,7 +104,7 @@ public class ScenarioProblemCreator extends AbstractProblemCreator{
         Agent agent = new Agent(0,goal,type);
         start_and_goal.put(agent,new Pair<>(start,goal));
         index++;
-        return new Problem(this.graph,start_and_goal,toDevelop,new GridCostFunction());
+        return new Problem(this.graph,start_and_goal,toDevelop,new GridCostFunction(),this.visionRadius);
     }
 
     /**

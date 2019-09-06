@@ -88,6 +88,14 @@ public class Node {
     }
 
     /**
+     * This function will set the occupation id
+     * @return - The occupation id
+     */
+    public int getOccupationId() {
+        return occupationId;
+    }
+
+    /**
      * This function will remove the agent from the current node
      */
     public void moveOut()
