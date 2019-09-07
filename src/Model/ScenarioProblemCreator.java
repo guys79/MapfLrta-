@@ -19,7 +19,7 @@ public class ScenarioProblemCreator extends AbstractProblemCreator{
     private int visionRadius;//The vision radius for each agent
     private int type;//The type of search
     protected boolean canT;//True if the char 'T' represents a passable way in the map
-
+    protected String mapPath;
     /**
      * This constructor of the class.
      */
@@ -63,6 +63,7 @@ public class ScenarioProblemCreator extends AbstractProblemCreator{
         getGraphAndScenarios(mapPath,senerioPath);
         index =999;
         canT = true;
+        this.mapPath = mapPath;
         return next();
     }
 

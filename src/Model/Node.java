@@ -12,6 +12,7 @@ public class Node {
     private Map<Node,Double> neighbors;//The neighbors of the node
     public static int numOfNodes = 0;//Determines the id of the node
     private int occupationId;//The id of the agent that is currently occupying the node
+    private boolean isInhabitated;
 
     /**
      * The constructor of the node
@@ -22,8 +23,19 @@ public class Node {
         numOfNodes++;
         this.neighbors = new HashMap<>();
         this.occupationId = -1;
+        this.isInhabitated = false;
     }
 
+    public void inhabitate(int id) {
+        this.isInhabitated = true;
+        this.occupationId = id;
+    }
+
+    public void clear()
+    {
+        this.occupationId = -1;
+        this.isInhabitated = false;
+    }
     /**
      * This function will return the weight between the node to the given node
      * @param n - The given node
@@ -100,9 +112,14 @@ public class Node {
      */
     public void moveOut()
     {
+        if(!this.isInhabitated)
+            this.occupationId = -1;
+    }
+    public void unInhabit()
+    {
+        this.isInhabitated = false;
         this.occupationId = -1;
     }
-
     /**
      * This function will declare the agent with the given id
      * As the one who occupies the node
@@ -112,8 +129,10 @@ public class Node {
      */
     public boolean moveIn(int occupationId)
     {
-        if(!canMoveIn(occupationId))
+        if(!canMoveIn(occupationId)) {
+            System.out.println("occupied by "+occupationId);
             return false;
+        }
         this.occupationId = occupationId;
         return true;
 
@@ -126,6 +145,8 @@ public class Node {
      */
     private boolean canMoveIn(int occupationId)
     {
+        if(this.isInhabitated)
+            return this.occupationId == occupationId;
         return this.occupationId == -1 || occupationId == this.occupationId;
     }
 

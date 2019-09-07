@@ -210,11 +210,13 @@ public class ALSSLRTA implements IRealTimeSearchAlgorithm {
         }
 
     }
+
     /**
      * The A* procedure described in the aLSS-LRTA* algorithm
      */
     protected void aStarPrecedure()
     {
+
 
 
         setGNode(current,0);
@@ -226,6 +228,9 @@ public class ALSSLRTA implements IRealTimeSearchAlgorithm {
 
         while(expansions<problem.getNumberOfNodeToDevelop())
         {
+
+         //   checkIf(this.open_id.size());
+
             //The condition
             state = open.peek();
             if(state == null)
@@ -235,9 +240,11 @@ public class ALSSLRTA implements IRealTimeSearchAlgorithm {
             }
             if(state.getNode().getId() == this.agent.getGoal().getId())
             {
-                System.out.println("Reached Goal "+agent.getId());
-                closed.clear();
-                return;
+              //  System.out.println("Reached Goal "+agent.getId());
+                if(canBeAtTime(time(state.getBack()),state.getBack().getNode(),state.getNode())) {
+                    closed.clear();
+                    return;
+                }
             }
             openRemove(state);
             closed.put(state.getNode().getId(),state);
@@ -291,7 +298,7 @@ public class ALSSLRTA implements IRealTimeSearchAlgorithm {
         }
 
 
-        while(closed.size()!=0 && open.size()>0)
+        while(closed.size()!=0 && open_min.size()>0)
         {
 
             AlssLrtaSearchNode min_h_node = open_min.poll();

@@ -32,7 +32,7 @@ public class RuleBook implements IRules {
 
         // 1.  No collisions
         if(!this.checkForCollisions(target,time)) {
-            System.out.println("Interesting");
+           // System.out.println("Interesting");
             return false;
         }
 
@@ -71,10 +71,7 @@ public class RuleBook implements IRules {
             return true;
         if(id2==-2)
             return false;
-        if(id2==id1)
-        {
-            System.out.println("well ");
-        }
+
         //agent 1 wants to move from origin to target
         return id1!=id2;
     }

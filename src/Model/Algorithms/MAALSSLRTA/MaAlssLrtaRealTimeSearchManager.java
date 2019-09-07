@@ -13,6 +13,7 @@ import java.util.*;
  * This class represents a Multi Agent aLSS-LRTA*
  */
 public class MaAlssLrtaRealTimeSearchManager extends AbstractRealTimeSearchManager {
+
     /**
      * The constructor of the class
      *
@@ -20,7 +21,7 @@ public class MaAlssLrtaRealTimeSearchManager extends AbstractRealTimeSearchManag
      */
     public MaAlssLrtaRealTimeSearchManager(Problem problem) {
         super(problem);
-        System.out.println("hello");
+       // System.out.println("hello");
     }
 
 
@@ -51,7 +52,61 @@ public class MaAlssLrtaRealTimeSearchManager extends AbstractRealTimeSearchManag
             path.addAll(prefixes.get(agent.getId()));
         }
     }
+    public void move() {
+        PriorityQueue<Agent> agents = new PriorityQueue<>(new MAALSSLRTA.CompareAgentsHeurstics());
+      //  PriorityQueue<Agent> prev = new PriorityQueue<>(new MAALSSLRTA.CompareAgentsHeurstics());
+        agents.addAll(problem.getAgentsAndStartGoalNodes().keySet());
+        int maxLength = -1;
+        for (Agent agent : agents) {
+            List<Node> prefix = this.prefixesForAgents.get(agent);
+            System.out.println("Agent "+agent.getId()+" prefix is "+prefix);
+            if (prefix == null) {
+                return;
+            }
+            if (maxLength < prefix.size())
+                maxLength = prefix.size();
+        }
+        Agent agent= null;
+        for (int i = 0; i < maxLength; i++) {
+            String seder = "";
+            while(agents.size()>0)
+            {
+                agent = agents.poll();
+                seder+= agent.getId()+",";
+                //prev.add(agent);
+                List<Node> prefix = this.prefixesForAgents.get(agent);
+                if (prefix == null)
+                    return;
+                if (i <= prefix.size() - 1) {
+                    if (!agent.moveAgent(prefix.get(i))) {
+                        System.out.println("Collision between agent " + agent.getId() + " and agent " + prefix.get(i).getOccupationId() + " in " + prefix.get(i) +" id = "+prefix.get(i).getId());
+                        prefixesForAgents.put(agent, null);
+                        return;
+                    }
+                    else
+                    {
+                        if(prefix.size()-1 == i && problem.getAgentsAndStartGoalNodes().get(agent).getValue().getId() == prefix.get(i).getId())
+                            prefix.get(i).inhabitate(agent.getId());
+                    }
+                }
+            }
+            System.out.println("seder "+seder.substring(0,seder.length()-1));
+            seder="";
+            agents = new PriorityQueue<>(new MAALSSLRTA.CompareAgentsHeurstics());
+            agents.addAll(problem.getAgentsAndStartGoalNodes().keySet());
+            for (Agent agent2 : agents) {
 
+                List<Node> prefix = this.prefixesForAgents.get(agent2);
+                if (i <= prefix.size() - 1) {
+                    int index = i;
+                    Node node = prefix.get(index);
+                    node.moveOut();
+                }
+
+            }
+        }
+
+    }
 
 
 }

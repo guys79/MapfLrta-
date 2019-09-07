@@ -1,5 +1,6 @@
 package Model;
 
+
 import javafx.util.Pair;
 
 import java.util.*;
@@ -45,27 +46,41 @@ public abstract class AbstractRealTimeSearchManager implements IRealTimeSearchMa
     /**
      * This function will move the agents according to their calculated prefixes
      */
-    public void move()
-    {
-        HashSet<Agent> agents = new HashSet<>(problem.getAgentsAndStartGoalNodes().keySet());
-        for(Agent agent : agents)
-        {
-
+    public void move() {
+        Collection<Agent> agents = new HashSet<>(problem.getAgentsAndStartGoalNodes().keySet());
+        int maxLength = -1;
+        for (Agent agent : agents) {
             List<Node> prefix = this.prefixesForAgents.get(agent);
-            if(prefix == null)
-            {
+            System.out.println("Agent "+agent.getId()+" prefix is "+prefix);
+            if (prefix == null) {
                 return;
             }
-            //System.out.println("Agent "+agent.getId()+"'s prefix is : "+ prefix);
+            if (maxLength < prefix.size())
+                maxLength = prefix.size();
+        }
 
-            for(int i=1;i<prefix.size();i++)
-            {
-                if(!agent.moveAgent(prefix.get(i))) {
-                    System.out.println("Collision between agent "+agent.getId()+" and agent "+prefix.get(i).getOccupationId());
-                    prefixesForAgents.put(agent,null);
+        for (int i = 0; i < maxLength; i++) {
+            for (Agent agent : agents) {
+
+                List<Node> prefix = this.prefixesForAgents.get(agent);
+                if (prefix == null)
                     return;
+                if (i <= prefix.size() - 1) {
+                    if (!agent.moveAgent(prefix.get(i))) {
+                        System.out.println("Collision between agent " + agent.getId() + " and agent " + prefix.get(i).getOccupationId() + " in " + prefix.get(i));
+                        prefixesForAgents.put(agent, null);
+                        return;
+                    }
                 }
             }
+        }
+        for (Agent agent : agents) {
+
+            List<Node> prefix = this.prefixesForAgents.get(agent);
+            int index = prefix.size() - 1;
+            Node node=prefix.get(index);
+            node.moveOut();
+
         }
     }
 
@@ -105,7 +120,16 @@ public abstract class AbstractRealTimeSearchManager implements IRealTimeSearchMa
             i++;
         }
         System.out.println("Number of iterations "+i);
+        clear();
         return this.pathsForAgents;
+    }
+    private void clear()
+    {
+        Set<Agent> agents = problem.getAgentsAndStartGoalNodes().keySet();
+        for(Agent agent: agents)
+        {
+            this.problem.getAgentsAndStartGoalNodes().get(agent).getValue().unInhabit();
+        }
     }
 
 

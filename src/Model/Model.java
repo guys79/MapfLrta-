@@ -137,7 +137,8 @@ public class Model {
             Set<Agent> agents = prev.keySet();
 
             for (Agent agent : agents){
-                controller.addAgent(paths.get(agent), agent.getGoal());
+             //   System.out.print("agent "+agent.getId()+" color is: ");
+                controller.addAgent(paths.get(agent), agent.getGoal(),agent.getId());
                 printPathCost(paths.get(agent),problem);
             }
             System.out.println("TIme elapsed "+time +" ms");
@@ -204,7 +205,8 @@ public class Model {
             Set<Agent> agents = prev.keySet();
 
             for (Agent agent : agents){
-                controller.addAgent(paths.get(agent), agent.getGoal());
+           //     System.out.print("agent "+agent.getId()+" color is: ");
+                controller.addAgent(paths.get(agent), agent.getGoal(),agent.getId());
                 printPathCost(paths.get(agent),problem);
             }
             System.out.println("TIme elapsed "+time +" ms");
@@ -225,19 +227,19 @@ public class Model {
     {
         double sum = 0;
         double delta;
-        int numOfDIag = 0;
+       // int numOfDIag = 0;
         for(int i=0;i<path.size()-1;i++)
         {
             delta = problem.getCost(path.get(i),path.get(i+1));
-            if(delta!= 1)
-            {
-                numOfDIag++;
-            }
+            //if(delta!= 1)
+           // {
+           //     numOfDIag++;
+          //  }
             sum+= delta;
         }
         System.out.println("sum = "+sum);
-        System.out.println("number of diagonal "+numOfDIag);
-        System.out.println("number of non-diagonal "+(path.size()-numOfDIag-1));
+   //     System.out.println("number of diagonal "+numOfDIag);
+    //    System.out.println("number of non-diagonal "+(path.size()-numOfDIag-1));
 
     }
 

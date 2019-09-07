@@ -137,9 +137,17 @@ public class Agent {
     {
         //If the node is a neighbor of the current node and is not occupied
         if(!current.isNeighbor(target) || !target.moveIn(this.id))
+        {
+            if(!current.isNeighbor(target))
+                System.out.println(1);
+            else
+                System.out.println(2);
             return false;
+        }
+
         current.moveOut();
         current = target;
+
 
         return true;
 

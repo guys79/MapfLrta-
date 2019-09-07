@@ -52,12 +52,86 @@ public class Controller{
             Color.GREEN,
             Color.DARKGREEN,
             Color.BLUE,
-            Color.DARKBLUE
+            Color.DARKBLUE,
+            Color.PINK,
+            Color.PURPLE,
+            Color.TURQUOISE,
+            Color.LAWNGREEN,
+            Color.BROWN
+
     };
     private double cellWidth;//The height of the cell
     private double cellHeight;//The width of the cell
     private int maxTime = 0;
 
+    private void printColor(int id,Color color)
+    {
+        System.out.print("Agent "+id+" color is: ");
+        if(color.equals(Color.RED))
+        {
+            System.out.println("Red");
+        }
+        if(color.equals(Color.DARKRED))
+        {
+            System.out.println("Dark Red");
+        }
+        if(color.equals(Color.ORANGE))
+        {
+            System.out.println("Orange");
+        }
+
+        if(color.equals(Color.DARKORANGE))
+        {
+            System.out.println("Dark Orange");
+        }
+        if(color.equals(Color.GOLDENROD))
+        {
+            System.out.println("Gold");
+        }
+        if(color.equals(Color.GREEN))
+        {
+            System.out.println("Green");
+        }
+        if(color.equals(Color.DARKGREEN))
+        {
+            System.out.println("Dark Green");
+        }
+        if(color.equals(Color.BLUE))
+        {
+            System.out.println("Blue");
+        }
+        if(color.equals(Color.DARKBLUE))
+        {
+            System.out.println("Dark Blue");
+        }
+        if(color.equals(Color.DARKGOLDENROD))
+        {
+            System.out.println("Dark Golden");
+        }
+        /*
+        Color.PINK,
+            Color.PURPLE,
+            Color.TURQUOISE,
+            Color.LAWNGREEN,
+            Color.BROWN
+         */
+        if(color.equals(Color.PINK))
+        {
+            System.out.println("Pink");
+        }
+        if(color.equals(Color.TURQUOISE))
+        {
+            System.out.println("Turquoise");
+        }
+        if(color.equals(Color.LAWNGREEN))
+        {
+            System.out.println("Lawn Green");
+        }
+        if(color.equals(Color.BROWN))
+        {
+            System.out.println("Brown");
+        }
+    }
     /**
      * This function will handle the next problem drawing
      */
@@ -195,6 +269,7 @@ public class Controller{
 
 
             context.setFill(entry.getValue());
+
             context.fillRect(endPos[0] * cellWidth, endPos[1] * cellHeight, cellWidth, cellHeight);
 
 
@@ -225,7 +300,7 @@ public class Controller{
      * @param path - The path of the agent
      * @param goal - The goal node
      */
-    public void addAgent(List<Node> path,Node goal){
+    public void addAgent(List<Node> path,Node goal,int id){
         int [] pathArr = new int[path.size()];
         if(pathArr.length==1)//No Solution
         {
@@ -243,7 +318,9 @@ public class Controller{
         {
             pathArr[i] = path.get(i).getId();
         }
+
         paths.put(pathArr, colors[agentCount++ % colors.length]);
+        printColor(id,colors[agentCount % colors.length]);
         if (pathArr.length-1 > maxTime){
             maxTime = pathArr.length-1;
             slider.setMax(maxTime);

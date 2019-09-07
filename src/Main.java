@@ -13,8 +13,8 @@ public class Main extends Application {
         launch(args);
     }
 
-    // TODO: 06/09/2019 Cannot sync open lists for some reason (in the MA) 
-    // TODO: 06/09/2019 Inhabits dont work 
+    // TODO: 07/09/2019 comments 
+    // TODO: 07/09/2019 There are collisions for some reason, need to make sure that that is only because there are no more options left 
     @Override
     public void start(Stage primaryStage) throws Exception {
 

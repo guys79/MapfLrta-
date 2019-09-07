@@ -66,17 +66,14 @@ public class MAALSSLRTA extends ALSSLRTA {
         PriorityQueue<Agent> pAgents = new PriorityQueue<>(new CompareAgentsHeurstics());
 
         Map<Integer,List<Node>> prefixes = new HashMap<>();
-        for(Agent agent: agents)
-        {
-            pAgents.add(agent);
-        }
-        System.out.println("start");
+        pAgents.addAll(agents);
+    //    System.out.println("start");
         while(pAgents.size()>0)
         {
             Agent agent = pAgents.poll();
             if(agent.isDone())
             {
-                System.out.println("DONE");
+                //System.out.println("DONE");
                 List<Node> done = new ArrayList<>();
                 done.add(agent.getGoal());
                 prefixes.put(agent.getId(),done);
@@ -84,7 +81,7 @@ public class MAALSSLRTA extends ALSSLRTA {
 
             }
             else {
-                System.out.println("Not done");
+              //  System.out.println("Not done");
                 Node current = agent.getCurrent();
 
                 List<Node> prefix = super.calculatePrefix(current, agent.getGoal(), numOfNodesToDevelop, agent);
@@ -111,6 +108,7 @@ public class MAALSSLRTA extends ALSSLRTA {
 
     @Override
     protected void aStarPrecedure() {
+//        checkIf(this.open_time.size());
         super.aStarPrecedure();
         // TODO: 8/27/2019 Complete this 
     }
@@ -119,47 +117,19 @@ public class MAALSSLRTA extends ALSSLRTA {
     protected void updateNode(int nodeId,int time) {
 
 
-        if(!this.ocuupied_times.containsKey(nodeId))
-        {
-            this.ocuupied_times.put(nodeId,new HashMap<>());
-        }
+
         Map<Integer, Integer> occupations = this.ocuupied_times.get(nodeId);
         if(occupations==null)
         {
-            return;
+            occupations = new HashMap<>();
+            this.ocuupied_times.put(nodeId,occupations);
+
         }
 
         occupations.put(getAgent().getId(),time);
     }
 
 
-    /**
-     * This function will clear the reserves
-     */
-    public void clear()
-    {
-        this.ocuupied_times.clear();
-    }
-
-    /**
-     * This function will save a spot in a certain given time
-     * @param time - The given time
-     * @param nodeId - The given agent's id
-     * @return - True IFF it was able to save a spot a the given time
-     */
-    public boolean saveSpot(int time,int nodeId)
-    {
-        if(canReserve(time,nodeId))
-        {
-            if(!this.ocuupied_times.containsKey(nodeId))
-            {
-                this.ocuupied_times.put(nodeId,new HashMap<>());
-            }
-            this.ocuupied_times.get(nodeId).put(this.currentAgent.getId(),time);
-            return true;
-        }
-        return false;
-    }
 
 
     /**
@@ -170,10 +140,12 @@ public class MAALSSLRTA extends ALSSLRTA {
      */
     public boolean canReserve(int time,int nodeId)
     {
+        if(this.goals.contains(nodeId))
+            return false;
+        //first time
         if(this.ocuupied_times.get(nodeId) ==null)
         {
-            if(this.goals.contains(nodeId))
-                return false;
+            //First time
             Map<Integer,Integer> map = new HashMap<>();
             this.ocuupied_times.put(nodeId,map);
             return true;
@@ -192,7 +164,9 @@ public class MAALSSLRTA extends ALSSLRTA {
     @Override
     protected void inhabitAgent(int nodeId)
     {
-        this.ocuupied_times.put(nodeId,null);
+        System.out.println("Inhabit "+nodeId);
+        this.ocuupied_times.remove(nodeId);
+        System.out.println(this.ocuupied_times.get(nodeId));
         this.goals.add(nodeId);
     }
 
@@ -219,7 +193,7 @@ public class MAALSSLRTA extends ALSSLRTA {
         return id;
 
     }
-    public class CompareAgentsHeurstics implements Comparator<Agent>
+    public static class CompareAgentsHeurstics implements Comparator<Agent>
     {
         public CompareAgentsHeurstics()
         {
@@ -342,4 +316,5 @@ public class MAALSSLRTA extends ALSSLRTA {
       }
 
     }
+
 }

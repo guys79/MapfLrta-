@@ -133,6 +133,7 @@ public class Problem {
             {
                 if(graph[i][j]==null)
                     continue;
+                graph[i][j].clear();
                 right = false;
                 left = false;
                 up = false;

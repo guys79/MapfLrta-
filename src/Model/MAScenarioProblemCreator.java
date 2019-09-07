@@ -68,6 +68,7 @@ public class MAScenarioProblemCreator extends ScenarioProblemCreator {
                 x = (int)(Math.random()*graph.length);
                 y = (int)(Math.random()*graph[x].length);
             }
+            starts.add(graph[x][y]);
             single_agent_scen[0] = ""+x;
             single_agent_scen[1] = ""+y;
 
@@ -81,6 +82,7 @@ public class MAScenarioProblemCreator extends ScenarioProblemCreator {
             }
             single_agent_scen[2] = ""+x;
             single_agent_scen[3] = ""+y;
+            goals.add(graph[x][y]);
             scen.put(i,single_agent_scen);
         }
         this.scenarios[index] = scen;
@@ -92,7 +94,7 @@ public class MAScenarioProblemCreator extends ScenarioProblemCreator {
     public Problem next() {
         if(scenIndex == NUM_OF_SCENARIOS)
             return null;
-
+        //getGraph(mapPath);
         Map<Agent,Pair<Node,Node>> start_and_goal = new HashMap<>();
         Map<Integer,String []> scenerio = this.scenarios[this.scenIndex];
         scenIndex++;
@@ -121,8 +123,7 @@ public class MAScenarioProblemCreator extends ScenarioProblemCreator {
                 this.scenIndex++;
                 return next();
             }
-            System.out.println(start +" start");
-            System.out.println(goal +" goal");
+            System.out.println("Agent "+id+" start "+ start+" goal "+ goal);
             Agent agent = new Agent(id,goal,2);
             start_and_goal.put(agent,new Pair<>(start,goal));
         }
