@@ -68,11 +68,11 @@ public class MaAlssLrtaRealTimeSearchManager extends AbstractRealTimeSearchManag
         }
         Agent agent= null;
         for (int i = 0; i < maxLength; i++) {
-            String seder = "";
+           // String seder = "";
             while(agents.size()>0)
             {
                 agent = agents.poll();
-                seder+= agent.getId()+",";
+            //    seder+= agent.getId()+",";
                 //prev.add(agent);
                 List<Node> prefix = this.prefixesForAgents.get(agent);
                 if (prefix == null)
@@ -90,8 +90,8 @@ public class MaAlssLrtaRealTimeSearchManager extends AbstractRealTimeSearchManag
                     }
                 }
             }
-            System.out.println("seder "+seder.substring(0,seder.length()-1));
-            seder="";
+          //  System.out.println("seder "+seder.substring(0,seder.length()-1));
+          //  seder="";
             agents = new PriorityQueue<>(new MAALSSLRTA.CompareAgentsHeurstics());
             agents.addAll(problem.getAgentsAndStartGoalNodes().keySet());
             for (Agent agent2 : agents) {

@@ -320,7 +320,7 @@ public class Controller{
         }
 
         paths.put(pathArr, colors[agentCount++ % colors.length]);
-        printColor(id,colors[agentCount % colors.length]);
+      //  printColor(id,colors[agentCount % colors.length]);
         if (pathArr.length-1 > maxTime){
             maxTime = pathArr.length-1;
             slider.setMax(maxTime);

@@ -187,8 +187,7 @@ public class ScenarioProblemCreator extends AbstractProblemCreator{
 
         }catch (Exception e)
         {
-            System.out.println(line);
-            System.out.println("fuckkk");
+
         } finally {
             if (br != null) {
                 try {

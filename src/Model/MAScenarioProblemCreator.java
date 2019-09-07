@@ -127,7 +127,7 @@ public class MAScenarioProblemCreator extends ScenarioProblemCreator {
             Agent agent = new Agent(id,goal,2);
             start_and_goal.put(agent,new Pair<>(start,goal));
         }
-        System.out.println("scenario "+(this.scenIndex+1));
+        System.out.println("scenario "+(this.scenIndex-1));
         return new Problem(this.graph,start_and_goal,getToDevelop(),new GridCostFunction(),getVisionRadius());
     }
 }

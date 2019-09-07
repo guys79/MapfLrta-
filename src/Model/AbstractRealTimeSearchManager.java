@@ -51,7 +51,7 @@ public abstract class AbstractRealTimeSearchManager implements IRealTimeSearchMa
         int maxLength = -1;
         for (Agent agent : agents) {
             List<Node> prefix = this.prefixesForAgents.get(agent);
-            System.out.println("Agent "+agent.getId()+" prefix is "+prefix);
+          //  System.out.println("Agent "+agent.getId()+" prefix is "+prefix);
             if (prefix == null) {
                 return;
             }

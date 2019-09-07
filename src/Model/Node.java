@@ -130,7 +130,7 @@ public class Node {
     public boolean moveIn(int occupationId)
     {
         if(!canMoveIn(occupationId)) {
-            System.out.println("occupied by "+occupationId);
+
             return false;
         }
         this.occupationId = occupationId;

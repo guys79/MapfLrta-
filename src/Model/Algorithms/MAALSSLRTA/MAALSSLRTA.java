@@ -164,9 +164,9 @@ public class MAALSSLRTA extends ALSSLRTA {
     @Override
     protected void inhabitAgent(int nodeId)
     {
-        System.out.println("Inhabit "+nodeId);
+
         this.ocuupied_times.remove(nodeId);
-        System.out.println(this.ocuupied_times.get(nodeId));
+
         this.goals.add(nodeId);
     }
 

@@ -303,10 +303,7 @@ public class ALSSLRTA implements IRealTimeSearchAlgorithm {
 
             AlssLrtaSearchNode min_h_node = open_min.poll();
             openRemove(min_h_node);
-            if(min_h_node == null)
-            {
-                System.out.println("wtf");
-            }
+
 
             //If H(s) > H0(S)
             if(agent.getHeuristicValue(min_h_node.getNode()) > agent.getInitialHeuristicValue(min_h_node.getNode()))
