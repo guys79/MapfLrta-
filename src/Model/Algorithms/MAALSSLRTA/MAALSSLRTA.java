@@ -106,12 +106,6 @@ public class MAALSSLRTA extends ALSSLRTA {
         return prefixes;
     }
 
-    @Override
-    protected void aStarPrecedure() {
-//        checkIf(this.open_time.size());
-        super.aStarPrecedure();
-        // TODO: 8/27/2019 Complete this 
-    }
 
     @Override
     protected void updateNode(int nodeId,int time) {

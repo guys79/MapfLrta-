@@ -15,7 +15,6 @@ public class Main extends Application {
 
     // TODO: 07/09/2019 comments 
     // TODO: 07/09/2019 There are collisions for some reason, need to make sure that that is only because there are no more options left
-    // TODO: 07/09/2019 the simulator is drawing their paths as if was continious, I want all of the agents to START each perfix at the SAME TIME 
     @Override
     public void start(Stage primaryStage) throws Exception {
 
