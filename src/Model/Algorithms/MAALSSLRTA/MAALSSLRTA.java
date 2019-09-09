@@ -15,8 +15,7 @@ import java.util.*;
  */
 public class MAALSSLRTA extends ALSSLRTA {
     private Map<Integer,Map<Integer,Integer>> ocuupied_times;//Key - Node's id, value - dic
-    //Key - Agent's id, int time
-    private Agent currentAgent;//The current agent
+    //Key -int time ,Value - Agent's id
     private IRules rules;//The rules for Real Time MAPF
     private int visionRadius;//The vision radius of all agents
     private Set<Integer> goals;//The agent's fulfilled goals
@@ -39,8 +38,6 @@ public class MAALSSLRTA extends ALSSLRTA {
         }
         rules = new RuleBook(this);
         ocuupied_times = new HashMap<>();
-        this.currentAgent = getAgent();
-
         this.visionRadius = problem.getVisionRadius();
 
     }
@@ -91,11 +88,11 @@ public class MAALSSLRTA extends ALSSLRTA {
                     return null;
                 }
                 //Updating node
-                for(int i=0;i<prefix.size();i++)
+                for(int i=0;i<prefix.size()-1;i++)
                 {
                     updateNode(prefix.get(i).getId(),i);
                 }
-
+                inhabitAgent(prefix.get(prefix.size()-1).getId());
                 prefixes.put(agent.getId(), prefix);
             }
 
@@ -113,6 +110,7 @@ public class MAALSSLRTA extends ALSSLRTA {
 
 
         Map<Integer, Integer> occupations = this.ocuupied_times.get(nodeId);
+
         if(occupations==null)
         {
             occupations = new HashMap<>();
@@ -120,7 +118,7 @@ public class MAALSSLRTA extends ALSSLRTA {
 
         }
 
-        occupations.put(getAgent().getId(),time);
+        occupations.put(time,getAgent().getId());
     }
 
 
@@ -162,6 +160,31 @@ public class MAALSSLRTA extends ALSSLRTA {
         this.ocuupied_times.remove(nodeId);
 
         this.goals.add(nodeId);
+    }
+
+    @Override
+    protected boolean canInhabit(AlssLrtaSearchNode node) {
+        if(!(node instanceof MaAlssLrtaSearchNode))
+        {
+            return super.canInhabit(node);
+        }
+        MaAlssLrtaSearchNode ma = (MaAlssLrtaSearchNode)node;
+        Map<Integer,Integer> time_agents = this.ocuupied_times.get(ma.getNode().getId());
+        if(time_agents == null)
+        {
+            return !this.goals.contains(node.getNode().getId());
+        }
+        Set<Integer> times = time_agents.keySet();
+        int time = ma.getTime();
+
+        for(Integer timeSet : times)
+        {
+            if(time<=timeSet)
+                return false;
+        }
+        return true;
+
+
     }
 
     /**

@@ -258,6 +258,11 @@ public class ALSSLRTA implements IRealTimeSearchAlgorithm {
             //For each neighbor
             for(AlssLrtaSearchNode node : comp_neighbors)
             {
+                if(node.getNode().getId() == this.agent.getGoal().getId())
+                {
+                    if(!canInhabit(node))
+                        continue;
+                }
                 if(!canBeAtTime(time,state.getNode(),node.getNode()))
                     continue;
                 double temp = state.getG()+ problem.getCost(state.getNode(),node.getNode());
@@ -275,6 +280,11 @@ public class ALSSLRTA implements IRealTimeSearchAlgorithm {
         }
 
 
+
+    }
+    protected boolean canInhabit(AlssLrtaSearchNode node)
+    {
+        return true;
 
     }
     protected boolean canBeAtTime(int time, Node origin,Node target)
@@ -442,8 +452,11 @@ public class ALSSLRTA implements IRealTimeSearchAlgorithm {
 
            double f1 = getF(o1);
                 double f2 = getF(o2);
-                if (f1 == f2)
+                if (f1 == f2) {
+                    if(o1 instanceof MaAlssLrtaSearchNode && o2 instanceof MaAlssLrtaSearchNode)
+                        return ((MaAlssLrtaSearchNode) o1).getTime() - ((MaAlssLrtaSearchNode) o2).getTime();
                     return 0;
+                }
                 if (f1 < f2)
                     return -1;
                 return 1;
@@ -487,7 +500,17 @@ public class ALSSLRTA implements IRealTimeSearchAlgorithm {
         @Override
         public int compare(AlssLrtaSearchNode o1, AlssLrtaSearchNode o2) {
 
-
+                if(o1 instanceof MaAlssLrtaSearchNode && o2 instanceof MaAlssLrtaSearchNode)
+                {
+                    boolean flag1 = canInhabit(o1);
+                    boolean flag2 = canInhabit(o2);
+                    if(!((flag1 && flag2) ||(!flag1 && !flag2)))
+                    {
+                        if(flag1)
+                            return -1;
+                        return 1;
+                    }
+                }
                 boolean isUpdated1 = o1.isUpdated();
                 boolean isUpdated2 = o2.isUpdated();
                 if (isUpdated1 && isUpdated2) {
