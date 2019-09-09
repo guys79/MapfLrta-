@@ -94,7 +94,7 @@ public class MAScenarioProblemCreator extends ScenarioProblemCreator {
     public Problem next() {
         if(scenIndex == NUM_OF_SCENARIOS)
             return null;
-        //getGraph(mapPath);
+
         Map<Agent,Pair<Node,Node>> start_and_goal = new HashMap<>();
         Map<Integer,String []> scenerio = this.scenarios[this.scenIndex];
         scenIndex++;

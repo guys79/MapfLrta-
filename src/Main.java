@@ -24,9 +24,7 @@ public class Main extends Application {
         Controller controller = fxmlLoader.getController();
 
         Model model = new Model(controller);
-        //Model model = new Model(controller, new MAScenarioProblemCreator(1));
         model.next();
-        //model.test();
         primaryStage.setTitle(model.toString());
         primaryStage.setScene(new Scene(root, 1200, 700));
         primaryStage.show();

@@ -43,7 +43,6 @@ public class LRTA implements IRealTimeSearchAlgorithm {
             }
             //Pop best node
             current = open.poll();
-            //System.out.println("current is "+current );
             numOfNodesToDevelop--;
             prefix.add(current);
 
@@ -72,7 +71,6 @@ public class LRTA implements IRealTimeSearchAlgorithm {
             {
                 if(open.contains(neighbor))
                     continue;
-                //numOfNodesToDevelop--;
                 open.add(neighbor);
             }
 

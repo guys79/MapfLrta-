@@ -62,7 +62,6 @@ public class ALSSLRTA implements IRealTimeSearchAlgorithm {
         this.needToBeUpdated = agent.getNeedToBeUpdated();
         current = transformSingleNode(start,0);
 
-
         //The A* procedure
         aStarPrecedure();
 
@@ -94,7 +93,6 @@ public class ALSSLRTA implements IRealTimeSearchAlgorithm {
         //Calculating prefix
 
         int id = current.getNode().getId();
-        AlssLrtaSearchNode prev =next;
         while(next.getNode().getId() != id)
         {
 
@@ -109,6 +107,7 @@ public class ALSSLRTA implements IRealTimeSearchAlgorithm {
 
 
         }
+
         agent.setNeedToBeUpdated(needToBeUpdated);
         return prefix;
     }
@@ -229,7 +228,7 @@ public class ALSSLRTA implements IRealTimeSearchAlgorithm {
         while(expansions<problem.getNumberOfNodeToDevelop())
         {
 
-         //   checkIf(this.open_id.size());
+
 
             //The condition
             state = open.peek();
@@ -240,7 +239,9 @@ public class ALSSLRTA implements IRealTimeSearchAlgorithm {
             }
             if(state.getNode().getId() == this.agent.getGoal().getId())
             {
-              //  System.out.println("Reached Goal "+agent.getId());
+
+                if(state.getBack() == null)
+                    return;
                 if(canBeAtTime(time(state.getBack()),state.getBack().getNode(),state.getNode())) {
                     closed.clear();
                     return;

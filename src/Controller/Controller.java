@@ -180,7 +180,7 @@ public class Controller{
         slider.setValue(0);
         paths.clear();
         context.setFill(Color.WHITE);
-       // System.out.println("CLEARRRRRRRRRR");
+
         for(int [] loc : locs)
         {
             context.fillRect(loc[1] * cellWidth, loc[0] * cellHeight, cellWidth + 1, cellHeight + 1);
@@ -233,7 +233,7 @@ public class Controller{
         timeText.setText("t = "+time.getValue());
         drawGrid();
         drawAgents();
-        //first = false;
+
     }
 
     /**
@@ -250,7 +250,7 @@ public class Controller{
                     context.fillRect(col * cellWidth, row * cellHeight, cellWidth + 1, cellHeight + 1);
                 }
             }
-      //  }
+
     }
 
     /**
@@ -258,7 +258,7 @@ public class Controller{
      */
     private void drawAgents(){
         if (grid == null) return;
-        //drawGrid();
+
         for (HashMap.Entry<int[], Color> entry : paths.entrySet()){
             int[] path = entry.getKey();
             int nodeID = getNode(path, time.getValue());
@@ -320,7 +320,7 @@ public class Controller{
         }
 
         paths.put(pathArr, colors[agentCount++ % colors.length]);
-      //  printColor(id,colors[agentCount % colors.length]);
+
         if (pathArr.length-1 > maxTime){
             maxTime = pathArr.length-1;
             slider.setMax(maxTime);

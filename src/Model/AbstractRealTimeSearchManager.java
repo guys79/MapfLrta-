@@ -11,6 +11,8 @@ public abstract class AbstractRealTimeSearchManager implements IRealTimeSearchMa
     protected Problem problem;//The instance of the problem
     protected Map<Agent, List<Node>> prefixesForAgents;//Key - agent, Value - The agent's prefix
     protected Map<Agent, List<Node>> pathsForAgents;//Key - agent, Value - The agent's prefix
+    protected Map<Agent, Node> prev;//Key - agent, Value - The agent's prefix
+    protected int numOfFinish;
     /**
      * The constructor of the class
      * @param problem - The given problem
@@ -22,7 +24,7 @@ public abstract class AbstractRealTimeSearchManager implements IRealTimeSearchMa
         Map<Agent,Pair<Node,Node>> agentsAndStartGoalNodes= problem.getAgentsAndStartGoalNodes();
         pathsForAgents = new HashMap<>();
         Set<Agent> agents = agentsAndStartGoalNodes.keySet();
-
+        this.prev = new HashMap<>();
         //Setting the agents in their start position
         for(Agent agent: agents)
         {
@@ -32,6 +34,7 @@ public abstract class AbstractRealTimeSearchManager implements IRealTimeSearchMa
             path.add(start);
             pathsForAgents.put(agent,path);
         }
+        numOfFinish = 0;
 
 
 
@@ -49,8 +52,11 @@ public abstract class AbstractRealTimeSearchManager implements IRealTimeSearchMa
     public void move() {
         Collection<Agent> agents = new HashSet<>(problem.getAgentsAndStartGoalNodes().keySet());
         int maxLength = -1;
+        this.numOfFinish = 0;
         for (Agent agent : agents) {
             List<Node> prefix = this.prefixesForAgents.get(agent);
+            if(agent.isDone())
+                numOfFinish++;
           //  System.out.println("Agent "+agent.getId()+" prefix is "+prefix);
             if (prefix == null) {
                 return;
@@ -65,6 +71,7 @@ public abstract class AbstractRealTimeSearchManager implements IRealTimeSearchMa
                 List<Node> prefix = this.prefixesForAgents.get(agent);
                 if (prefix == null)
                     return;
+
                 if (i <= prefix.size() - 1) {
                     if (!agent.moveAgent(prefix.get(i))) {
                         System.out.println("Collision between agent " + agent.getId() + " and agent " + prefix.get(i).getOccupationId() + " in " + prefix.get(i));

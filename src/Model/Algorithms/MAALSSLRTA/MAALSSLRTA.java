@@ -64,13 +64,13 @@ public class MAALSSLRTA extends ALSSLRTA {
 
         Map<Integer,List<Node>> prefixes = new HashMap<>();
         pAgents.addAll(agents);
-    //    System.out.println("start");
+
         while(pAgents.size()>0)
         {
             Agent agent = pAgents.poll();
             if(agent.isDone())
             {
-                //System.out.println("DONE");
+
                 List<Node> done = new ArrayList<>();
                 done.add(agent.getGoal());
                 prefixes.put(agent.getId(),done);
@@ -78,7 +78,7 @@ public class MAALSSLRTA extends ALSSLRTA {
 
             }
             else {
-              //  System.out.println("Not done");
+
                 Node current = agent.getCurrent();
 
                 List<Node> prefix = super.calculatePrefix(current, agent.getGoal(), numOfNodesToDevelop, agent);
