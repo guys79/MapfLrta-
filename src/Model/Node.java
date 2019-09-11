@@ -13,6 +13,8 @@ public class Node {
     public static int numOfNodes = 0;//Determines the id of the node
     private int occupationId;//The id of the agent that is currently occupying the node
     private boolean isInhabitated;
+    public static double average = 0 ;
+
 
     /**
      * The constructor of the node
@@ -25,7 +27,14 @@ public class Node {
         this.occupationId = -1;
         this.isInhabitated = false;
     }
-
+    public static void reset()
+    {
+        average = 0;
+    }
+    public void updateAverage()
+    {
+        average = (average*numOfNodes + 1)/(numOfNodes*1.0);
+    }
     public void inhabitate(int id) {
         this.isInhabitated = true;
         this.occupationId = id;
@@ -45,6 +54,7 @@ public class Node {
     {
         if(this.neighbors.containsKey(n))
             return this.neighbors.get(n);
+        System.out.println("sahdkahsjkda");
         return Double.MAX_VALUE;
     }
     /**

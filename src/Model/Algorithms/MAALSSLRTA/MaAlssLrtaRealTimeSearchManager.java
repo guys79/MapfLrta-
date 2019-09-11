@@ -23,6 +23,7 @@ public class MaAlssLrtaRealTimeSearchManager extends AbstractRealTimeSearchManag
     public MaAlssLrtaRealTimeSearchManager(Problem problem) {
         super(problem);
 
+
     }
 
 

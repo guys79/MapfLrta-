@@ -8,7 +8,7 @@ import Model.Node;
 public class DijkstraSearchNode {
     private Node node;//The node
     private double distance;//The cheapest known cost for a path from this node to the goal node
-    private DijkstraSearchNode predecessor ;//The predecessor of the node
+
 
     /**
      * The constructor
@@ -18,7 +18,7 @@ public class DijkstraSearchNode {
     {
         this.distance = Double.MAX_VALUE;
         this.node = node;
-        this.predecessor = null;
+
     }
 
     /**
@@ -37,13 +37,6 @@ public class DijkstraSearchNode {
         return distance;
     }
 
-    /**
-     * This function will return the predecessor of the node in the search
-     * @return - The predecessor
-     */
-    public DijkstraSearchNode getPredecessor() {
-        return predecessor;
-    }
 
     /**
      * This function will set the distance of the node
@@ -53,11 +46,19 @@ public class DijkstraSearchNode {
         this.distance = distance;
     }
 
-    /**
-     * This function will set the predecessor of the node
-     * @param predecessor - The predecessor of the node
-     */
-    public void setPredecessor(DijkstraSearchNode predecessor) {
-        this.predecessor = predecessor;
+
+
+    @Override
+    public boolean equals(Object obj) {
+
+        if(!(obj instanceof Dijkstra))
+            return false;
+        DijkstraSearchNode dijkstraSearchNode = (DijkstraSearchNode)obj;
+        return dijkstraSearchNode.getNode().getId() == this.node.getId();
+    }
+
+    @Override
+    public int hashCode() {
+        return node.getId();
     }
 }

@@ -1,5 +1,6 @@
 package Model;
 
+import Model.Algorithms.Dijkstra.ShortestPathGenerator;
 import javafx.util.Pair;
 
 import java.util.Map;
@@ -35,7 +36,7 @@ public class Problem {
         this.costFunction = costFunction;
         this.visionRadius = visionRadius;
         initializeMap(graph);
-
+        ShortestPathGenerator.getInstance().setGraph(graph);
 
 
     }

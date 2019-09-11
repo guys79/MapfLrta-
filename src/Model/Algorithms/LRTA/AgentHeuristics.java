@@ -14,7 +14,7 @@ public class AgentHeuristics implements IAgentHeuristics {
 
 
     private Map<Node,Double> localHeuristics;//Key - nodeId, value - heuristic value
-    protected Node goal;//The goal node
+    private Node goal;//The goal node
 
     /**
      * The constructor

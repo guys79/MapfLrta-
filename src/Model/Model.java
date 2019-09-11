@@ -2,6 +2,7 @@ package Model;
 
 import Controller.Controller;
 import Model.Algorithms.ALSSLRTA.AlssLrtaRealTimeSearchManager;
+import Model.Algorithms.Dijkstra.ShortestPathGenerator;
 import Model.Algorithms.LRTA.RealTimeSearchManager;
 import Model.Algorithms.MAALSSLRTA.MaAlssLrtaRealTimeSearchManager;
 import javafx.util.Pair;
@@ -15,7 +16,7 @@ import java.util.*;
 public class Model {
 
     private boolean first;//True IFF it's the first scenario
-    private final int NUM_OF_AGENTS = 600;//Number of agents
+    private int NUM_OF_AGENTS = 100;//Number of agents
     private final int VISION_RADIUS = 20;//Number of agents
     private final int HEIGHT = 12;//The number of columns
     private final int WIDTH = 12;//The number of rows
@@ -50,6 +51,12 @@ public class Model {
         this.fileName = fileName;
         first = true;
         next();
+    }
+
+    public void setNUM_OF_AGENTS(int NUM_OF_AGENTS) {
+        this.NUM_OF_AGENTS = NUM_OF_AGENTS;
+        if(problemCreator!=null)
+            ((MAScenarioProblemCreator)problemCreator).setNum_of_agents(NUM_OF_AGENTS);
     }
 
     /**
@@ -117,6 +124,8 @@ public class Model {
                 else
                     realTimeSearchManager = new MaAlssLrtaRealTimeSearchManager(problem);
             }
+
+
             Map<Agent, List<Node>> paths;//The paths for each agent
 
             long startTime;
@@ -143,6 +152,7 @@ public class Model {
             }
             System.out.println("TIme elapsed "+time +" ms");
             System.out.println("TIme elapsed "+timeInSeconds +" seconds");
+
             System.out.println();
             controller.draw();
 
@@ -152,7 +162,7 @@ public class Model {
      * This function will move to the next scenario on the same map
      * The function will solve the problem and present the solution
      */
-    public void next() {
+    public double next() {
 
         Problem problem;
         if (first) {
@@ -188,7 +198,7 @@ public class Model {
             Map<Agent, List<Node>> paths;//The paths for each agent
 
             long startTime;
-
+            Node.reset();
             startTime = System.currentTimeMillis();
             paths = realTimeSearchManager.search();
 
@@ -211,10 +221,13 @@ public class Model {
             }
             System.out.println("TIme elapsed "+time +" ms");
             System.out.println("TIme elapsed "+timeInSeconds +" seconds");
+            System.out.println("Average updates " +Node.average);
             System.out.println();
-            controller.draw();
+            //controller.draw();
+            return Node.average;
 
         }
+        return Double.MAX_VALUE;
     }
 
     /**

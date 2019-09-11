@@ -1,12 +1,13 @@
 package Model.Algorithms.LRTA;
 
+import Model.Algorithms.ALSSLRTA.AlssLrtaAgentHeuristics;
 import Model.Node;
-import Model.ShortestPathGenerator;
+import Model.Algorithms.Dijkstra.ShortestPathGenerator;
 
 /**
  * This class represents the heuristics of thew shortestPath
  */
-public class ShortestPathAgentHeuristics extends AgentHeuristics {
+public class ShortestPathAgentHeuristics extends AlssLrtaAgentHeuristics {
     /**
      * The constructor
      *

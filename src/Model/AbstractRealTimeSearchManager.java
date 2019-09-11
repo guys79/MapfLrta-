@@ -1,6 +1,7 @@
 package Model;
 
 
+import Model.Algorithms.Dijkstra.ShortestPathGenerator;
 import javafx.util.Pair;
 
 import java.util.*;
@@ -35,6 +36,7 @@ public abstract class AbstractRealTimeSearchManager implements IRealTimeSearchMa
             pathsForAgents.put(agent,path);
         }
         numOfFinish = 0;
+
 
 
 
@@ -119,7 +121,7 @@ public abstract class AbstractRealTimeSearchManager implements IRealTimeSearchMa
     public Map<Agent,List<Node>> search()
     {
         int i=0;
-        while(!isDone())
+        while(!isDone() && i<10000)
         {
             //System.out.println("Iteration number "+(i+1));
             calculatePrefix();

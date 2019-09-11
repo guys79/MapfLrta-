@@ -8,8 +8,7 @@ public class GridCostFunction implements ICostFunction {
     @Override
     public double getCost(Node origin, Node target) {
 
-        if(!origin.isNeighbor(target))
-            return Double.MAX_VALUE;
+
         double sqrt2 = Math.sqrt(2);
         if(origin instanceof GridNode && target instanceof GridNode)
         {
@@ -22,7 +21,11 @@ public class GridCostFunction implements ICostFunction {
                 return sqrt2;
             if(x_origin == x_target&& y_origin == y_target )
                 return 0;
+            if(Math.abs(x_origin-x_target)==1 || Math.abs((y_origin-y_target))==1)
+                return 1;
         }
+        if(!origin.isNeighbor(target))
+            return Double.MAX_VALUE;
         return 1;
     }
 }

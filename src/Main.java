@@ -6,6 +6,10 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+
 public class Main extends Application {
 
     public static void main (String [] args)
@@ -24,7 +28,8 @@ public class Main extends Application {
         Controller controller = fxmlLoader.getController();
 
         Model model = new Model(controller);
-        model.next();
+        //model.next();
+        test(model);
         primaryStage.setTitle(model.toString());
         primaryStage.setScene(new Scene(root, 1200, 700));
         primaryStage.show();
@@ -41,4 +46,35 @@ public class Main extends Application {
 
     }
 
+    public static void test(Model model)
+    {
+        int maxNumAgent =10;
+        int num_scene = 2000;
+        double sum =0;
+        String res="";
+        for(int i=1;i<=maxNumAgent;i++)
+        {
+            model.setNUM_OF_AGENTS(i);
+            for(int j =0;j<num_scene;j++)
+            {
+                sum+=model.next();
+            }
+            res+="Average updates for "+i+" is "+((sum*1.0)/num_scene)+"\n";
+        }
+
+
+
+        BufferedWriter writer = null;
+        try {
+            writer = new BufferedWriter(new FileWriter("C:\\Users\\Vardana\\Desktop\\results.txt"));
+            writer.write(res);
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+
+
+    }
 }

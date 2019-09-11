@@ -1,5 +1,6 @@
 package Model;
 
+import Model.Algorithms.Dijkstra.ShortestPathGenerator;
 import javafx.util.Pair;
 
 import java.util.HashMap;
@@ -30,9 +31,14 @@ public class MAScenarioProblemCreator extends ScenarioProblemCreator {
 
     }
 
+    public void setNum_of_agents(int num_of_agents) {
+        this.num_of_agents = num_of_agents;
+    }
+
     @Override
     protected void getGraphAndScenarios(String mapPath, String scenariosPath) {
         getGraph(mapPath);
+
         getScenario();
     }
 

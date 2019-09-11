@@ -11,7 +11,7 @@ import java.util.Map;
  */
 public class AlssLrtaAgentHeuristics implements IAgentHeuristics {
     private Map<Integer,Double> localHeuristics;//Key - nodeId, value - heuristic value
-    private Node goal;//The goal node
+    protected Node goal;//The goal node
 
     /**
      * The constructor

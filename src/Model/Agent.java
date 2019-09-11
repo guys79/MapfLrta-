@@ -2,6 +2,7 @@ package Model;
 
 import Model.Algorithms.ALSSLRTA.AlssLrtaAgentHeuristics;
 import Model.Algorithms.LRTA.AgentHeuristics;
+import Model.Algorithms.LRTA.ShortestPathAgentHeuristics;
 
 import java.util.HashSet;
 
@@ -26,7 +27,10 @@ public class Agent {
         if(type == 0)
             heuristics = new AgentHeuristics(goal);
         else
-            heuristics = new AlssLrtaAgentHeuristics(goal);
+        {
+            //heuristics = new AlssLrtaAgentHeuristics(goal);
+            heuristics = new ShortestPathAgentHeuristics(goal);
+        }
         this.id = id;
         this.isDone = false;
 
@@ -75,6 +79,7 @@ public class Agent {
     public void updateHeuristic(Node node, double newVal)
     {
         this.heuristics.updateHeuristics(node,newVal);
+        node.updateAverage();
     }
 
     /**
