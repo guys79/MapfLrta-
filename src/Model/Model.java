@@ -227,6 +227,7 @@ public class Model {
             return Node.average;
 
         }
+        System.out.println("wow");
         return Double.MAX_VALUE;
     }
 

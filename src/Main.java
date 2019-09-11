@@ -18,8 +18,7 @@ public class Main extends Application {
     }
 
     // TODO: 07/09/2019 comments 
-    // TODO: 07/09/2019 There are collisions for some reason, need to make sure that that is only because there are no more options left
-    @Override
+    // TODO: 9/11/2019 when switching between the number of agents we need to create more scenarios 
     public void start(Stage primaryStage) throws Exception {
 
         //The GUI
@@ -49,11 +48,12 @@ public class Main extends Application {
     public static void test(Model model)
     {
         int maxNumAgent =10;
-        int num_scene = 2000;
-        double sum =0;
+        int num_scene = 1999;
+        double sum ;
         String res="";
         for(int i=1;i<=maxNumAgent;i++)
         {
+            sum=0;
             model.setNUM_OF_AGENTS(i);
             for(int j =0;j<num_scene;j++)
             {
