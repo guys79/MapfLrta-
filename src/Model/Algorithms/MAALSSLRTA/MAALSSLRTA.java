@@ -220,7 +220,11 @@ public class MAALSSLRTA extends ALSSLRTA {
         @Override
         public int compare(Agent o1, Agent o2) {
             double h1 = o1.getHeuristicValue(o1.getCurrent());
+            if(h1==0)
+                return 1;
             double h2 = o2.getHeuristicValue(o2.getCurrent());
+            if(h2 == 0)
+                return -1;
             if(h1==h2)
                 return 0;
             if(h1<h2)

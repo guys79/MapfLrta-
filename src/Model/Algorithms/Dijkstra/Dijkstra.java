@@ -49,6 +49,7 @@ public class Dijkstra {
         search();
 
         Set<Integer> ids = this.alreadyReached.keySet();
+        boolean flag = true;
         for(Integer id :ids)
         {
             costs.put(id,this.alreadyReached.get(id).getDistance());

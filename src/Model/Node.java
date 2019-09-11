@@ -14,6 +14,8 @@ public class Node {
     private int occupationId;//The id of the agent that is currently occupying the node
     private boolean isInhabitated;
     public static double average = 0 ;
+    public static double sum = 0 ;
+
 
 
     /**
@@ -30,10 +32,17 @@ public class Node {
     public static void reset()
     {
         average = 0;
+        numOfNodes = 1;
+        sum =0;
+
     }
     public void updateAverage()
     {
-        average = (average*numOfNodes + 1)/(numOfNodes*1.0);
+
+
+            sum++;//every next..
+            average = sum/numOfNodes;
+
     }
     public void inhabitate(int id) {
         this.isInhabitated = true;

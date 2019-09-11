@@ -18,7 +18,7 @@ public class Main extends Application {
     }
 
     // TODO: 07/09/2019 comments 
-    // TODO: 9/11/2019 when switching between the number of agents we need to create more scenarios 
+    // TODO: 9/12/2019 numofupdated/numofscanned  
     public void start(Stage primaryStage) throws Exception {
 
         //The GUI
@@ -26,10 +26,10 @@ public class Main extends Application {
         Parent root = fxmlLoader.load(getClass().getResource("Controller/view.fxml").openStream());
         Controller controller = fxmlLoader.getController();
 
-        Model model = new Model(controller);
+        //Model model = new Model(controller);
         //model.next();
-        test(model);
-        primaryStage.setTitle(model.toString());
+        test(controller);
+        //primaryStage.setTitle(model.toString());
         primaryStage.setScene(new Scene(root, 1200, 700));
         primaryStage.show();
 
@@ -45,28 +45,30 @@ public class Main extends Application {
 
     }
 
-    public static void test(Model model)
+    public static void test(Controller controller)
     {
         int maxNumAgent =10;
-        int num_scene = 1999;
+        int num_scene = 2000;
         double sum ;
         String res="";
+        Model model;
         for(int i=1;i<=maxNumAgent;i++)
         {
+            model = new Model(controller);
             sum=0;
             model.setNUM_OF_AGENTS(i);
             for(int j =0;j<num_scene;j++)
             {
                 sum+=model.next();
             }
-            res+="Average updates for "+i+" is "+((sum*1.0)/num_scene)+"\n";
+            res+="Average updates for "+i+" is "+(((sum*1.0)/num_scene)/i)+"\n";
         }
 
 
 
         BufferedWriter writer = null;
         try {
-            writer = new BufferedWriter(new FileWriter("C:\\Users\\Vardana\\Desktop\\results.txt"));
+            writer = new BufferedWriter(new FileWriter("C:\\Users\\guys7\\Desktop\\results.txt"));
             writer.write(res);
             writer.close();
         } catch (IOException e) {

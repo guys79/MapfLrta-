@@ -79,7 +79,7 @@ public class Agent {
     public void updateHeuristic(Node node, double newVal)
     {
         this.heuristics.updateHeuristics(node,newVal);
-        node.updateAverage();
+
     }
 
     /**

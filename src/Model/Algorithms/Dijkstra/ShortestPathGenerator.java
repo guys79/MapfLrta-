@@ -40,8 +40,34 @@ public class ShortestPathGenerator {
      */
     public void setGraph(Node[][] graph)
     {
-        if(this.graph!= null && this.graph == graph)
+        if(graph==null || this.graph == graph)
             return;
+        boolean flag = true;
+        boolean flag1,flag2;
+        if(this.graph!=null) {
+            for (int i = 0; i < this.graph.length && flag; i++) {
+                for (int j = 0; j < this.graph[i].length && flag; j++) {
+                    flag1 = this.graph[i][j]==null;
+                    flag2 = graph[i][j]==null;
+                    if(flag1|| flag2) {
+
+
+                        if (((flag1 && !flag2) || (!flag1 && flag2))) {
+                            flag = false;
+
+                        }
+
+                    }
+                    else {
+                        if (this.graph[i][j].getId() != graph[i][j].getId())
+                            flag = false;
+                    }
+                }
+            }
+            if(flag)
+                return;
+        }
+
         this.graph = graph;
         init(graph);
     }

@@ -306,6 +306,7 @@ public class ALSSLRTA implements IRealTimeSearchAlgorithm {
         for(AlssLrtaSearchNode node: nodes)
         {
             setHNode(node, Double.MAX_VALUE);
+
         }
 
 
@@ -319,7 +320,7 @@ public class ALSSLRTA implements IRealTimeSearchAlgorithm {
             //If H(s) > H0(S)
             if(agent.getHeuristicValue(min_h_node.getNode()) > agent.getInitialHeuristicValue(min_h_node.getNode()))
             {
-                min_h_node.setUpdated(true);
+
                 this.needToBeUpdated.add(min_h_node.getNode().getId());
             }
 
@@ -343,6 +344,7 @@ public class ALSSLRTA implements IRealTimeSearchAlgorithm {
                 if(closed.containsKey(node.getNode().getId()) && agent.getHeuristicValue(node.getNode())>temp)
                 {
                     setHNode(node,temp);
+                    node.getNode().updateAverage();
                     if(!open_id.containsKey(node.getNode().getId()))
                     {
                         openAdd(node);

@@ -13,6 +13,7 @@ public class GridNode extends Node {
      * @param y - The Y coordinates
      */
     public GridNode(int x,int y) {
+
         super();
         this.x =x;
         this.y = y;

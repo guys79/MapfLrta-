@@ -169,7 +169,7 @@ public class ScenarioProblemCreator extends AbstractProblemCreator{
 
             grid = new Node[height][width];
 
-
+            Node.reset();
             for(int i=0;i<height;i++) {
 
                 line = br.readLine();
