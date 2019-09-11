@@ -70,11 +70,10 @@ public class ShortestPathGenerator {
     }
 
     /**
-     * This function will calculate the cost of the shortest path from the Origin node to the Target node
+     * This function will calculate the cost of the shortest path from the Origin node to the other nodes
      * @param origin - The origin node
-     * @param target - The target node
      */
-    private void calculateCost(Node origin, Node target)
+    private void calculateCost(Node origin)
     {
 
     }
