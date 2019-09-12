@@ -31,17 +31,23 @@ public class MaAlssLrtaRealTimeSearchManager extends AbstractRealTimeSearchManag
     protected void calculatePrefix()
     {
         prev = new HashMap<>();
+
+        //Calculate the prefixes for all agents who are not done
         for(Agent agent:this.prefixesForAgents.keySet())
         {
             if(!agent.isDone())
                 prev.put(agent,agent.getCurrent());
         }
 
+
+        //Get prefixes
         Map<Agent,Pair<Node,Node>> agent_goal_start = problem.getAgentsAndStartGoalNodes();
         Collection<Agent> agents = agent_goal_start.keySet();
         MAALSSLRTA maalsslrta = new MAALSSLRTA(problem);
         this.prev.clear();
         Map<Integer,List<Node>> prefixes = maalsslrta.getPrefixes(problem.getNumberOfNodeToDevelop());
+
+        //If there is no solution
         if(prefixes==null)
         {
             for(Agent agent: agents)
@@ -55,6 +61,7 @@ public class MaAlssLrtaRealTimeSearchManager extends AbstractRealTimeSearchManag
             return;
         }
 
+        //Calculate the maximum prefix size
         maxLength = -1;
         for (Agent agent : agents) {
             this.prefixesForAgents.put(agent,prefixes.get(agent.getId()));
@@ -65,6 +72,7 @@ public class MaAlssLrtaRealTimeSearchManager extends AbstractRealTimeSearchManag
             if (maxLength < prefix.size())
                 maxLength = prefix.size();
         }
+        //Converting the prefixes to be with the same length
         for (Agent agent : agents) {
             List<Node> prefix = this.prefixesForAgents.get(agent);
 
@@ -77,7 +85,7 @@ public class MaAlssLrtaRealTimeSearchManager extends AbstractRealTimeSearchManag
                     prefix.add(last);
                 }
             }
-
+            //Adding the prefix to the path
             List<Node> path = pathsForAgents.get(agent);
             path.remove(path.size()-1);
             path.addAll(prefixes.get(agent.getId()));
@@ -88,8 +96,11 @@ public class MaAlssLrtaRealTimeSearchManager extends AbstractRealTimeSearchManag
 
     @Override
     public boolean isDone() {
+
         if( super.isDone())
             return true;
+
+        //Check if there was a change
         Set<Agent> agents = prev.keySet();
         if(prev.size() ==0)
             return false;
@@ -117,19 +128,23 @@ public class MaAlssLrtaRealTimeSearchManager extends AbstractRealTimeSearchManag
     @Override
     public void move() {
         PriorityQueue<Agent> agents = new PriorityQueue<>(new MAALSSLRTA.CompareAgentsHeurstics());
-      //  PriorityQueue<Agent> prev = new PriorityQueue<>(new MAALSSLRTA.CompareAgentsHeurstics());
         agents.addAll(problem.getAgentsAndStartGoalNodes().keySet());
 
+        //In each time step:
         Agent agent;
         for (int i = 0; i < maxLength; i++) {
 
+            //For every agent
             while(agents.size()>0)
             {
                 agent = agents.poll();
 
+                //If there is a solution
                 List<Node> prefix = this.prefixesForAgents.get(agent);
                 if (prefix == null)
                     return;
+
+                //Try to move the agent
                 if (i <= prefix.size() - 1) {
                     if (!agent.moveAgent(prefix.get(i))) {
                         System.out.println("Collision between agent " + agent.getId() + " and agent " + prefix.get(i).getOccupationId() + " in " + prefix.get(i) +" id = "+prefix.get(i).getId());
@@ -146,6 +161,8 @@ public class MaAlssLrtaRealTimeSearchManager extends AbstractRealTimeSearchManag
 
             agents = new PriorityQueue<>(new MAALSSLRTA.CompareAgentsHeurstics());
             agents.addAll(problem.getAgentsAndStartGoalNodes().keySet());
+
+            //Don't clock way
             for (Agent agent2 : agents) {
 
                 List<Node> prefix = this.prefixesForAgents.get(agent2);

@@ -49,7 +49,7 @@ public class Dijkstra {
         search();
 
         Set<Integer> ids = this.alreadyReached.keySet();
-        boolean flag = true;
+
         for(Integer id :ids)
         {
             costs.put(id,this.alreadyReached.get(id).getDistance());
@@ -75,18 +75,13 @@ public class Dijkstra {
             Set<Node> neighbors = node.getNode().getNeighbors().keySet();
             double help;
             double dis = node.getDistance();
-       /*     if(dis == Double.MAX_VALUE)
-                System.out.println("dasdlja");*/
+
             for(Node neighbor : neighbors)
             {
 
                 DijkstraSearchNode neigh = transformNode(neighbor);
                 double neighDis = node.getNode().getWeight(neighbor);
                 help = dis + neighDis;//New distance val
-              /*  if(help >= Double.MAX_VALUE)
-                {
-                    System.out.println("sa;lkd;sa");
-                }*/
 
 
                 double neighDistance = neigh.getDistance();//old val
@@ -98,7 +93,7 @@ public class Dijkstra {
                 }
 
 
-            //    System.out.println(neigh.getNode() +" has entered, prev dis - "+neigh.getDistance()+" and now "+help);
+
                 neigh.setDistance(help);
                 if(this.alreadyReached.containsKey(neigh.getNode().getId()))
                 {
@@ -114,6 +109,12 @@ public class Dijkstra {
         }
 
     }
+
+    /**
+     * This function will transform a Node instance into the right DijkstaSearchNode instance
+     * @param node - the given node
+     * @return - The right DijkstraSearchNode instance
+     */
     private DijkstraSearchNode transformNode(Node node)
     {
         if(this.alreadyReached.containsKey(node.getId())) {
@@ -121,6 +122,10 @@ public class Dijkstra {
         }
         return new DijkstraSearchNode(node);
     }
+
+    /**
+     * This class will compare two DijkstraSearchNodes using their distance from the origin node
+     */
     class DijkstraComperator implements Comparator<DijkstraSearchNode>
     {
 

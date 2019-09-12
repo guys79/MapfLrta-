@@ -62,7 +62,7 @@ public class Controller{
     };
     private double cellWidth;//The height of the cell
     private double cellHeight;//The width of the cell
-    private int maxTime = 0;
+    private int maxTime = 0;//The amount of time for the longest path
 
     private void printColor(int id,Color color)
     {

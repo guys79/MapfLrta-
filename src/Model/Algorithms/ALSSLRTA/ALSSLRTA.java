@@ -28,7 +28,7 @@ public class ALSSLRTA implements IRealTimeSearchAlgorithm {
      */
     public ALSSLRTA(Problem problem)
     {
-        //this.needToBeUpdated = new HashSet<>();
+
         this.problem = problem;
         this.closed = new HashMap<>();
         open = new PriorityQueue<>(new CompareAlssNode());
@@ -249,7 +249,7 @@ public class ALSSLRTA implements IRealTimeSearchAlgorithm {
             }
             openRemove(state);
             closed.put(state.getNode().getId(),state);
-
+            state.getNode().updateAverage(false);
 
             //Get the neighbors
             Set<Node> neighbors = getNeighbors(state.getNode());
@@ -283,19 +283,40 @@ public class ALSSLRTA implements IRealTimeSearchAlgorithm {
 
 
     }
+
+    /**
+     * This function will return true IFF the agent can inhabit the node
+     * @param node - The given node
+     * @return - true IFF the agent can inhabit the node
+     */
     protected boolean canInhabit(AlssLrtaSearchNode node)
     {
         return true;
 
     }
+
+    /**
+     * This function will check if the agent can move from the origin node to the target node at the given time
+     * @param time - The given time
+     * @param origin - The origin node
+     * @param target  - The target node
+     * @return - True IFF the agent can move from the origin node to the target node at the given time
+     */
     protected boolean canBeAtTime(int time, Node origin,Node target)
     {
         return true;
     }
+
+    /**
+     * This funcion will return the time of which the agent will be at if he were to a node FROM the given node
+     * @param node - The given node
+     * @return - The time of which the agent will be at if he were to a node FROM the given node
+     */
     protected int time(AlssLrtaSearchNode node)
     {
         return 0;
     }
+
     /**
      * The Dijkstra procedure described in the aLSS-LRTA* algorithm
      */
@@ -344,7 +365,7 @@ public class ALSSLRTA implements IRealTimeSearchAlgorithm {
                 if(closed.containsKey(node.getNode().getId()) && agent.getHeuristicValue(node.getNode())>temp)
                 {
                     setHNode(node,temp);
-                    node.getNode().updateAverage();
+                    node.getNode().updateAverage(true);
                     if(!open_id.containsKey(node.getNode().getId()))
                     {
                         openAdd(node);
@@ -356,10 +377,17 @@ public class ALSSLRTA implements IRealTimeSearchAlgorithm {
 
         return true;
     }
+
+    /**
+     * This function will return the neighbors of the node
+     * @param node - The given node
+     * @return  - a Set of nodes (the given node's neighbors)
+     */
     protected Set<Node> getNeighbors(Node node)
     {
         return node.getNeighbors().keySet();
     }
+
     /**
      * The Extract-Best-State procedure in the aLSS-LRTA*
      * @return - The best node

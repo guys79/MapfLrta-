@@ -1,7 +1,9 @@
 package Model;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * This class will represent a node in the graph
@@ -15,6 +17,7 @@ public class Node {
     private boolean isInhabitated;
     public static double average = 0 ;
     public static double sum = 0 ;
+    public static Set<Node> s = new HashSet<>();
 
 
 
@@ -28,27 +31,49 @@ public class Node {
         this.neighbors = new HashMap<>();
         this.occupationId = -1;
         this.isInhabitated = false;
+
     }
+
+    /**
+     * This function will reset the collactive data of nodes
+     */
     public static void reset()
     {
         average = 0;
         numOfNodes = 1;
         sum =0;
+        s.clear();
+
 
     }
-    public void updateAverage()
+
+    /**
+     * This function will up
+     * date the average updates per node
+     * @param flag - True if the heuristic has been updated
+     */
+    public void updateAverage(boolean flag)
     {
 
-
-            sum++;//every next..
-            average = sum/numOfNodes;
+            if(flag)
+                sum++;//every next..
+            s.add(this);//Scanned
+            average = sum/s.size();
 
     }
+
+    /**
+     * This function will inhabit the node
+     * @param id - The given agent's id
+     */
     public void inhabitate(int id) {
         this.isInhabitated = true;
         this.occupationId = id;
     }
 
+    /**
+     * This function will uninhabit the node
+     */
     public void clear()
     {
         this.occupationId = -1;
@@ -63,7 +88,6 @@ public class Node {
     {
         if(this.neighbors.containsKey(n))
             return this.neighbors.get(n);
-        System.out.println("sahdkahsjkda");
         return Double.MAX_VALUE;
     }
     /**

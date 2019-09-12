@@ -31,6 +31,10 @@ public class MAScenarioProblemCreator extends ScenarioProblemCreator {
 
     }
 
+    /**
+     * This function will set the number of agents in the problem
+     * @param num_of_agents - The number of agents
+     */
     public void setNum_of_agents(int num_of_agents) {
         this.num_of_agents = num_of_agents;
     }

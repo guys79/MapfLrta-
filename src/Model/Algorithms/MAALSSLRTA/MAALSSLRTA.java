@@ -210,6 +210,10 @@ public class MAALSSLRTA extends ALSSLRTA {
         return id;
 
     }
+
+    /**
+     * This class will compare between agents by comparing their current node's heuristics
+     */
     public static class CompareAgentsHeurstics implements Comparator<Agent>
     {
         public CompareAgentsHeurstics()

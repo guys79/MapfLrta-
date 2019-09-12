@@ -7,6 +7,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
@@ -17,8 +18,7 @@ public class Main extends Application {
         launch(args);
     }
 
-    // TODO: 07/09/2019 comments 
-    // TODO: 9/12/2019 numofupdated/numofscanned  
+
     public void start(Stage primaryStage) throws Exception {
 
         //The GUI
@@ -47,9 +47,9 @@ public class Main extends Application {
 
     public static void test(Controller controller)
     {
-        int maxNumAgent =10;
+        int maxNumAgent =100;
         int num_scene = 2000;
-        double sum ;
+        double sum ,totalSum=0;
         String res="";
         Model model;
         for(int i=1;i<=maxNumAgent;i++)
@@ -62,13 +62,18 @@ public class Main extends Application {
                 sum+=model.next();
             }
             res+="Average updates for "+i+" is "+(((sum*1.0)/num_scene)/i)+"\n";
+            System.out.println("Average updates for "+i+" is "+(((sum*1.0)/num_scene)/i)+"\n");
+            totalSum+=((sum*1.0)/num_scene)/i;
         }
-
+        res+="total average is "+((totalSum*1.0)/maxNumAgent);
 
 
         BufferedWriter writer = null;
         try {
-            writer = new BufferedWriter(new FileWriter("C:\\Users\\guys7\\Desktop\\results.txt"));
+            String rel = new File("help.txt").getAbsolutePath();
+            rel = rel.substring(0,rel.indexOf("help.txt"));
+            String path = rel+"res\\Outputs\\results.txt";
+            writer = new BufferedWriter(new FileWriter(path));
             writer.write(res);
             writer.close();
         } catch (IOException e) {

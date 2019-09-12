@@ -87,7 +87,7 @@ public class ShortestPathGenerator {
 
                 if(this.graph[i][j]!=null)
                     calculateCost(graph[i][j]);
-           //     System.out.println("           "+(j+1)+"/"+this.graph[i].length);
+
             }
         }
         System.out.println("Finish");
