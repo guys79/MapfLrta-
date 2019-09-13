@@ -75,20 +75,22 @@ public class ALSSLRTA implements IRealTimeSearchAlgorithm {
 
         // Check is the agent is done (if not that we will update the node's heuristics)
 
-        if(next.getNode().equals(goal))
+       if(next.getNode().equals(goal))
         {
 
             agent.done();
 
         }
+        /*
         else
         {
             //The dijkstra procedure
-            if(!dijkstra()){
+            if(!){
                 return null;
             }
 
-        }
+        }*/
+        dijkstra();
 
         //Calculating prefix
 
@@ -240,10 +242,14 @@ public class ALSSLRTA implements IRealTimeSearchAlgorithm {
             if(state.getNode().getId() == this.agent.getGoal().getId())
             {
 
-                if(state.getBack() == null)
-                    return;
-                if(canBeAtTime(time(state.getBack()),state.getBack().getNode(),state.getNode())) {
-                    closed.clear();
+                boolean flag;
+                if(state.getBack() == null)//In place
+                    flag =canBeAtTime(time(state),state.getNode(),state.getNode());
+                else
+                    flag =canBeAtTime(time(state.getBack()),state.getBack().getNode(),state.getNode());
+                //if can inhabit
+                if(flag) {
+                    //closed.clear();
                     return;
                 }
             }

@@ -32,10 +32,12 @@ public class MaAlssLrtaRealTimeSearchManager extends AbstractRealTimeSearchManag
     {
         prev = new HashMap<>();
 
-        //Calculate the prefixes for all agents who are not done
+
+        //Calculate the prefixes for all agents
         for(Agent agent:this.prefixesForAgents.keySet())
         {
-            if(!agent.isDone())
+            //Calculate the prefixes for all agents who are not done
+          //  if(!agent.isDone())
                 prev.put(agent,agent.getCurrent());
         }
 

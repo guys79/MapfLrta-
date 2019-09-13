@@ -23,8 +23,8 @@ public class Model {
     private final double DENSITY = 0.6;//The ratio between the number of walls to the overall number of nodes in the grid
     private final int NUM_OF_NODES_TO_DEVELOP = 25;//The number of nodes that can be developed in a single iteration
     private final int TYPE =2;// 0 - LRTA*, 1-aLSS-LRTA* 2- MA-aLSS-LRTA*
-    private String fileName = "arena";//The name of the file
-    //private String fileName = "AR0011SR";//The name of the file
+    private String fileName;
+
     private String mapPath;//The path to the map file
     private String scenPath;//The path to the scenario file
     private String outputPath;//The path to the output file
@@ -59,6 +59,15 @@ public class Model {
             ((MAScenarioProblemCreator)problemCreator).setNum_of_agents(NUM_OF_AGENTS);
     }
 
+    public Model(Controller controller,String filename) {
+        this(controller);
+        this.fileName = filename;
+        String rel = new File("help.txt").getAbsolutePath();
+        rel = rel.substring(0,rel.indexOf("help.txt"));
+        mapPath = rel+"res\\Maps\\"+fileName+".map";
+        scenPath =rel+"res\\Scenarios\\"+fileName+".map.scen";
+        outputPath = rel+"res\\Outputs\\output.csv";
+    }
     /**
      * The constructor of the class
      * @param controller - The controller
@@ -93,6 +102,8 @@ public class Model {
 
         this.controller = controller;
         this.controller.setModel(this);
+        fileName = "arena";//The name of the file
+        //private String fileName = "AR0011SR";//The name of the file
     }
 
     /**

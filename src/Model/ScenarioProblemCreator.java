@@ -187,7 +187,7 @@ public class ScenarioProblemCreator extends AbstractProblemCreator{
 
         }catch (Exception e)
         {
-
+            e.printStackTrace();
         } finally {
             if (br != null) {
                 try {

@@ -1,11 +1,13 @@
 import Model.*;
 import Controller.*;
+import Model.Algorithms.Dijkstra.ShortestPathGenerator;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+import javax.xml.bind.SchemaOutputResolver;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
@@ -18,7 +20,8 @@ public class Main extends Application {
         launch(args);
     }
 
-
+    // TODO: 13/09/2019 Something that writes the dic each line to a file.
+    //Then we can read from the file
     public void start(Stage primaryStage) throws Exception {
 
         //The GUI
@@ -47,40 +50,99 @@ public class Main extends Application {
 
     public static void test(Controller controller)
     {
-        int maxNumAgent =100;
-        int num_scene = 2000;
+        int maxNumAgent =21;
+        int num_scene = 100;
         double sum ,totalSum=0;
         String res="";
         Model model;
-        for(int i=1;i<=maxNumAgent;i++)
-        {
-            model = new Model(controller);
-            sum=0;
-            model.setNUM_OF_AGENTS(i);
-            for(int j =0;j<num_scene;j++)
-            {
-                sum+=model.next();
+
+        for(int k=0;k<7;k++) {
+            String filename;
+
+                if(k== 0)
+                {
+
+                    filename = "arena";
+                }
+                else
+                {
+                    if(k== 1)
+                    {
+                        filename = "AR0011SR";
+                    }
+                    else
+                    {
+                        if(k== 2)
+                        {
+                            filename = "AR0602SR";
+                        }
+                        else
+                        {
+                            if(k== 3)
+                            {
+                                filename = "AR0700SR";
+                            }
+                            else
+                            {
+                                if(k== 4)
+                                {
+                                    filename = "orz103d";
+                                }
+                                else
+                                {
+                                    if(k== 5)
+                                    {
+                                        filename = "orz702d";
+                                    }
+                                    else
+                                    {
+                                        filename = "orz900d";
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+
+
+
+
+
+
+
+
+
+            ShortestPathGenerator.getInstance().filename = filename;
+
+            for (int i = 1; i <= maxNumAgent; i += 10) {
+                model = new Model(controller,filename);
+                sum = 0;
+                model.setNUM_OF_AGENTS(i);
+                for (int j = 0; j < num_scene; j++) {
+                    System.out.println("FIleName "+filename);
+                    sum += model.next();
+                }
+                res += "Average updates for " + i + " is " + (((sum * 1.0) / num_scene) / i) + "\n";
+                System.out.println("Average updates for " + i + " is " + (((sum * 1.0) / num_scene) / i) + "\n");
+                totalSum += ((sum * 1.0) / num_scene) / i;
             }
-            res+="Average updates for "+i+" is "+(((sum*1.0)/num_scene)/i)+"\n";
-            System.out.println("Average updates for "+i+" is "+(((sum*1.0)/num_scene)/i)+"\n");
-            totalSum+=((sum*1.0)/num_scene)/i;
+            res += "total average is " + ((totalSum * 1.0) / maxNumAgent);
+
+
+            BufferedWriter writer = null;
+            try {
+                String rel = new File("help.txt").getAbsolutePath();
+                rel = rel.substring(0, rel.indexOf("help.txt"));
+                String path = rel + "res\\Outputs\\perfect_heursitics_results"+filename+".txt";//paste - res\Outputs\
+                writer = new BufferedWriter(new FileWriter(path));
+                writer.write(res);
+                writer.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
         }
-        res+="total average is "+((totalSum*1.0)/maxNumAgent);
-
-
-        BufferedWriter writer = null;
-        try {
-            String rel = new File("help.txt").getAbsolutePath();
-            rel = rel.substring(0,rel.indexOf("help.txt"));
-            String path = rel+"res\\Outputs\\results.txt";
-            writer = new BufferedWriter(new FileWriter(path));
-            writer.write(res);
-            writer.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-
 
 
     }

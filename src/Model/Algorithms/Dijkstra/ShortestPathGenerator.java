@@ -2,6 +2,7 @@ package Model.Algorithms.Dijkstra;
 
 import Model.Node;
 
+import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -13,14 +14,18 @@ public class ShortestPathGenerator {
     private Map<Integer,Map<Integer,Double>> shortestPaths;//Key - origin node id, value - map -{ key - target node id }
     private  static  ShortestPathGenerator shortestPathGenerator;//The instance
     private Node[][] graph;//The graph
-
+    public String filename;
+    private String prev;
+    private String res;
     /**
      * The constructor
      */
     private ShortestPathGenerator()
     {
-        this.shortestPaths = new HashMap<>();
+        this.shortestPaths = null;
         this.graph = null;
+        this.prev = "";
+        this.res = "";
     }
 
     /**
@@ -69,7 +74,11 @@ public class ShortestPathGenerator {
         }
 
         this.graph = graph;
-        init(graph);
+        if(!prev.equals(filename)) {
+
+            init(graph);
+        }
+        prev = filename;
     }
 
     /**
@@ -85,10 +94,22 @@ public class ShortestPathGenerator {
             for(int j=0;j<this.graph[i].length;j++)
             {
 
+                //System.out.println("sakd;lkas");
                 if(this.graph[i][j]!=null)
                     calculateCost(graph[i][j]);
 
             }
+        }
+           BufferedWriter writer;
+        try {
+            String rel = new File("help.txt").getAbsolutePath();
+            rel = rel.substring(0,rel.indexOf("help.txt"));
+            String path = rel+"res\\Heuristics\\perfect_heuristics_"+filename+".txt";
+            writer = new BufferedWriter(new FileWriter(path));
+            writer.write(res);
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
         System.out.println("Finish");
     }
@@ -102,6 +123,10 @@ public class ShortestPathGenerator {
     public double getShortestPath(Node origin, Node target)
     {
 
+        if(this.shortestPaths == null)
+        {
+            getFromFile();
+        }
         Map<Integer,Double> given = this.shortestPaths.get(origin.getId());
         if(given == null)
             return Double.MAX_VALUE;
@@ -118,6 +143,55 @@ public class ShortestPathGenerator {
      */
     private void calculateCost(Node origin)
     {
-        this.shortestPaths.put(origin.getId(),Dijkstra.getInstance().calculateCosts(origin));
+       //this.shortestPaths.put(origin.getId(),Dijkstra.getInstance().calculateCosts(origin));
+        String rel = new File("help.txt").getAbsolutePath();
+        rel = rel.substring(0,rel.indexOf("help.txt"));
+        String path = rel+"res\\Heuristics\\perfect_heuristics_"+filename+".txt";
+        File f = new File(path);
+        if(f.exists())
+            return;
+        Map<Integer,Double> map = Dijkstra.getInstance().calculateCosts(origin);
+        String line = origin.getId()+",";
+        for(Integer targetId : map.keySet())
+            line+="["+targetId+"-"+map.get(targetId)+"]"+",";
+        line = line.substring(0,line.length()-1)+"\n";
+
+        res+=line;
+
+    }
+
+    public void getFromFile()
+    {
+        String rel = new File("help.txt").getAbsolutePath();
+        rel = rel.substring(0,rel.indexOf("help.txt"));
+        String path = rel+"res\\Heuristics\\perfect_heursitics_"+filename+".txt";
+        shortestPaths = new HashMap<>();
+        BufferedReader br;
+        try {
+            br = new BufferedReader(new FileReader(path));
+            String line;
+            //Map<Integer,Map<Integer,Double>>
+            Map<Integer,Double> map;
+            String [] data;
+            int originId,targetId;
+            double cost;
+            while((line = br.readLine())!=null)
+            {
+                    map = new HashMap<>();
+                    data = line.split(",");
+                    originId = Integer.parseInt(data[0]);
+                    for(int i=1;i<data.length;i++)
+                    {
+                        targetId = Integer.parseInt(data[i].substring(1,data[i].indexOf("-")));
+                        cost = Double.parseDouble(data[i].substring(data[i].indexOf("-")+1,data.length-1));
+                        map.put(targetId,cost);
+                    }
+                    shortestPaths.put(originId,map);
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

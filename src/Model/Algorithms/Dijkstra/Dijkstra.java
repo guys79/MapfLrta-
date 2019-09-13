@@ -12,6 +12,7 @@ import java.util.*;
 public class Dijkstra {
 
     private Node origin;//The origin node
+    private int test;
     private static Dijkstra dijkstra;;//The instance of the class
     private Map<Integer, DijkstraSearchNode> alreadyReached;//The nodes with the updated cost
 
@@ -21,6 +22,7 @@ public class Dijkstra {
     private Dijkstra()
     {
         this.alreadyReached = new HashMap<>();
+        test=0;
     }
 
 
@@ -71,7 +73,7 @@ public class Dijkstra {
         while(open.size()>0)
         {
             DijkstraSearchNode node = open.poll();
-
+            test(node,open);
             Set<Node> neighbors = node.getNode().getNeighbors().keySet();
             double help;
             double dis = node.getDistance();
@@ -95,7 +97,7 @@ public class Dijkstra {
 
 
                 neigh.setDistance(help);
-                if(this.alreadyReached.containsKey(neigh.getNode().getId()))
+                if(!this.alreadyReached.containsKey(neigh.getNode().getId()))
                 {
                     open.remove(neigh);
                 }
@@ -124,7 +126,7 @@ public class Dijkstra {
     }
 
     /**
-     * This class will compare two DijkstraSearchNodes using their distance from the origin node
+     * This class will compare two DijkstraSearchNodes using their distance from the origin n
      */
     class DijkstraComperator implements Comparator<DijkstraSearchNode>
     {
@@ -140,5 +142,28 @@ public class Dijkstra {
             return 1;
         }
     }
+
+    private void test(DijkstraSearchNode neigh,PriorityQueue <DijkstraSearchNode> open )
+    {
+        boolean flag = true;
+        for(DijkstraSearchNode node : open)
+        {
+            if(neigh.getDistance()>node.getDistance()) {
+                System.out.println("sssssssssssssssss");
+                flag = false;
+            }
+
+        }
+        if(!flag)
+        {
+            test++;
+        }
+        if(!flag && test>1)
+        {
+            System.out.println();
+
+        }
+    }
+
 
 }

@@ -121,7 +121,7 @@ public abstract class AbstractRealTimeSearchManager implements IRealTimeSearchMa
     public Map<Agent,List<Node>> search()
     {
         int i=0;
-        while(!isDone() && i<10000)
+        while(!isDone() && i<200000)
         {
             //System.out.println("Iteration number "+(i+1));
             calculatePrefix();
