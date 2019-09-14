@@ -1,0 +1,7 @@
+Average updates for 1 is 1.144745528870451
+Average updates for 11 is 0.1246321772381127
+Average updates for 21 is 0.07649012532009274
+total average is 0.06408894435374554Average updates for 1 is 1.1397972527013038
+Average updates for 11 is 0.11592388309701192
+Average updates for 21 is 0.0678928680049479
+total average is 0.12711818263009142

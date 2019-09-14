@@ -42,7 +42,12 @@ public class DijkstraSearchNode {
      * This function will set the distance of the node
      * @param distance - The given distance
      */
-    public void setDistance(double distance) {
+    public void setDistance(Double distance) {
+        if(distance == null)
+        {
+            this.distance = Double.MAX_VALUE;
+            return;
+        }
         this.distance = distance;
     }
 
@@ -51,7 +56,7 @@ public class DijkstraSearchNode {
     @Override
     public boolean equals(Object obj) {
 
-        if(!(obj instanceof Dijkstra))
+        if(!(obj instanceof DijkstraSearchNode))
             return false;
         DijkstraSearchNode dijkstraSearchNode = (DijkstraSearchNode)obj;
         return dijkstraSearchNode.getNode().getId() == this.node.getId();
@@ -61,4 +66,5 @@ public class DijkstraSearchNode {
     public int hashCode() {
         return node.getId();
     }
+
 }

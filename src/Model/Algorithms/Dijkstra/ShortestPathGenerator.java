@@ -1,10 +1,13 @@
 package Model.Algorithms.Dijkstra;
 
 import Model.Node;
+import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
 
 import java.io.*;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * This class will generate for each node in the graph it's shortest path
@@ -16,7 +19,7 @@ public class ShortestPathGenerator {
     private Node[][] graph;//The graph
     public String filename;
     private String prev;
-    private String res;
+    private Set<String[]> res;
     /**
      * The constructor
      */
@@ -25,7 +28,7 @@ public class ShortestPathGenerator {
         this.shortestPaths = null;
         this.graph = null;
         this.prev = "";
-        this.res = "";
+        this.res = new HashSet<>();
     }
 
     /**
@@ -87,7 +90,13 @@ public class ShortestPathGenerator {
      */
     private void init(Node[][]graph)
     {
-        System.out.println("Start");
+        String rel = new File("help.txt").getAbsolutePath();
+        rel = rel.substring(0,rel.indexOf("help.txt"));
+        String path = rel+"res\\Heuristics\\perfect_heuristics_"+filename+".txt";
+        File f = new File(path);
+        if(f.exists())
+            return;
+        long start = System.currentTimeMillis();
         for(int i=0;i<this.graph.length;i++)
         {
             System.out.println((i+1)+"/"+this.graph.length);
@@ -95,23 +104,35 @@ public class ShortestPathGenerator {
             {
 
                 //System.out.println("sakd;lkas");
-                if(this.graph[i][j]!=null)
+                if(this.graph[i][j]!=null) {
+
                     calculateCost(graph[i][j]);
+                    BufferedWriter writer;
+                    try {
+
+                        writer = new BufferedWriter(new FileWriter(path));
+                        for(String [] str:res)
+                        {
+                            for(int k=0;k<str.length;k++)
+                            {
+                                writer.write(str[k]);
+                            }
+                        }
+                       //System.out.println("DONE");
+                        res.clear();
+                        writer.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
+                    //  System.out.println(System.currentTimeMillis()-s);
+                }
 
             }
         }
-           BufferedWriter writer;
-        try {
-            String rel = new File("help.txt").getAbsolutePath();
-            rel = rel.substring(0,rel.indexOf("help.txt"));
-            String path = rel+"res\\Heuristics\\perfect_heuristics_"+filename+".txt";
-            writer = new BufferedWriter(new FileWriter(path));
-            writer.write(res);
-            writer.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        System.out.println("Finish");
+
+        long end =System.currentTimeMillis();
+        System.out.println("TIme "+(end-start));
     }
 
     /**
@@ -142,21 +163,30 @@ public class ShortestPathGenerator {
      * @param origin - The origin node
      */
     private void calculateCost(Node origin)
+
     {
        //this.shortestPaths.put(origin.getId(),Dijkstra.getInstance().calculateCosts(origin));
-        String rel = new File("help.txt").getAbsolutePath();
-        rel = rel.substring(0,rel.indexOf("help.txt"));
-        String path = rel+"res\\Heuristics\\perfect_heuristics_"+filename+".txt";
-        File f = new File(path);
-        if(f.exists())
-            return;
+
         Map<Integer,Double> map = Dijkstra.getInstance().calculateCosts(origin);
         String line = origin.getId()+",";
-        for(Integer targetId : map.keySet())
-            line+="["+targetId+"-"+map.get(targetId)+"]"+",";
-        line = line.substring(0,line.length()-1)+"\n";
+        int count = 0;
+        int size = map.size();
 
-        res+=line;
+
+
+        String [] lines = new String[size];
+        for(Map.Entry<Integer,Double> entry : map.entrySet()) {
+            lines[count] = entry.getKey() + "-" + entry.getValue() + ",";
+            count++;
+
+        }
+        lines[count-1] = lines[count-1].substring(0,line.length()-1)+"\n";
+
+
+
+
+
+        res.add(lines);
 
     }
 
@@ -182,8 +212,8 @@ public class ShortestPathGenerator {
                     originId = Integer.parseInt(data[0]);
                     for(int i=1;i<data.length;i++)
                     {
-                        targetId = Integer.parseInt(data[i].substring(1,data[i].indexOf("-")));
-                        cost = Double.parseDouble(data[i].substring(data[i].indexOf("-")+1,data.length-1));
+                        targetId = Integer.parseInt(data[i].substring(0,data[i].indexOf("-")));
+                        cost = Double.parseDouble(data[i].substring(data[i].indexOf("-")+1,data.length));
                         map.put(targetId,cost);
                     }
                     shortestPaths.put(originId,map);

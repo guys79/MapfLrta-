@@ -1,5 +1,6 @@
 package Model.Algorithms.Dijkstra;
 
+import Model.GridNode;
 import Model.Node;
 
 import javax.print.MultiDoc;
@@ -14,14 +15,15 @@ public class Dijkstra {
     private Node origin;//The origin node
     private int test;
     private static Dijkstra dijkstra;;//The instance of the class
-    private Map<Integer, DijkstraSearchNode> alreadyReached;//The nodes with the updated cost
+    private Map<Integer,Double> needsToBeUpdated;
+    private Set<Integer>teset = new HashSet<>();
 
     /**
      * The constructor
      */
     private Dijkstra()
     {
-        this.alreadyReached = new HashMap<>();
+        this.needsToBeUpdated = new HashMap<>();
         test=0;
     }
 
@@ -45,19 +47,10 @@ public class Dijkstra {
     public Map<Integer,Double> calculateCosts(Node origin)
     {
         this.origin = origin;
-        this.alreadyReached.clear();
-        Map<Integer,Double> costs = new HashMap<>();
-
+        this.needsToBeUpdated = new HashMap<>();
         search();
 
-        Set<Integer> ids = this.alreadyReached.keySet();
-
-        for(Integer id :ids)
-        {
-            costs.put(id,this.alreadyReached.get(id).getDistance());
-        }
-
-        return costs;
+        return needsToBeUpdated;
     }
 
     /**
@@ -65,23 +58,29 @@ public class Dijkstra {
      */
     private void search()
     {
+
         DijkstraSearchNode originNode = new DijkstraSearchNode(origin);
-        originNode.setDistance(0);
-        this.alreadyReached.put(originNode.getNode().getId(),originNode);
+        originNode.setDistance(0d);
+        this.needsToBeUpdated.put(originNode.getNode().getId(),0d);
         PriorityQueue <DijkstraSearchNode> open = new PriorityQueue(new DijkstraComperator());
         open.add(originNode);
+
         while(open.size()>0)
         {
+
+            //System.out.println(open.size());
             DijkstraSearchNode node = open.poll();
-            test(node,open);
+
+
             Set<Node> neighbors = node.getNode().getNeighbors().keySet();
             double help;
             double dis = node.getDistance();
 
             for(Node neighbor : neighbors)
             {
-
+                //System.out.println(count);
                 DijkstraSearchNode neigh = transformNode(neighbor);
+
                 double neighDis = node.getNode().getWeight(neighbor);
                 help = dis + neighDis;//New distance val
 
@@ -92,26 +91,37 @@ public class Dijkstra {
                 if(neighDistance != Double.MAX_VALUE && help >= neighDistance)
                 {
                     continue;
+
                 }
-
-
 
                 neigh.setDistance(help);
-                if(!this.alreadyReached.containsKey(neigh.getNode().getId()))
-                {
-                    open.remove(neigh);
-                }
-                else
-                {
-                    this.alreadyReached.put(neigh.getNode().getId(),neigh);
-                }
-                open.add(neigh);
+                this.needsToBeUpdated.put(neigh.getNode().getId(),help);
+                add(open,neigh);
+
+
             }
 
         }
 
+
+    }
+    private void add(PriorityQueue<DijkstraSearchNode> open, DijkstraSearchNode dijkstraSearchNode)
+    {
+        open.remove(dijkstraSearchNode);
+        open.add(dijkstraSearchNode);
+    }
+    private void test2(PriorityQueue<DijkstraSearchNode> open)
+    {
+        Set<DijkstraSearchNode>set = new HashSet<>(open);
+        if(set.size()!=open.size())
+            System.out.println("problem");
+
     }
 
+    private boolean checkIfXY(int x,int y, GridNode dijkstraSearchNode)
+    {
+        return dijkstraSearchNode.getY() == y && dijkstraSearchNode.getX() == x;
+    }
     /**
      * This function will transform a Node instance into the right DijkstaSearchNode instance
      * @param node - the given node
@@ -119,10 +129,15 @@ public class Dijkstra {
      */
     private DijkstraSearchNode transformNode(Node node)
     {
-        if(this.alreadyReached.containsKey(node.getId())) {
+        /*if(this.alreadyReached.containsKey(node.getId())) {
             return this.alreadyReached.get(node.getId());
         }
-        return new DijkstraSearchNode(node);
+
+        DijkstraSearchNode dijkstraSearchNode = new DijkstraSearchNode(node);
+            this.alreadyReached.put(dijkstraSearchNode.getNode().getId(),dijkstraSearchNode);*/
+        DijkstraSearchNode dijkstraSearchNode = new DijkstraSearchNode(node);
+        dijkstraSearchNode.setDistance(this.needsToBeUpdated.get(node.getId()));
+        return dijkstraSearchNode;
     }
 
     /**
@@ -135,6 +150,7 @@ public class Dijkstra {
         public int compare(DijkstraSearchNode o1, DijkstraSearchNode o2) {
             double dis1 = o1.getDistance();
             double dis2 = o2.getDistance();
+
             if(dis1 == dis2)
                 return 0;
             if(dis1<dis2)
@@ -143,27 +159,8 @@ public class Dijkstra {
         }
     }
 
-    private void test(DijkstraSearchNode neigh,PriorityQueue <DijkstraSearchNode> open )
-    {
-        boolean flag = true;
-        for(DijkstraSearchNode node : open)
-        {
-            if(neigh.getDistance()>node.getDistance()) {
-                System.out.println("sssssssssssssssss");
-                flag = false;
-            }
 
-        }
-        if(!flag)
-        {
-            test++;
-        }
-        if(!flag && test>1)
-        {
-            System.out.println();
 
-        }
-    }
 
 
 }

@@ -1,5 +1,6 @@
 import Model.*;
 import Controller.*;
+import Model.Algorithms.Dijkstra.DijkstraSearchNode;
 import Model.Algorithms.Dijkstra.ShortestPathGenerator;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -12,6 +13,8 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Comparator;
+import java.util.PriorityQueue;
 
 public class Main extends Application {
 
@@ -28,7 +31,12 @@ public class Main extends Application {
         FXMLLoader fxmlLoader = new FXMLLoader();
         Parent root = fxmlLoader.load(getClass().getResource("Controller/view.fxml").openStream());
         Controller controller = fxmlLoader.getController();
-
+    /*    PriorityQueue<DijkstraSearchNode> p = new PriorityQueue<>(new DijkstraComperator()) ;
+        GridNode gridNode = new GridNode(2,3);
+        DijkstraSearchNode dijkstraSearchNode = new DijkstraSearchNode(gridNode);
+        DijkstraSearchNode dijkstraSearchNode2 = new DijkstraSearchNode(gridNode);
+        add(p,dijkstraSearchNode);
+        add(p,dijkstraSearchNode2);*/
         //Model model = new Model(controller);
         //model.next();
         test(controller);
@@ -48,6 +56,29 @@ public class Main extends Application {
 
     }
 
+    public static void add(PriorityQueue<DijkstraSearchNode> open,DijkstraSearchNode node)
+    {
+        open.remove(node);
+        open.add(node);
+    }
+    /**
+     * This class will compare two DijkstraSearchNodes using their distance from the origin n
+     */
+    class DijkstraComperator implements Comparator<DijkstraSearchNode>
+    {
+
+        @Override
+        public int compare(DijkstraSearchNode o1, DijkstraSearchNode o2) {
+            double dis1 = o1.getDistance();
+            double dis2 = o2.getDistance();
+
+            if(dis1 == dis2)
+                return 0;
+            if(dis1<dis2)
+                return -1;
+            return 1;
+        }
+    }
     public static void test(Controller controller)
     {
         int maxNumAgent =21;
@@ -56,47 +87,58 @@ public class Main extends Application {
         String res="";
         Model model;
 
-        for(int k=0;k<7;k++) {
+        for(int k=0;k<9;k++) {
             String filename;
 
                 if(k== 0)
                 {
 
-                    filename = "arena";
+
+                    filename = "AR0201SR";
+//                    filename = "AR0011SR";
                 }
                 else
                 {
                     if(k== 1)
                     {
-                        filename = "AR0011SR";
+                        filename = "AR0331SR";
+                        //filename = "AR0011SR";
                     }
                     else
                     {
                         if(k== 2)
                         {
-                            filename = "AR0602SR";
+                            filename = "den520d";
                         }
                         else
                         {
                             if(k== 3)
                             {
-                                filename = "AR0700SR";
+                                filename = "ht_chantry";
                             }
                             else
                             {
                                 if(k== 4)
                                 {
-                                    filename = "orz103d";
+                                    filename = "ht_mansion_n";
                                 }
                                 else
                                 {
                                     if(k== 5)
                                     {
-                                        filename = "orz702d";
+                                        filename = "lak303d";
                                     }
                                     else
                                     {
-                                        filename = "orz900d";
+                                        if(k==6)
+                                            filename = "lt_gallowstemplar_n";
+                                        else {
+                                            if(k==7) {
+                                                filename = "ost003d";
+                                            }
+                                            else
+                                                filename = "w_woundedcoast";
+                                        }
                                     }
                                 }
                             }

@@ -1,0 +1,12 @@
+Average updates for 1 is 1.134802148667591
+Average updates for 11 is 0.1225133015774352
+Average updates for 21 is 0.07587261278794273
+Average updates for 31 is 0.057962703607097474
+Average updates for 41 is 0.05027512536344265
+Average updates for 51 is 0.045045267769261294
+Average updates for 61 is 0.04153580164534298
+Average updates for 71 is 0.040268954333638654
+Average updates for 81 is 0.03852266300912166
+Average updates for 91 is 0.346239700677205
+Average updates for 101 is 0.036490232264696394
+total average is 0.01969830209606708
