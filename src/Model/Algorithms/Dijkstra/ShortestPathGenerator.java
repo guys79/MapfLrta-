@@ -97,9 +97,9 @@ public class ShortestPathGenerator {
      */
     private void init(Node[][]graph)
     {
-        String rel = new File("help.txt").getAbsolutePath();
-        rel = rel.substring(0,rel.indexOf("help.txt"));
-        String path = rel+"res\\Heuristics\\perfect_heuristics_"+filename+".txt";
+
+        String rel = "C:\\Users\\guys79\\Desktop\\Heuristics";
+        String path = rel+"\\perfect_heuristics_"+filename+".txt";
         File f = new File(path);
         if(f.exists())
             return;
@@ -108,14 +108,14 @@ public class ShortestPathGenerator {
         for(int i=0;i<this.graph.length;i++)
         {
             System.out.println((i+1)+"/"+this.graph.length);
+            //System.out.println("sakd;lkas");
             for(int j=0;j<this.graph[i].length;j++)
-            {
-
-                //System.out.println("sakd;lkas");
-                if(this.graph[i][j]!=null) {
+                if (this.graph[i][j] != null) {
 
                     calculateCost(graph[i][j]);
-
+                    // rel = new File("help.txt").getAbsolutePath();
+                    //  rel = rel.substring(0,rel.indexOf("help.txt"));
+                    //  path = rel+"res\\Heuristics\\perfect_heuristics_"+filename+".txt";
                     try (FileWriter fw = new FileWriter(path, true);
                          BufferedWriter bw = new BufferedWriter(fw);
                          PrintWriter out = new PrintWriter(bw)) {
@@ -131,8 +131,6 @@ public class ShortestPathGenerator {
                     }
 
                 }
-
-            }
         }
 
         long end =System.currentTimeMillis();
@@ -199,9 +197,10 @@ public class ShortestPathGenerator {
 
     public void getFromFile()
     {
-        String rel = new File("help.txt").getAbsolutePath();
-        rel = rel.substring(0,rel.indexOf("help.txt"));
-        String path = rel+"res\\Heuristics\\perfect_heuristics_"+filename+".txt";
+       // String rel = new File("help.txt").getAbsolutePath();
+       // rel = rel.substring(0,rel.indexOf("help.txt"));
+        String rel = "C:\\Users\\guys79\\Desktop\\Heuristics";
+        String path = rel+"\\perfect_heuristics_"+filename+".txt";
         shortestPaths = new HashMap<>();
         BufferedReader br;
         try {

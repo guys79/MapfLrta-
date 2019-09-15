@@ -85,8 +85,8 @@ public class Main extends Application {
     }
     public static void test(Controller controller)
     {
-        int maxNumAgent =21;
-        int num_scene = 10;
+        int maxNumAgent =11;
+        int num_scene = 1;
         double sum ,totalSum=0;
         String res="";
         Model model;
@@ -101,12 +101,17 @@ public class Main extends Application {
                 names.add(listOfFiles[k].getName().substring(0,listOfFiles[k].getName().indexOf(".")));
             }
             for (String filename : names) {
+                rel = "C:\\Users\\guys79\\Desktop\\Heuristics";
+                path = rel+"\\perfect_heuristics_"+filename+".txt";
+                File f = new File(path);
+                if(f.exists())
+                    continue;
                 ShortestPathGenerator.getInstance().setFilename(filename);
 
                 for (int i = 1; i <= maxNumAgent; i += 10) {
                     model = new Model(controller, filename);
                     sum = 0;
-                    model.setNUM_OF_AGENTS(i);
+
                     for (int j = 0; j < num_scene; j++) {
                         System.out.println("FIleName " + filename);
                         sum += model.next();
@@ -119,7 +124,7 @@ public class Main extends Application {
                 res += "total average is " + ((totalSum * 1.0) / maxNumAgent);
 
 
-                BufferedWriter writer = null;
+                BufferedWriter writer = null;//
                 try {
 
                     path = rel + "res\\Outputs\\perfect_heuristics_results" + filename + ".txt";//paste - res\Outputs\
