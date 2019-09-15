@@ -115,25 +115,21 @@ public class ShortestPathGenerator {
                 if(this.graph[i][j]!=null) {
 
                     calculateCost(graph[i][j]);
-                    BufferedWriter writer;
-                    try {
 
-                        writer = new BufferedWriter(new FileWriter(path));
-                        for(String [] str:res)
-                        {
-                            for(int k=0;k<str.length;k++)
-                            {
-                                writer.write(str[k]);
+                    try (FileWriter fw = new FileWriter(path, true);
+                         BufferedWriter bw = new BufferedWriter(fw);
+                         PrintWriter out = new PrintWriter(bw)) {
+                        for (String[] str : res) {
+                            for (int k = 0; k < str.length; k++) {
+                                out.print(str[k]);
                             }
                         }
-                       //System.out.println("DONE");
+                        //System.out.println("DONE");
                         res.clear();
-                        writer.close();
                     } catch (IOException e) {
-                        e.printStackTrace();
+                        //exception handling left as an exercise for the reader
                     }
 
-                    //  System.out.println(System.currentTimeMillis()-s);
                 }
 
             }
