@@ -14,7 +14,9 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Comparator;
+import java.util.HashSet;
 import java.util.PriorityQueue;
+import java.util.Set;
 
 public class Main extends Application {
 
@@ -37,12 +39,12 @@ public class Main extends Application {
         DijkstraSearchNode dijkstraSearchNode2 = new DijkstraSearchNode(gridNode);
         add(p,dijkstraSearchNode);
         add(p,dijkstraSearchNode2);*/
-        String filename = "w_woundedcoast";
-        Model model = new Model(controller);
-        ShortestPathGenerator.getInstance().setFilename(filename);
-        model.next();
-      //  test(controller);
-        primaryStage.setTitle(model.toString());
+       // String filename = "den312d";
+      //  Model model = new Model(controller,filename);
+      //  ShortestPathGenerator.getInstance().setFilename(filename);
+      //  model.next();
+       test(controller);
+       //primaryStage.setTitle(model.toString());
         primaryStage.setScene(new Scene(root, 1200, 700));
         primaryStage.show();
 
@@ -88,112 +90,47 @@ public class Main extends Application {
         double sum ,totalSum=0;
         String res="";
         Model model;
-
-        for(int k=0;k<9;k++) {
-            String filename;
-
-                if(k== 0)
-                {
-
-
-                    filename = "AR0201SR";
-//                    filename = "AR0011SR";
-                    continue;
-                }
-                else
-                {
-                    if(k== 1)
-                    {
-                        filename = "AR0331SR";
-                        //filename = "AR0011SR";
-                        continue;
-                    }
-                    else
-                    {
-                        if(k== 2)
-                        {
-                            filename = "den520d";
-                            continue;
-                        }
-                        else
-                        {
-                            if(k== 3)
-                            {
-                                filename = "ht_chantry";
-                                continue;
-                            }
-                            else
-                            {
-                                if(k== 4)
-                                {
-                                    filename = "ht_mansion_n";
-                                    continue;
-                                }
-                                else
-                                {
-                                    if(k== 5)
-                                    {
-                                        filename = "lak303d";
-                                        continue;
-                                    }
-                                    else
-                                    {
-                                        if(k==6) {
-                                            filename = "lt_gallowstemplar_n";
-                                            continue;
-                                        }
-                                        else {
-                                            if(k==7) {
-                                                filename = "ost003d";
-                                            }
-                                            else
-                                                filename = "w_woundedcoast";
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-
-
-
-
-
-
-
-
-
-
-            ShortestPathGenerator.getInstance().setFilename(filename);
-
-            for (int i = 1; i <= maxNumAgent; i += 10) {
-                model = new Model(controller,filename);
-                sum = 0;
-                model.setNUM_OF_AGENTS(i);
-                for (int j = 0; j < num_scene; j++) {
-                    System.out.println("FIleName "+filename);
-                    sum += model.next();
-                }
-                res += "Average updates for " + i + " is " + (((sum * 1.0) / num_scene) / i) + "\n";
-                System.out.println("Average updates for " + i + " is " + (((sum * 1.0) / num_scene) / i) + "\n");
-                totalSum += ((sum * 1.0) / num_scene) / i;
+        String rel = new File("help.txt").getAbsolutePath();
+        rel = rel.substring(0,rel.indexOf("help.txt"));
+        String path = rel+"res\\Maps";
+        File folder = new File(path);
+        File[] listOfFiles = folder.listFiles();
+        Set<String> names = new HashSet<>();
+        for (int k = 0; k < listOfFiles.length; k++) {
+            if (listOfFiles[k].isFile()) {
+                names.add(listOfFiles[k].getName().substring(0,listOfFiles[k].getName().indexOf(".")));
             }
-            res += "total average is " + ((totalSum * 1.0) / maxNumAgent);
+            for (String filename : names) {
+                ShortestPathGenerator.getInstance().setFilename(filename);
+
+                for (int i = 1; i <= maxNumAgent; i += 10) {
+                    model = new Model(controller, filename);
+                    sum = 0;
+                    model.setNUM_OF_AGENTS(i);
+                    for (int j = 0; j < num_scene; j++) {
+                        System.out.println("FIleName " + filename);
+                        sum += model.next();
+                    }
+                    res += "Average updates for " + i + " is " + (((sum * 1.0) / num_scene) / i) + "\n";
+                    System.out.println("Average updates for " + i + " is " + (((sum * 1.0) / num_scene) / i) + "\n");
+                    totalSum += ((sum * 1.0) / num_scene) / i;
+                }
+
+                res += "total average is " + ((totalSum * 1.0) / maxNumAgent);
 
 
-            BufferedWriter writer = null;
-            try {
-                String rel = new File("help.txt").getAbsolutePath();
-                rel = rel.substring(0, rel.indexOf("help.txt"));
-                String path = rel + "res\\Outputs\\perfect_heuristics_results"+filename+".txt";//paste - res\Outputs\
-                writer = new BufferedWriter(new FileWriter(path));
-                writer.write(res);
-                writer.close();
-            } catch (IOException e) {
-                e.printStackTrace();
+                BufferedWriter writer = null;
+                try {
+
+                    path = rel + "res\\Outputs\\perfect_heuristics_results" + filename + ".txt";//paste - res\Outputs\
+                    writer = new BufferedWriter(new FileWriter(path));
+                    writer.write(res);
+                    writer.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
             }
-
         }
 
 

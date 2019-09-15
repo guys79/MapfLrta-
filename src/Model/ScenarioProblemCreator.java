@@ -144,17 +144,21 @@ public class ScenarioProblemCreator extends AbstractProblemCreator{
      */
     protected void getGraph(String path)
     {
-
-        if(!path.contains("arena") && !path.contains("ost003d"))
+        Set<String> names = new HashSet<>();
+        names.add("arena");
+        names.add("ost300d");
+        names.add("den312d");
+        names.add("den520d");
+        canT = true;
+        for(String str:names)
         {
-
-            canT = true;
+            if(path.contains(str))
+            {
+                canT = false;
+                break;
+            }
         }
-        else
-        {
 
-            canT = false;
-        }
         BufferedReader br = null;
         String line="";
         Node[][] grid = null;
@@ -174,6 +178,7 @@ public class ScenarioProblemCreator extends AbstractProblemCreator{
             grid = new Node[height][width];
 
             Node.reset();
+
             for(int i=0;i<height;i++) {
 
                 line = br.readLine();

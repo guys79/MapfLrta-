@@ -154,7 +154,6 @@ public class ShortestPathGenerator {
 
         if(this.shortestPaths == null)
         {
-            System.out.println("godam");
             getFromFile();
         }
         if(origin == null || target == null)
@@ -180,12 +179,13 @@ public class ShortestPathGenerator {
 
         Map<Integer,Double> map = Dijkstra.getInstance().calculateCosts(origin);
         String line = origin.getId()+",";
-        int count = 0;
+        int count = 1;
         int size = map.size();
 
 
 
-        String [] lines = new String[size];
+        String [] lines = new String[size+1];
+        lines[0] = line;
         for(Map.Entry<Integer,Double> entry : map.entrySet()) {
             lines[count] = entry.getKey() + "-" + entry.getValue() + ",";
             count++;
