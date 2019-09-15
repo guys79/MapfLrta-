@@ -146,9 +146,16 @@ public class ScenarioProblemCreator extends AbstractProblemCreator{
     {
         Set<String> names = new HashSet<>();
         names.add("arena");
-        names.add("ost300d");
+        names.add("ost003d");
         names.add("den312d");
         names.add("den520d");
+        names.add("brc000d");
+        names.add("brc100d");
+        names.add("brc101d");
+        names.add("brc300d");
+        names.add("ht_chantry");
+        names.add("ht_mansion_n");
+        names.add("lt_gallowstemplar_n");
         canT = true;
         for(String str:names)
         {
