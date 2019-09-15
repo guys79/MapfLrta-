@@ -37,10 +37,12 @@ public class Main extends Application {
         DijkstraSearchNode dijkstraSearchNode2 = new DijkstraSearchNode(gridNode);
         add(p,dijkstraSearchNode);
         add(p,dijkstraSearchNode2);*/
-        //Model model = new Model(controller);
-        //model.next();
-        test(controller);
-        //primaryStage.setTitle(model.toString());
+        String filename = "w_woundedcoast";
+        Model model = new Model(controller);
+        ShortestPathGenerator.getInstance().setFilename(filename);
+        model.next();
+      //  test(controller);
+        primaryStage.setTitle(model.toString());
         primaryStage.setScene(new Scene(root, 1200, 700));
         primaryStage.show();
 
@@ -125,17 +127,21 @@ public class Main extends Application {
                                 if(k== 4)
                                 {
                                     filename = "ht_mansion_n";
+                                    continue;
                                 }
                                 else
                                 {
                                     if(k== 5)
                                     {
                                         filename = "lak303d";
+                                        continue;
                                     }
                                     else
                                     {
-                                        if(k==6)
+                                        if(k==6) {
                                             filename = "lt_gallowstemplar_n";
+                                            continue;
+                                        }
                                         else {
                                             if(k==7) {
                                                 filename = "ost003d";
@@ -159,7 +165,7 @@ public class Main extends Application {
 
 
 
-            ShortestPathGenerator.getInstance().filename = filename;
+            ShortestPathGenerator.getInstance().setFilename(filename);
 
             for (int i = 1; i <= maxNumAgent; i += 10) {
                 model = new Model(controller,filename);
@@ -180,7 +186,7 @@ public class Main extends Application {
             try {
                 String rel = new File("help.txt").getAbsolutePath();
                 rel = rel.substring(0, rel.indexOf("help.txt"));
-                String path = rel + "res\\Outputs\\perfect_heursitics_results"+filename+".txt";//paste - res\Outputs\
+                String path = rel + "res\\Outputs\\perfect_heuristics_results"+filename+".txt";//paste - res\Outputs\
                 writer = new BufferedWriter(new FileWriter(path));
                 writer.write(res);
                 writer.close();

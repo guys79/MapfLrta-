@@ -76,6 +76,7 @@ public class Model {
     public Model(Controller controller) {
         String rel = new File("help.txt").getAbsolutePath();
         rel = rel.substring(0,rel.indexOf("help.txt"));
+        fileName = "w_woundedcoast";//The name of the file
         mapPath = rel+"res\\Maps\\"+fileName+".map";
         scenPath =rel+"res\\Scenarios\\"+fileName+".map.scen";
         outputPath = rel+"res\\Outputs\\output.csv";
@@ -102,7 +103,8 @@ public class Model {
 
         this.controller = controller;
         this.controller.setModel(this);
-        fileName = "arena";//The name of the file
+
+
         //private String fileName = "AR0011SR";//The name of the file
     }
 
@@ -234,11 +236,11 @@ public class Model {
             System.out.println("TIme elapsed "+timeInSeconds +" seconds");
             System.out.println("Average updates " +Node.average);
             System.out.println();
-            //controller.draw();
+            controller.draw();
             return Node.average;
 
         }
-        System.out.println("wow");
+
         return Double.MAX_VALUE;
     }
 

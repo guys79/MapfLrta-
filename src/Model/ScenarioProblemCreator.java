@@ -60,10 +60,11 @@ public class ScenarioProblemCreator extends AbstractProblemCreator{
         this.type = type;
         this.visionRadius = visionRadius;
         //this.scenarios = null;
-        getGraphAndScenarios(mapPath,senerioPath);
-        index =999;
         canT = true;
         this.mapPath = mapPath;
+        getGraphAndScenarios(mapPath,senerioPath);
+        index =999;
+
         return next();
     }
 
@@ -143,12 +144,15 @@ public class ScenarioProblemCreator extends AbstractProblemCreator{
      */
     protected void getGraph(String path)
     {
-        if(!path.contains("arena"))
+
+        if(!path.contains("arena") && !path.contains("ost003d"))
         {
+
             canT = true;
         }
         else
         {
+
             canT = false;
         }
         BufferedReader br = null;

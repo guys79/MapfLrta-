@@ -1,5 +1,6 @@
 package Model.Algorithms.Dijkstra;
 
+import Model.GridNode;
 import Model.Node;
 import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
 
@@ -40,6 +41,12 @@ public class ShortestPathGenerator {
         if(shortestPathGenerator == null)
             shortestPathGenerator = new ShortestPathGenerator();
         return shortestPathGenerator;
+    }
+
+    public void setFilename(String filename) {
+        this.filename = filename;
+        shortestPaths = null;
+      //  this.getShortestPath(null,null);
     }
 
     /**
@@ -147,8 +154,11 @@ public class ShortestPathGenerator {
 
         if(this.shortestPaths == null)
         {
+            System.out.println("godam");
             getFromFile();
         }
+        if(origin == null || target == null)
+            return Double.MAX_VALUE;
         Map<Integer,Double> given = this.shortestPaths.get(origin.getId());
         if(given == null)
             return Double.MAX_VALUE;
@@ -195,7 +205,7 @@ public class ShortestPathGenerator {
     {
         String rel = new File("help.txt").getAbsolutePath();
         rel = rel.substring(0,rel.indexOf("help.txt"));
-        String path = rel+"res\\Heuristics\\perfect_heursitics_"+filename+".txt";
+        String path = rel+"res\\Heuristics\\perfect_heuristics_"+filename+".txt";
         shortestPaths = new HashMap<>();
         BufferedReader br;
         try {
