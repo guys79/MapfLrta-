@@ -82,7 +82,7 @@ public class Main extends Application {
     public static void test(Controller controller)
     {
         int maxNumAgent =21;
-        int num_scene = 100;
+        int num_scene = 10;
         double sum ,totalSum=0;
         String res="";
         Model model;
@@ -96,6 +96,7 @@ public class Main extends Application {
 
                     filename = "AR0201SR";
 //                    filename = "AR0011SR";
+                    continue;
                 }
                 else
                 {
@@ -103,18 +104,21 @@ public class Main extends Application {
                     {
                         filename = "AR0331SR";
                         //filename = "AR0011SR";
+                        continue;
                     }
                     else
                     {
                         if(k== 2)
                         {
                             filename = "den520d";
+                            continue;
                         }
                         else
                         {
                             if(k== 3)
                             {
                                 filename = "ht_chantry";
+                                continue;
                             }
                             else
                             {

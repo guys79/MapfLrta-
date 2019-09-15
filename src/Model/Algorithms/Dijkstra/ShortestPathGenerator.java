@@ -53,8 +53,8 @@ public class ShortestPathGenerator {
         boolean flag = true;
         boolean flag1,flag2;
         if(this.graph!=null) {
-            for (int i = 0; i < this.graph.length && flag; i++) {
-                for (int j = 0; j < this.graph[i].length && flag; j++) {
+            for (int i = 0; i < this.graph.length && i<graph.length && flag; i++) {
+                for (int j = 0; j < this.graph[i].length && j<graph[i].length&&flag; j++) {
                     flag1 = this.graph[i][j]==null;
                     flag2 = graph[i][j]==null;
                     if(flag1|| flag2) {
@@ -96,6 +96,7 @@ public class ShortestPathGenerator {
         File f = new File(path);
         if(f.exists())
             return;
+        this.shortestPaths = null;
         long start = System.currentTimeMillis();
         for(int i=0;i<this.graph.length;i++)
         {
