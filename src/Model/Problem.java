@@ -36,7 +36,8 @@ public class Problem {
         this.costFunction = costFunction;
         this.visionRadius = visionRadius;
         initializeMap(graph);
-        ShortestPathGenerator.getInstance().setGraph(graph);
+        ShortestPathGenerator.getInstance().setGraph(graph,agentsAndStartGoalNodes.values()
+        );
 
 
     }

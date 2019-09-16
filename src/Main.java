@@ -25,7 +25,7 @@ public class Main extends Application {
         launch(args);
     }
 
-    // TODO: 13/09/2019 Something that writes the dic each line to a file.
+    // TODO: 16/09/2019 Ma should read MA scenarios
     //Then we can read from the file
     public void start(Stage primaryStage) throws Exception {
 
@@ -85,7 +85,7 @@ public class Main extends Application {
     }
     public static void test(Controller controller)
     {
-        int maxNumAgent =11;
+        int maxNumAgent =1;
         int num_scene = 1;
         double sum ,totalSum=0;
         String res="";
@@ -98,14 +98,17 @@ public class Main extends Application {
         Set<String> names = new HashSet<>();
         for (int k = 0; k < listOfFiles.length; k++) {
             if (listOfFiles[k].isFile()) {
-                names.add(listOfFiles[k].getName().substring(0,listOfFiles[k].getName().indexOf(".")));
+                names.add(listOfFiles[k].getName().substring(0, listOfFiles[k].getName().indexOf(".")));
             }
+        }
             for (String filename : names) {
-                rel = "C:\\Users\\guys79\\Desktop\\Heuristics";
-                path = rel+"\\perfect_heuristics_"+filename+".txt";
+
+                rel = "C:\\Users\\guys79\\Desktop\\Heuristics2";
+                path = rel+"\\perfectHeuristics"+filename;
                 File f = new File(path);
                 if(f.exists())
                     continue;
+
                 ShortestPathGenerator.getInstance().setFilename(filename);
 
                 for (int i = 1; i <= maxNumAgent; i += 10) {
@@ -127,15 +130,18 @@ public class Main extends Application {
                 BufferedWriter writer = null;//
                 try {
 
-                    path = rel + "res\\Outputs\\perfect_heuristics_results" + filename + ".txt";//paste - res\Outputs\
+                    path = rel + "res\\Outputs\\perfect_heuristics_results" + filename + ".txt";
+                    f= new File(path);
+                    if(!f.exists())
+                        f.createNewFile();
                     writer = new BufferedWriter(new FileWriter(path));
                     writer.write(res);
                     writer.close();
                 } catch (IOException e) {
-                    e.printStackTrace();
+                 //   e.printStackTrace();
                 }
 
-            }
+           // }
         }
 
 

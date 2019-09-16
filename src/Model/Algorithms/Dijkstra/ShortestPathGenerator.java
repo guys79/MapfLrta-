@@ -1,14 +1,13 @@
 package Model.Algorithms.Dijkstra;
 
+import Model.Agent;
 import Model.GridNode;
 import Model.Node;
+import javafx.util.Pair;
 import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
 
 import java.io.*;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * This class will generate for each node in the graph it's shortest path
@@ -26,7 +25,7 @@ public class ShortestPathGenerator {
      */
     private ShortestPathGenerator()
     {
-        this.shortestPaths = null;
+        this.shortestPaths = new HashMap<>();
         this.graph = null;
         this.prev = "";
         this.res = new HashSet<>();
@@ -45,52 +44,182 @@ public class ShortestPathGenerator {
 
     public void setFilename(String filename) {
         this.filename = filename;
-        shortestPaths = null;
-      //  this.getShortestPath(null,null);
+        this.shortestPaths = new HashMap<>();
+        this.getShortestPath(null, null);
+
+
     }
 
     /**
      * This function will set the graph (compute the shortest paths from the given graph)
+     * @param agentsAndStartGoalNodes - A map from an agent to a pair of start/goal nodes
      * @param graph - The given graph
      */
-    public void setGraph(Node[][] graph)
+    public void setGraph(Node[][] graph,Collection<Pair<Node,Node>> agentsAndStartGoalNodes)
     {
-        if(graph==null || this.graph == graph)
+        if(graph==null || this.graph == graph) {
+            if(this.graph == graph)
+                retrieveGoal(agentsAndStartGoalNodes);
             return;
-        boolean flag = true;
-        boolean flag1,flag2;
-        if(this.graph!=null) {
-            for (int i = 0; i < this.graph.length && i<graph.length && flag; i++) {
-                for (int j = 0; j < this.graph[i].length && j<graph[i].length&&flag; j++) {
-                    flag1 = this.graph[i][j]==null;
-                    flag2 = graph[i][j]==null;
-                    if(flag1|| flag2) {
-
-
-                        if (((flag1 && !flag2) || (!flag1 && flag2))) {
-                            flag = false;
-
-                        }
-
-                    }
-                    else {
-                        if (this.graph[i][j].getId() != graph[i][j].getId())
-                            flag = false;
-                    }
-                }
-            }
-            if(flag)
-                return;
         }
-
-        this.graph = graph;
         if(!prev.equals(filename)) {
-
+            this.graph = graph;
             init(graph);
         }
+        retrieveGoal(agentsAndStartGoalNodes);
         prev = filename;
     }
+    private void retrieveSingle(int id,boolean backwards)
+    {
+        if(backwards)
+        {
+            retrieveSingleBackwards(id);
+        }
+        else
+        {
+            retrieveSingleRegular(id);
+        }
 
+    }
+    private void retrieveSingleRegular(int id)
+    {
+        String rel = "C:\\Users\\guys79\\Desktop\\Heuristics2";
+        String path = rel+"\\perfectHeuristics"+filename;
+        String filePath;
+
+
+        filePath = path+"\\"+id+".txt";
+        BufferedReader br;
+        String line;
+        try {
+            br = new BufferedReader(new FileReader(filePath));
+
+            //Map<Integer,Map<Integer,Double>>
+            Map<Integer,Double> map;
+            String [] data;
+            int originId,targetId;
+            double cost;
+            String extra="";
+            int count = 0;
+            //    long t=0l;
+            while((line = br.readLine())!=null)
+            {
+
+                //t= System.currentTimeMillis();
+                //count++;
+                //System.out.println(count);
+                line = extra+line;
+                extra="";
+                map = new HashMap<>();
+                data = line.split(",");
+                originId = Integer.parseInt(data[0]);
+                for(int i=1;i<data.length;i++)
+                {
+                    // System.out.println(data[i]);
+                    if(data[i].indexOf("-") == -1)
+                    {
+                        extra = data[i];
+                        continue;
+                    }
+                    else {
+                        targetId = Integer.parseInt(data[i].substring(0, data[i].indexOf("-")));
+                        cost = Double.parseDouble(data[i].substring(data[i].indexOf("-") + 1, data[i].length()));
+                        map.put(targetId, cost);
+                    }
+                }
+                shortestPaths.put(originId,map);
+
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        catch (StringIndexOutOfBoundsException e)
+        {
+            //System.out.println(line);
+            e.printStackTrace();
+            throw e;
+        }
+    }
+    private void retrieveSingleBackwards(int id)
+    {
+        String rel = "C:\\Users\\guys79\\Desktop\\Heuristics2";
+        String path = rel+"\\perfectHeuristics"+filename;
+        String filePath;
+
+
+        filePath = path+"\\"+id+".txt";
+        BufferedReader br;
+        String line;
+        try {
+            br = new BufferedReader(new FileReader(filePath));
+
+            Map<Integer,Double> map;
+            String [] data;
+            int originId,targetId;
+            double cost;
+            String extra="";
+
+
+            while((line = br.readLine())!=null)
+            {
+
+                //t= System.currentTimeMillis();
+                //count++;
+                //System.out.println(count);
+                line = extra+line;
+                extra="";
+                data = line.split(",");
+                targetId = Integer.parseInt(data[0]);
+                for(int i=1;i<data.length;i++)
+                {
+
+                    if(data[i].indexOf("-") == -1)
+                    {
+                        extra = data[i];
+                        continue;
+                    }
+                    else {
+                        //Get the origin id
+                        originId = Integer.parseInt(data[i].substring(0, data[i].indexOf("-")));
+                        cost = Double.parseDouble(data[i].substring(data[i].indexOf("-") + 1, data[i].length()));
+                        map = this.shortestPaths.get(originId);
+
+                        if(map == null) {
+                            map = new HashMap<>();
+                            this.shortestPaths.put(originId, map);
+                        }
+
+                        map.put(targetId, cost);
+                    }
+                }
+
+
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        catch (StringIndexOutOfBoundsException e)
+        {
+            //System.out.println(line);
+            e.printStackTrace();
+            throw e;
+        }
+    }
+    private void retrieveGoal(Collection<Pair<Node,Node>> agentsAndStartGoalNodes)
+    {
+        this.shortestPaths = new HashMap<>();
+        long start =System.currentTimeMillis();
+        for(Pair<Node,Node>pair :agentsAndStartGoalNodes) {
+            retrieveSingle(pair.getValue().getId(),true);
+        }
+        long time =System.currentTimeMillis() - start;
+        System.out.println("It took "+time+" ms to retrieve data");
+
+    }
     /**
      * This function will calculate the shortest paths from each node to the other
      * @param graph - The given graph
@@ -98,12 +227,14 @@ public class ShortestPathGenerator {
     private void init(Node[][]graph)
     {
 
-        String rel = "C:\\Users\\guys79\\Desktop\\Heuristics";
-        String path = rel+"\\perfect_heuristics_"+filename+".txt";
+        String rel = "C:\\Users\\guys79\\Desktop\\Heuristics2";
+        String path = rel+"\\perfectHeuristics"+filename;
         File f = new File(path);
         if(f.exists())
             return;
-        this.shortestPaths = null;
+
+        f.mkdirs();
+
         long start = System.currentTimeMillis();
         for(int i=0;i<this.graph.length;i++)
         {
@@ -113,10 +244,14 @@ public class ShortestPathGenerator {
                 if (this.graph[i][j] != null) {
 
                     calculateCost(graph[i][j]);
-                    // rel = new File("help.txt").getAbsolutePath();
-                    //  rel = rel.substring(0,rel.indexOf("help.txt"));
-                    //  path = rel+"res\\Heuristics\\perfect_heuristics_"+filename+".txt";
-                    try (FileWriter fw = new FileWriter(path, true);
+
+                    String filePath = path+"\\"+this.graph[i][j].getId()+".txt";
+                    try {
+                        new File(filePath).createNewFile();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    try (FileWriter fw = new FileWriter(filePath, true);
                          BufferedWriter bw = new BufferedWriter(fw);
                          PrintWriter out = new PrintWriter(bw)) {
                         for (String[] str : res) {
@@ -145,17 +280,28 @@ public class ShortestPathGenerator {
      */
     public double getShortestPath(Node origin, Node target)
     {
-
-        if(this.shortestPaths == null)
-        {
-            getFromFile();
-        }
         if(origin == null || target == null)
             return Double.MAX_VALUE;
         Map<Integer,Double> given = this.shortestPaths.get(origin.getId());
+        if(given == null) {
+
+            retrieveSingle(origin.getId(),false);
+        }
+
+        /*
+        try {
+            Double cost = given.get(target.getId());
+
+        }
+        catch (NullPointerException e)
+        {
+            e.printStackTrace();
+
+        }*/
         if(given == null)
             return Double.MAX_VALUE;
         Double cost = given.get(target.getId());
+
         if(cost == null)
             return Double.MAX_VALUE;
         return cost;
@@ -185,7 +331,7 @@ public class ShortestPathGenerator {
             count++;
 
         }
-        lines[count-1] = lines[count-1].substring(0,line.length()-1)+"\n";
+        lines[count-1] = lines[count-1].substring(0,lines[count-1].length()-1)+"\n";
 
 
 
@@ -195,39 +341,5 @@ public class ShortestPathGenerator {
 
     }
 
-    public void getFromFile()
-    {
-       // String rel = new File("help.txt").getAbsolutePath();
-       // rel = rel.substring(0,rel.indexOf("help.txt"));
-        String rel = "C:\\Users\\guys79\\Desktop\\Heuristics";
-        String path = rel+"\\perfect_heuristics_"+filename+".txt";
-        shortestPaths = new HashMap<>();
-        BufferedReader br;
-        try {
-            br = new BufferedReader(new FileReader(path));
-            String line;
-            //Map<Integer,Map<Integer,Double>>
-            Map<Integer,Double> map;
-            String [] data;
-            int originId,targetId;
-            double cost;
-            while((line = br.readLine())!=null)
-            {
-                    map = new HashMap<>();
-                    data = line.split(",");
-                    originId = Integer.parseInt(data[0]);
-                    for(int i=1;i<data.length;i++)
-                    {
-                        targetId = Integer.parseInt(data[i].substring(0,data[i].indexOf("-")));
-                        cost = Double.parseDouble(data[i].substring(data[i].indexOf("-")+1,data.length));
-                        map.put(targetId,cost);
-                    }
-                    shortestPaths.put(originId,map);
-            }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
+
 }

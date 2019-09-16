@@ -145,6 +145,7 @@ public class ScenarioProblemCreator extends AbstractProblemCreator{
     protected void getGraph(String path)
     {
         Set<String> names = new HashSet<>();
+
         names.add("arena");
         names.add("ost003d");
         names.add("den312d");
@@ -161,6 +162,10 @@ public class ScenarioProblemCreator extends AbstractProblemCreator{
         {
             if(path.contains(str))
             {
+                if(str.equals("brc000d"))
+                {
+                    System.out.println();
+                }
                 canT = false;
                 break;
             }

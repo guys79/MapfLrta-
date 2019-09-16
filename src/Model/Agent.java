@@ -28,8 +28,8 @@ public class Agent {
             heuristics = new AgentHeuristics(goal);
         else
         {
-            heuristics = new AlssLrtaAgentHeuristics(goal);
-            //heuristics = new ShortestPathAgentHeuristics(goal);
+            //heuristics = new AlssLrtaAgentHeuristics(goal);
+            heuristics = new ShortestPathAgentHeuristics(goal);
         }
         this.id = id;
         this.isDone = false;
