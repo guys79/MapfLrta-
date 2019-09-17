@@ -21,6 +21,7 @@ public abstract class AbstractRealTimeSearchManager implements IRealTimeSearchMa
     public AbstractRealTimeSearchManager(Problem problem)
     {
         this.problem = problem;
+
         this.prefixesForAgents = new HashMap<>();
         Map<Agent,Pair<Node,Node>> agentsAndStartGoalNodes= problem.getAgentsAndStartGoalNodes();
         pathsForAgents = new HashMap<>();
@@ -103,6 +104,7 @@ public abstract class AbstractRealTimeSearchManager implements IRealTimeSearchMa
         HashSet<Agent> agents = new HashSet<>(problem.getAgentsAndStartGoalNodes().keySet());
         if(this.prefixesForAgents.values().contains(null))
         {
+            TestPreformer.getInstance().updateNonComplete();
             return true;
         }
         for(Agent agent : agents)
@@ -121,12 +123,24 @@ public abstract class AbstractRealTimeSearchManager implements IRealTimeSearchMa
     public Map<Agent,List<Node>> search()
     {
         int i=0;
-        while(!isDone() && i<1)
+        long start,end;
+        start =  System.currentTimeMillis();
+        long sum =0l;
+        while(!isDone() && i<100000)
         {
             //System.out.println("Iteration number "+(i+1));
             calculatePrefix();
             move();
+            end = System.currentTimeMillis();
+            sum+= (end-start);
+
             i++;
+            start =  System.currentTimeMillis();
+        }
+        TestPreformer.getInstance().updateAverageIteration((sum*1.0)/i);
+        if(i>=100000)
+        {
+            TestPreformer.getInstance().updateNonComplete();
         }
         System.out.println("Number of iterations "+i);
         clear();

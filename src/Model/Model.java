@@ -227,14 +227,26 @@ public class Model {
             prev = problem.getAgentsAndStartGoalNodes();
             Set<Agent> agents = prev.keySet();
 
+            double sumOfCosts=0;
+            double maxSpan = -1;
+            double cost;
             for (Agent agent : agents){
            //     System.out.print("agent "+agent.getId()+" color is: ");
                 controller.addAgent(paths.get(agent), agent.getGoal(),agent.getId());
                 printPathCost(paths.get(agent),problem);
+                List<Node> path = paths.get(agent);
+
+                for(int i=0;i<path.size()-1;i++) {
+                    cost = problem.getCost(path.get(i), path.get(i + 1));
+                    if(cost>maxSpan)
+                        maxSpan = cost;
+                    sumOfCosts+=cost;
+                }
             }
             System.out.println("TIme elapsed "+time +" ms");
             System.out.println("TIme elapsed "+timeInSeconds +" seconds");
             System.out.println("Average updates " +Node.average);
+            TestPreformer.getInstance().updatePerSearch(Node.average,time,sumOfCosts,maxSpan);
             System.out.println();
             controller.draw();
             return Node.average;

@@ -1,16 +1,25 @@
 package Model;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+
 /**
  * This class represents the Test Preformer
  * This class will preform all tests
  */
 public class TestPreformer {
     private static TestPreformer testPreformer;//Singelton
-    private int totalItrerationAmount;//Total number of iteration for all problems
-    private int numberOfEpisodes;//Number of problems
-    private long totalAmountOfTime;//Total amount of time for all problems
-    private double totalAveragePerIterationTime;//The sum of all problem's average iteration solve
-    private double totalCost;//The total cost for all problems
+
+    private int numberOfSearches;//Number of searches
+    private double sumOfNodeUpdateAverage;//The sum of node update
+    private double sumOfAverageTimePerIteration;//Sum of Time per iteration
+    private long sumOfTimePerSearch;//Sum of Time per Search
+    private int sumNonComplete;//Sum of complete tests
+    private double sumOfSumOfCosts;//Sum of sumOfCosts
+    private double sumOfMakeSpan;//Sum of make span
+
 
     /**
      * The constructor
@@ -25,38 +34,64 @@ public class TestPreformer {
      */
     private void clear()
     {
-        this.totalCost = 0;
-        totalItrerationAmount = 0;
-        numberOfEpisodes = 0;
-        totalAmountOfTime = 0;
-        this.totalAveragePerIterationTime = 0;
+
+        this.numberOfSearches = 0;
+        this.sumOfNodeUpdateAverage = 0;
+        this.sumOfTimePerSearch = 0;
+        this.sumNonComplete = 0;
+        this.sumOfSumOfCosts = 0;
+        this.sumOfMakeSpan = 0;
+        this.sumOfAverageTimePerIteration = 0;
+
+
     }
 
     /**
      * This function updates the data for a single problem
-     * @param iteration - The number of iterations
-     * @param totalTime - The total amount of time
-     * @param cost - The cost of the solution
      */
-    public void updateSearch(int iteration,long totalTime,double cost)
+    public void updatePerSearch(double numberOfUpdates,long searchTime,double sumOfCosts, double makeSpan)
     {
-        this.totalItrerationAmount+=iteration;
-        this.numberOfEpisodes++;
-        totalAmountOfTime+= totalTime;
-        totalAveragePerIterationTime+= (totalTime*1.0/iteration);
-        this.totalCost+= cost;
+        this.numberOfSearches++;
+        this.sumOfTimePerSearch+=searchTime;
+        this.sumOfNodeUpdateAverage+=numberOfUpdates;
+
+        this.sumOfSumOfCosts+=sumOfCosts;
+        this.sumOfMakeSpan+=makeSpan;
+
+
     }
 
+    public void updateNonComplete(){this.sumNonComplete++;}
+
+    public void updateAverageIteration(double averageTimePerIteration)
+    {
+        this.sumOfAverageTimePerIteration+= averageTimePerIteration;
+    }
     /**
      * This function will print the calculated information of all the problems tested so far
      */
-    public void printInfo()
+    public void printInfo(String path)
     {
-        System.out.println("Number of problems "+this.numberOfEpisodes);
-        System.out.println("Average Cost - "+(this.totalCost/numberOfEpisodes));
-        System.out.println("Total Time - "+this.totalAmountOfTime);
-        System.out.println("Average Amount of time - "+(this.totalAmountOfTime/numberOfEpisodes));
-        System.out.println("Average Amount of time per episode - "+(this.totalAveragePerIterationTime/numberOfEpisodes));
+        String message = "";
+        message+="Node average update per search "+(this.sumOfNodeUpdateAverage/this.numberOfSearches)+"\n";
+        message+="Average of average time per iteration "+(this.sumOfAverageTimePerIteration/this.numberOfSearches)+"\n";
+        message+="Average time per search problem "+((this.sumOfTimePerSearch*1.0)/this.numberOfSearches)+"\n";
+        message+="Completion rate - "+((((this.numberOfSearches-this.sumNonComplete)*1.0)/this.numberOfSearches)*100)+"\n";
+        message+="Average sum of costs "+(this.sumOfSumOfCosts/this.numberOfSearches)+"\n";
+        message+="Average makeSpan "+(this.sumOfMakeSpan/this.numberOfSearches)+"\n";
+        System.out.println(message);
+        BufferedWriter writer = null;//
+        try {
+            File f= new File(path);
+            if(!f.exists())
+                f.createNewFile();
+            writer = new BufferedWriter(new FileWriter(path));
+            writer.write(message);
+            writer.close();
+        } catch (IOException e) {
+            //   e.printStackTrace();
+        }
+        clear();
     }
 
     /**
