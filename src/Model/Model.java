@@ -235,13 +235,15 @@ public class Model {
                 controller.addAgent(paths.get(agent), agent.getGoal(),agent.getId());
                 printPathCost(paths.get(agent),problem);
                 List<Node> path = paths.get(agent);
-
+                double pathCost = 0;
                 for(int i=0;i<path.size()-1;i++) {
                     cost = problem.getCost(path.get(i), path.get(i + 1));
-                    if(cost>maxSpan)
-                        maxSpan = cost;
-                    sumOfCosts+=cost;
+                    pathCost+=cost;
                 }
+
+                if(pathCost>maxSpan)
+                    maxSpan = pathCost;
+                sumOfCosts+=pathCost;
             }
             System.out.println("TIme elapsed "+time +" ms");
             System.out.println("TIme elapsed "+timeInSeconds +" seconds");
