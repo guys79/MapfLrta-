@@ -10,6 +10,7 @@ public class MaAlssLrtaSearchNode extends AlssLrtaSearchNode {
      * The constructor of the class
      *
      * @param node - The node that this class represents
+     * @param time - The given time
      */
     public MaAlssLrtaSearchNode(Node node,int time) {
         super(node);
@@ -17,8 +18,8 @@ public class MaAlssLrtaSearchNode extends AlssLrtaSearchNode {
     }
     /**
      * The constructor of the class
-     *
      * @param node - The node that this class represents
+     * @param time - The given time
      */
     public MaAlssLrtaSearchNode(AlssLrtaSearchNode node,int time) {
         super(node);

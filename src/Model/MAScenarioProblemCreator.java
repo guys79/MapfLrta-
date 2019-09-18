@@ -3,6 +3,8 @@ package Model;
 import Model.Algorithms.Dijkstra.ShortestPathGenerator;
 import javafx.util.Pair;
 
+import javax.xml.bind.SchemaOutputResolver;
+import java.io.*;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -43,10 +45,86 @@ public class MAScenarioProblemCreator extends ScenarioProblemCreator {
     protected void getGraphAndScenarios(String mapPath, String scenariosPath) {
         getGraph(mapPath);
 
-        getScenario();
+        String fileName = scenariosPath.substring(0,scenariosPath.indexOf("."));
+        System.out.println(fileName);
+        File file = new File(fileName);
+        if(file.exists())
+        {
+
+            getScenariosFromFolder(file);
+        }
+        else {
+            getScenario();
+        }
     }
 
+    /**
+     * This function will get the scenarios from the folder
+     * @param folder - The given folder file
+     */
+    private void getScenariosFromFolder(File folder)
+    {
+        File []  scenFiles = folder.listFiles();
+        this.scenarios = new Map[scenFiles.length];
+        for(int i=0;i<scenFiles.length;i++)
+        {
+            this.scenarios[i] = getSingleScenarioFromFolder(scenFiles[i].getAbsolutePath());
+        }
+    }
 
+    /**
+     * This function will get a single scenario from a single file
+     * @param path - The path to the file
+     * @return - A Scenario
+     */
+    private Map<Integer,String []> getSingleScenarioFromFolder(String path)
+    {
+        String [] scenData;
+        Map<Integer,String []> scen = new HashMap<>();
+        BufferedReader br = null;
+        int id=0;
+        try {
+            br = new BufferedReader(new FileReader(path));
+            String line;
+
+            br.readLine();//NO use
+
+            while((line = br.readLine())!=null && id<num_of_agents) {
+                scenData = getSingleAgentScen(line);
+                scen.put(id,scenData);
+                id++;
+
+            }
+            return scen;
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+    /**
+     * This function will get a single scenario for a single agent
+     * @param scen - The given scenario as string
+     * @return - The scenario of the agent
+     */
+    private String [] getSingleAgentScen(String scen)
+    {
+
+        String[] split = scen.split("\t");
+        String[] scenario = new String[4];
+
+
+        scenario[0] = split[7];//Start - x
+        scenario[1] = split[6];//Start - y
+        scenario[2] = split[5];//End - x
+        scenario[3] = split[4];//End - y
+
+        return scenario;
+
+    }
     /**
      * This function sets the scenarios
      */

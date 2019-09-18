@@ -49,16 +49,29 @@ public class MaAlssLrtaRealTimeSearchManager extends AbstractRealTimeSearchManag
         this.prev.clear();
         Map<Integer,List<Node>> prefixes = maalsslrta.getPrefixes(problem.getNumberOfNodeToDevelop());
 
+
         //If there is no solution
-        if(prefixes==null)
+        if(prefixes.containsValue(null))
         {
+            List<Node> prefix;
             for(Agent agent: agents)
             {
-                //System.out.println("No Solution");
-                prefixesForAgents.put(agent,null);
-                List<Node> fail = new ArrayList<>();
-                fail.add(agent_goal_start.get(agent).getKey());
-                pathsForAgents.put(agent,fail);
+                prefix = prefixes.get(agent);
+                if(prefix == null) {
+                    //System.out.println("No Solution");
+                    prefixesForAgents.put(agent, null);
+                    List<Node> fail = new ArrayList<>();
+                    //fail.add(agent_goal_start.get(agent).getKey());
+                    fail.add(agent.getCurrent());
+                    prefix = fail;
+                //    pathsForAgents.put(agent, fail);
+                }
+
+                    //Adding the prefix to the path
+                    List<Node>path = pathsForAgents.get(agent);
+                    path.remove(path.size()-1);
+                    path.addAll(prefix);
+
             }
             return;
         }

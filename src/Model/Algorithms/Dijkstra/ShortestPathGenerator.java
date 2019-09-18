@@ -1,10 +1,8 @@
 package Model.Algorithms.Dijkstra;
 
-import Model.Agent;
-import Model.GridNode;
+
 import Model.Node;
 import javafx.util.Pair;
-import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
 
 import java.io.*;
 import java.util.*;
@@ -17,9 +15,11 @@ public class ShortestPathGenerator {
     private Map<Integer,Map<Integer,Double>> shortestPaths;//Key - origin node id, value - map -{ key - target node id }
     private  static  ShortestPathGenerator shortestPathGenerator;//The instance
     private Node[][] graph;//The graph
-    public String filename;
-    private String prev;
-    private Set<String[]> res;
+    public String filename;//the name of the map
+    private String prev;//The previous map name
+    private Set<String[]> res;//The Dijkstra results
+
+
     /**
      * The constructor
      */
@@ -42,6 +42,10 @@ public class ShortestPathGenerator {
         return shortestPathGenerator;
     }
 
+    /**
+     * This function will set the name of the file
+     * @param filename - The given filename
+     */
     public void setFilename(String filename) {
         this.filename = filename;
         this.shortestPaths = new HashMap<>();
@@ -69,6 +73,12 @@ public class ShortestPathGenerator {
         retrieveGoal(agentsAndStartGoalNodes);
         prev = filename;
     }
+
+    /**
+     * This function will retrieve a heuristic information on a single node
+     * @param id - The given id
+     * @param backwards - True IFF the node's info that we want to retrieve is as the target
+     */
     private void retrieveSingle(int id,boolean backwards)
     {
         if(backwards)
@@ -81,9 +91,14 @@ public class ShortestPathGenerator {
         }
 
     }
+
+    /**
+     * This function will retrieve a heuristic information on a single node with the node as the origin (classic Dijkstra)
+     * @param id - The given id
+     */
     private void retrieveSingleRegular(int id)
     {
-        String rel = "C:\\Users\\guys79\\Desktop\\Heuristics2";
+        String rel = "C:\\Users\\guys79\\Desktop\\תזה\\Heuristics2";
         String path = rel+"\\perfectHeuristics"+filename;
         String filePath;
 
@@ -94,20 +109,14 @@ public class ShortestPathGenerator {
         try {
             br = new BufferedReader(new FileReader(filePath));
 
-            //Map<Integer,Map<Integer,Double>>
             Map<Integer,Double> map;
             String [] data;
             int originId,targetId;
             double cost;
             String extra="";
-            int count = 0;
-            //    long t=0l;
             while((line = br.readLine())!=null)
             {
 
-                //t= System.currentTimeMillis();
-                //count++;
-                //System.out.println(count);
                 line = extra+line;
                 extra="";
                 map = new HashMap<>();
@@ -115,7 +124,6 @@ public class ShortestPathGenerator {
                 originId = Integer.parseInt(data[0]);
                 for(int i=1;i<data.length;i++)
                 {
-                    // System.out.println(data[i]);
                     if(data[i].indexOf("-") == -1)
                     {
                         extra = data[i];
@@ -142,9 +150,14 @@ public class ShortestPathGenerator {
             throw e;
         }
     }
+
+    /**
+     * This function will retrieve a heuristic information on a single node with the node as the target (opposite classic Dijkstra)
+     * @param id - The given id
+     */
     private void retrieveSingleBackwards(int id)
     {
-        String rel = "C:\\Users\\guys79\\Desktop\\Heuristics2";
+        String rel = "C:\\Users\\guys79\\Desktop\\תזה\\Heuristics2";
         String path = rel+"\\perfectHeuristics"+filename;
         String filePath;
 
@@ -165,9 +178,6 @@ public class ShortestPathGenerator {
             while((line = br.readLine())!=null)
             {
 
-                //t= System.currentTimeMillis();
-                //count++;
-                //System.out.println(count);
                 line = extra+line;
                 extra="";
                 data = line.split(",");
@@ -209,12 +219,22 @@ public class ShortestPathGenerator {
             throw e;
         }
     }
+
+    /**
+     * This function will retrieve the info on the goal states
+     * @param agentsAndStartGoalNodes - The Pairs of start/end goals
+     */
     private void retrieveGoal(Collection<Pair<Node,Node>> agentsAndStartGoalNodes)
     {
         this.shortestPaths = new HashMap<>();
+        int size = agentsAndStartGoalNodes.size();
+        int i=1;
         long start =System.currentTimeMillis();
         for(Pair<Node,Node>pair :agentsAndStartGoalNodes) {
+
             retrieveSingle(pair.getValue().getId(),true);
+            System.out.println("finished "+i+"/"+size);
+            i++;
         }
         long time =System.currentTimeMillis() - start;
         System.out.println("It took "+time+" ms to retrieve data");
@@ -227,7 +247,7 @@ public class ShortestPathGenerator {
     private void init(Node[][]graph)
     {
 
-        String rel = "C:\\Users\\guys79\\Desktop\\Heuristics2";
+        String rel = "C:\\Users\\guys79\\Desktop\\תזה\\Heuristics2";
         String path = rel+"\\perfectHeuristics"+filename;
         File f = new File(path);
         if(f.exists())
@@ -239,7 +259,6 @@ public class ShortestPathGenerator {
         for(int i=0;i<this.graph.length;i++)
         {
             System.out.println((i+1)+"/"+this.graph.length);
-            //System.out.println("sakd;lkas");
             for(int j=0;j<this.graph[i].length;j++)
                 if (this.graph[i][j] != null) {
 
@@ -288,16 +307,6 @@ public class ShortestPathGenerator {
             retrieveSingle(origin.getId(),false);
         }
 
-        /*
-        try {
-            Double cost = given.get(target.getId());
-
-        }
-        catch (NullPointerException e)
-        {
-            e.printStackTrace();
-
-        }*/
         if(given == null)
             return Double.MAX_VALUE;
         Double cost = given.get(target.getId());
@@ -332,10 +341,6 @@ public class ShortestPathGenerator {
 
         }
         lines[count-1] = lines[count-1].substring(0,lines[count-1].length()-1)+"\n";
-
-
-
-
 
         res.add(lines);
 

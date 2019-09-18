@@ -16,7 +16,7 @@ import java.util.*;
 public class Model {
 
     private boolean first;//True IFF it's the first scenario
-    private int NUM_OF_AGENTS = 20;//Number of agents
+    private int NUM_OF_AGENTS = 500;//Number of agents
     private final int VISION_RADIUS = 20;//Number of agents
     private final int HEIGHT = 12;//The number of columns
     private final int WIDTH = 12;//The number of rows
@@ -160,8 +160,8 @@ public class Model {
 
             for (Agent agent : agents){
              //   System.out.print("agent "+agent.getId()+" color is: ");
-                controller.addAgent(paths.get(agent), agent.getGoal(),agent.getId());
-                printPathCost(paths.get(agent),problem);
+                controller.addAgent(paths.get(agent), agent.getGoal());
+                //printPathCost(paths.get(agent),problem);
             }
             System.out.println("TIme elapsed "+time +" ms");
             System.out.println("TIme elapsed "+timeInSeconds +" seconds");
@@ -174,8 +174,9 @@ public class Model {
     /**
      * This function will move to the next scenario on the same map
      * The function will solve the problem and present the solution
+     *
      */
-    public double next() {
+    public void next() {
 
         Problem problem;
         if (first) {
@@ -232,8 +233,8 @@ public class Model {
             double cost;
             for (Agent agent : agents){
            //     System.out.print("agent "+agent.getId()+" color is: ");
-                controller.addAgent(paths.get(agent), agent.getGoal(),agent.getId());
-                printPathCost(paths.get(agent),problem);
+                controller.addAgent(paths.get(agent), agent.getGoal());
+                //printPathCost(paths.get(agent),problem);
                 List<Node> path = paths.get(agent);
                 double pathCost = 0;
                 for(int i=0;i<path.size()-1;i++) {
@@ -251,11 +252,11 @@ public class Model {
             TestPreformer.getInstance().updatePerSearch(Node.average,time,sumOfCosts,maxSpan);
             System.out.println();
             controller.draw();
-            return Node.average;
+            //return Node.average;
 
         }
 
-        return Double.MAX_VALUE;
+        //return Double.MAX_VALUE;
     }
 
     /**

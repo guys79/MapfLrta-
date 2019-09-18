@@ -13,7 +13,7 @@ public abstract class AbstractRealTimeSearchManager implements IRealTimeSearchMa
     protected Map<Agent, List<Node>> prefixesForAgents;//Key - agent, Value - The agent's prefix
     protected Map<Agent, List<Node>> pathsForAgents;//Key - agent, Value - The agent's prefix
     protected Map<Agent, Node> prev;//Key - agent, Value - The agent's prefix
-    protected int numOfFinish;
+    protected int numOfFinish;//Number of finished problems
     /**
      * The constructor of the class
      * @param problem - The given problem
@@ -126,7 +126,7 @@ public abstract class AbstractRealTimeSearchManager implements IRealTimeSearchMa
         long start,end;
         start =  System.currentTimeMillis();
         long sum =0l;
-        while(!isDone() && i<100000)
+        while(!isDone() && i<10000)
         {
             //System.out.println("Iteration number "+(i+1));
             calculatePrefix();
@@ -138,7 +138,7 @@ public abstract class AbstractRealTimeSearchManager implements IRealTimeSearchMa
             start =  System.currentTimeMillis();
         }
         TestPreformer.getInstance().updateAverageIteration((sum*1.0)/i);
-        if(i>=100000)
+        if(i>=10000)
         {
             TestPreformer.getInstance().updateNonComplete();
         }
@@ -146,6 +146,10 @@ public abstract class AbstractRealTimeSearchManager implements IRealTimeSearchMa
         clear();
         return this.pathsForAgents;
     }
+
+    /**
+     * This function will clear the inhabitants
+     */
     private void clear()
     {
         Set<Agent> agents = problem.getAgentsAndStartGoalNodes().keySet();

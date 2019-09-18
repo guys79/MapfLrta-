@@ -16,7 +16,12 @@ public class Problem {
     private ICostFunction costFunction;//The costFunction
     private int visionRadius;//The vision radius for each agent
 
-
+    /**
+     * This function will return the cost from moving from node 'origin' to node 'target'
+     * @param origin - The origin node
+     * @param target - The origin target
+     * @return - The cost for moving from the 'origin' n9ode to the 'target' node
+     */
     public double getCost(Node origin, Node target)
     {
         return costFunction.getCost(origin,target);
@@ -36,8 +41,7 @@ public class Problem {
         this.costFunction = costFunction;
         this.visionRadius = visionRadius;
         initializeMap(graph);
-        ShortestPathGenerator.getInstance().setGraph(graph,agentsAndStartGoalNodes.values()
-        );
+        ShortestPathGenerator.getInstance().setGraph(graph,agentsAndStartGoalNodes.values());
 
 
     }
@@ -102,24 +106,7 @@ public class Problem {
         return agentsAndStartGoalNodes;
     }
 
-    /**
-     * This function will return the agent's goal node
-     * @param agent - The given agent
-     * @return - The goal node
-     */
-    public Node getAgentGoalNode(Agent agent)
-    {
-        return this.agentsAndStartGoalNodes.get(agent).getKey();
-    }
 
-    /**
-     * This function will initialize the graph using a path to ta file
-     * @param pathTOFIle - the given path
-     */
-    private void initializeMap(String pathTOFIle)
-    {
-
-    }
     /**
      * This function will initialize the graph using an array of nodes
      * The assumption that the array of nodes is an array of Model.GridNode

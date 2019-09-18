@@ -48,6 +48,10 @@ public class TestPreformer {
 
     /**
      * This function updates the data for a single problem
+     * @param numberOfUpdates - The number of updates
+     * @param searchTime - The search time
+     * @param sumOfCosts - The sumOfCosts
+     * @param makeSpan - The makeSpan
      */
     public void updatePerSearch(double numberOfUpdates,long searchTime,double sumOfCosts, double makeSpan)
     {
@@ -61,14 +65,22 @@ public class TestPreformer {
 
     }
 
+    /**
+     * This function will update the number of non-complete problems
+     */
     public void updateNonComplete(){this.sumNonComplete++;}
 
+    /**
+     * This function will update the average of average iteration time [er search
+     * @param averageTimePerIteration - The given average iteration time for the specific problem
+     */
     public void updateAverageIteration(double averageTimePerIteration)
     {
         this.sumOfAverageTimePerIteration+= averageTimePerIteration;
     }
     /**
      * This function will print the calculated information of all the problems tested so far
+     * @param path - The output file destination
      */
     public void printInfo(String path)
     {

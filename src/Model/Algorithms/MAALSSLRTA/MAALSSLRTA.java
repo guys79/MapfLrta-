@@ -85,15 +85,18 @@ public class MAALSSLRTA extends ALSSLRTA {
 
                 if (prefix == null) {
                     System.out.println("No Solution agent " + agent.getId());
-                    return null;
+                    prefixes.put(agent.getId(), prefix);
+                    return prefixes;
+                    //return null;
                 }
-                //Updating node
-                for(int i=0;i<prefix.size()-1;i++)
-                {
-                    updateNode(prefix.get(i).getId(),i);
-                }
-                inhabitAgent(prefix.get(prefix.size()-1).getId());
-                prefixes.put(agent.getId(), prefix);
+
+                    //Updating node
+                    for (int i = 0; i < prefix.size() - 1; i++) {
+                        updateNode(prefix.get(i).getId(), i);
+                    }
+                    inhabitAgent(prefix.get(prefix.size() - 1).getId());
+                    prefixes.put(agent.getId(), prefix);
+
             }
 
         }

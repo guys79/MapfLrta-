@@ -38,16 +38,16 @@ public class Main extends Application {
         DijkstraSearchNode dijkstraSearchNode2 = new DijkstraSearchNode(gridNode);
         add(p,dijkstraSearchNode);
         add(p,dijkstraSearchNode2);*/
-     //  String filename = "den312d";
-      //  Model model = new Model(controller,filename);
-       // ShortestPathGenerator.getInstance().setFilename(filename);
-      //  model.next();
-      ////  primaryStage.setTitle(model.toString());
+       String filename = "arena";
+        Model model = new Model(controller,filename);
+        ShortestPathGenerator.getInstance().setFilename(filename);
+        model.next();
+        primaryStage.setTitle(model.toString());
        // TestPreformer.getInstance().printInfo("");
        //test(controller);
-        test2(controller);
-      //  primaryStage.setScene(new Scene(root, 1200, 700));
-       // primaryStage.show();
+       // test2(controller);
+        primaryStage.setScene(new Scene(root, 1200, 700));
+        primaryStage.show();
 
 
         //Laptop
@@ -133,67 +133,8 @@ public class Main extends Application {
 
 
     }
-    public static void test(Controller controller)
-    {
-        int maxNumAgent =1;
-        int num_scene = 1;
-        double sum ,totalSum=0;
-        String res="";
-        Model model;
-        String rel = new File("help.txt").getAbsolutePath();
-        rel = rel.substring(0,rel.indexOf("help.txt"));
-        String path = rel+"res\\Maps";
-        File folder = new File(path);
-        File[] listOfFiles = folder.listFiles();
-        Set<String> names = new HashSet<>();
-        for (int k = 0; k < listOfFiles.length; k++) {
-            if (listOfFiles[k].isFile()) {
-                names.add(listOfFiles[k].getName().substring(0, listOfFiles[k].getName().indexOf(".")));
-            }
-        }
-            for (String filename : names) {
-
-                rel = "C:\\Users\\guys79\\Desktop\\Heuristics2";
-                path = rel+"\\perfectHeuristics"+filename;
-                File f = new File(path);
-                if(f.exists())
-                    continue;
-
-                ShortestPathGenerator.getInstance().setFilename(filename);
-
-                for (int i = 1; i <= maxNumAgent; i += 10) {
-                    model = new Model(controller, filename);
-                    sum = 0;
-
-                    for (int j = 0; j < num_scene; j++) {
-                        System.out.println("FIleName " + filename);
-                        sum += model.next();
-                    }
-                    res += "Average updates for " + i + " is " + (((sum * 1.0) / num_scene) / i) + "\n";
-                    System.out.println("Average updates for " + i + " is " + (((sum * 1.0) / num_scene) / i) + "\n");
-                    totalSum += ((sum * 1.0) / num_scene) / i;
-                }
-
-                res += "total average is " + ((totalSum * 1.0) / maxNumAgent);
 
 
-                BufferedWriter writer = null;//
-                try {
-
-                    path = rel + "res\\Outputs\\perfect_heuristics_results" + filename + ".txt";
-                    f= new File(path);
-                    if(!f.exists())
-                        f.createNewFile();
-                    writer = new BufferedWriter(new FileWriter(path));
-                    writer.write(res);
-                    writer.close();
-                } catch (IOException e) {
-                 //   e.printStackTrace();
-                }
-
-           // }
-        }
 
 
-    }
 }

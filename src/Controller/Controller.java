@@ -300,9 +300,9 @@ public class Controller{
      * @param path - The path of the agent
      * @param goal - The goal node
      */
-    public void addAgent(List<Node> path,Node goal,int id){
+    public void addAgent(List<Node> path,Node goal){
         int [] pathArr = new int[path.size()];
-        if(pathArr.length==1)//No Solution
+        /*if(pathArr.length==1)//No Solution
         {
             GridNode gridNode = (GridNode)goal;
             int [] loc = new int[2];
@@ -313,7 +313,7 @@ public class Controller{
 
 
 
-        }
+        }*/
         for(int i=0;i<path.size();i++)
         {
             pathArr[i] = path.get(i).getId();
