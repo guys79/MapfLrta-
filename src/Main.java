@@ -22,9 +22,7 @@ public class Main extends Application {
         launch(args);
     }
 
-    // TODO: 16/09/2019 Ma should read MA scenarios
-    // TODO: 17/09/2019 add test.clear
-    // TODO: 17/09/2019 print no solution from maps with no option
+    final static int TYPE =2;// 0 - LRTA*, 1-aLSS-LRTA* 2- MA-aLSS-LRTA* 3- IgnoreOthers-Ma-aLSS-LRTA*
     //Then we can read from the file
     public void start(Stage primaryStage) throws Exception {
 
@@ -38,15 +36,16 @@ public class Main extends Application {
         DijkstraSearchNode dijkstraSearchNode2 = new DijkstraSearchNode(gridNode);
         add(p,dijkstraSearchNode);
         add(p,dijkstraSearchNode2);*/
-       String filename = "arena";
-        Model model = new Model(controller,filename);
-        ShortestPathGenerator.getInstance().setFilename(filename);
+       String filename = "den312d";
+
+        Model model = new Model(controller,filename,TYPE);
+       // ShortestPathGenerator.getInstance().setFilename(filename);
         model.next();
         primaryStage.setTitle(model.toString());
        // TestPreformer.getInstance().printInfo("");
        //test(controller);
        // test2(controller);
-        primaryStage.setScene(new Scene(root, 1200, 700));
+        primaryStage.setScene(new Scene(root, 1600, 975));
         primaryStage.show();
 
 
@@ -117,7 +116,7 @@ public class Main extends Application {
 
             for (int i = 0; i < numOfAgents.size(); i++) {
                 ShortestPathGenerator.getInstance().setFilename(filename);
-                model = new Model(controller, filename);
+                model = new Model(controller, filename,TYPE);
                 model.setNUM_OF_AGENTS(numOfAgents.get(i));
                 for (int j = 0; j < num_scene; j++) {
                     model.next();

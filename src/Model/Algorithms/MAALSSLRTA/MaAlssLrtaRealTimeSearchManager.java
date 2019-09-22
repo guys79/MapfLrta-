@@ -14,7 +14,7 @@ import java.util.*;
  */
 public class MaAlssLrtaRealTimeSearchManager extends AbstractRealTimeSearchManager {
     private int maxLength;//The maximum kength of prefix in a certain iteration
-
+    private int test;
     /**
      * The constructor of the class
      *
@@ -22,7 +22,7 @@ public class MaAlssLrtaRealTimeSearchManager extends AbstractRealTimeSearchManag
      */
     public MaAlssLrtaRealTimeSearchManager(Problem problem) {
         super(problem);
-
+        test = 0;
 
     }
 
@@ -30,6 +30,7 @@ public class MaAlssLrtaRealTimeSearchManager extends AbstractRealTimeSearchManag
     @Override
     protected void calculatePrefix()
     {
+
         prev = new HashMap<>();
 
 

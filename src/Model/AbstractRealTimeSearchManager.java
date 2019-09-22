@@ -129,6 +129,7 @@ public abstract class AbstractRealTimeSearchManager implements IRealTimeSearchMa
         long sum =0l;
         while(!isDone() && iteration<10000)
         {
+
             //System.out.println("Iteration number "+(i+1));
             calculatePrefix();
             move();

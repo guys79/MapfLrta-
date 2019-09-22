@@ -50,7 +50,7 @@ public class ALSSLRTA implements IRealTimeSearchAlgorithm {
      * This function inhabits an agent in it's goal
      * @param nodeId - The given node id
      */
-    protected void inhabitAgent(int nodeId)
+    protected void inhabitAgent(int nodeId,int agentId)
     {
 
     }
@@ -59,8 +59,11 @@ public class ALSSLRTA implements IRealTimeSearchAlgorithm {
         clearOpen();//Clear open
         List<Node> prefix = new ArrayList<>();
         this.agent = agent;
+        closed.clear();
         this.needToBeUpdated = agent.getNeedToBeUpdated();
         current = transformSingleNode(start,0);
+
+
 
         //The A* procedure
         aStarPrecedure();
@@ -95,17 +98,28 @@ public class ALSSLRTA implements IRealTimeSearchAlgorithm {
         //Calculating prefix
 
         int id = current.getNode().getId();
-        while(next.getNode().getId() != id)
-        {
-
-            prefix.add(0,next.getNode());
-            next = next.getBack();
+        boolean flag = current instanceof MaAlssLrtaSearchNode && next instanceof MaAlssLrtaSearchNode;
+        boolean first = false;
+        while(true) {
+            while (next.getNode().getId() != id || first) {
+                first = false;
+                prefix.add(0, next.getNode());
+                next = next.getBack();
+            }
+            if(flag)
+            {
+                if(!(((MaAlssLrtaSearchNode)next).getTime() > ((MaAlssLrtaSearchNode)current).getTime()))
+                    break;
+            }
+            else
+                break;
+            first = true;
         }
         prefix.add(0,next.getNode());
         if(agent.isDone())
         {
 
-            inhabitAgent(goal.getId());
+            inhabitAgent(goal.getId(),prefix.size());
 
 
         }
@@ -279,6 +293,23 @@ public class ALSSLRTA implements IRealTimeSearchAlgorithm {
                     setGNode(node,temp);
                     node.setBack(state);
                     openAdd(node);
+                }
+                else
+                {
+                    if(node.getG()==temp) {
+                        AlssLrtaSearchNode pulled = this.closed.get(node.getNode().getId());
+                        if (pulled != null) {
+                            if (node instanceof MaAlssLrtaSearchNode && pulled instanceof MaAlssLrtaSearchNode) {
+                                if (((MaAlssLrtaSearchNode) node).getTime() > ((MaAlssLrtaSearchNode) pulled).getTime()) {
+                               //     System.out.println(agent.getId() + " agent id");
+                                    setGNode(node, temp);
+                                      node.setBack(state);
+                                    openAdd(node);
+                                }
+
+                            }
+                        }
+                    }
                 }
             }
             expansions++;
@@ -536,9 +567,10 @@ public class ALSSLRTA implements IRealTimeSearchAlgorithm {
 
         @Override
         public int compare(AlssLrtaSearchNode o1, AlssLrtaSearchNode o2) {
-
+                boolean flag =false;
                 if(o1 instanceof MaAlssLrtaSearchNode && o2 instanceof MaAlssLrtaSearchNode)
                 {
+                    flag = true;
                     boolean flag1 = canInhabit(o1);
                     boolean flag2 = canInhabit(o2);
                     if(!((flag1 && flag2) ||(!flag1 && !flag2)))
@@ -558,7 +590,15 @@ public class ALSSLRTA implements IRealTimeSearchAlgorithm {
                         return -1;
                     return 1;
                 }
-                return super.compare(o1, o2);
+                int res =  super.compare(o1, o2);
+                if(res!=0)
+                    return res;
+                if(flag)
+                {
+                    return ((MaAlssLrtaSearchNode) o1).getTime() - ((MaAlssLrtaSearchNode) o2).getTime();
+                }
+                return 0;
+
 
 
         }

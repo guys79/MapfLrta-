@@ -18,8 +18,9 @@ public class MAALSSLRTA extends ALSSLRTA {
     //Key -int time ,Value - Agent's id
     private IRules rules;//The rules for Real Time MAPF
     private int visionRadius;//The vision radius of all agents
-    private Set<Integer> goals;//The agent's fulfilled goals
+    private Map<Integer,Integer> goals;//Key - node id , value - time
     private Map<Integer,Map<Integer,AlssLrtaSearchNode>> open_time;//Key - node id, value - key-time, value - node
+    public static int test = 0;
 
     /**
      * The constructor
@@ -28,13 +29,14 @@ public class MAALSSLRTA extends ALSSLRTA {
      */
     public MAALSSLRTA(Problem problem) {
         super(problem);
+        test++;
 
         Set<Agent> agents = problem.getAgentsAndStartGoalNodes().keySet();
-        this.goals = new HashSet<>();
+        this.goals = new HashMap<>();
         for(Agent agent: agents)
         {
             if(agent.isDone())
-                this.goals.add(agent.getGoal().getId());
+                this.goals.put(agent.getGoal().getId(),0); // TODO: 22/09/2019 try to remove line
         }
         rules = new RuleBook(this);
         ocuupied_times = new HashMap<>();
@@ -68,13 +70,22 @@ public class MAALSSLRTA extends ALSSLRTA {
         while(pAgents.size()>0)
         {
             Agent agent = pAgents.poll();
+            if(agent.getId() == 4 && test==1)
+            {
+                System.out.println(4);
+
+            }
+            if(agent.getId() == 58 && test==1)
+            {
+                System.out.println(58);
+            }
             if(agent.isDone())
             {
 
                 List<Node> done = new ArrayList<>();
                 done.add(agent.getGoal());
                 prefixes.put(agent.getId(),done);
-                inhabitAgent(agent.getGoal().getId());
+                inhabitAgent(agent.getGoal().getId(),0);// TODO: 22/09/2019 remove
 
             }
             else {
@@ -84,7 +95,7 @@ public class MAALSSLRTA extends ALSSLRTA {
                 List<Node> prefix = super.calculatePrefix(current, agent.getGoal(), numOfNodesToDevelop, agent);
 
                 if (prefix == null) {
-                    System.out.println("No Solution agent " + agent.getId());
+                    System.out.println("No Solution agent " + agent.getId()+" can't move from "+agent.getCurrent() + " id = "+agent.getCurrent().getId());
                     prefixes.put(agent.getId(), prefix);
                     return prefixes;
                     //return null;
@@ -92,9 +103,13 @@ public class MAALSSLRTA extends ALSSLRTA {
 
                     //Updating node
                     for (int i = 0; i < prefix.size() - 1; i++) {
+                    if(prefix.get(i).getId() == 1695)
+                    {
+
+                    }
                         updateNode(prefix.get(i).getId(), i);
                     }
-                    inhabitAgent(prefix.get(prefix.size() - 1).getId());
+                    inhabitAgent(prefix.get(prefix.size() - 1).getId(),prefix.size());
                     prefixes.put(agent.getId(), prefix);
 
             }
@@ -135,7 +150,9 @@ public class MAALSSLRTA extends ALSSLRTA {
      */
     public boolean canReserve(int time,int nodeId)
     {
-        if(this.goals.contains(nodeId))
+        Integer time2 = this.goals.get(nodeId);
+        if(time2 != null)
+            if(time2 <= time)
             return false;
         //first time
         if(this.ocuupied_times.get(nodeId) ==null)
@@ -157,12 +174,11 @@ public class MAALSSLRTA extends ALSSLRTA {
      * @param nodeId - The node's id
      */
     @Override
-    protected void inhabitAgent(int nodeId)
+    protected void inhabitAgent(int nodeId,int time)
     {
 
         this.ocuupied_times.remove(nodeId);
-
-        this.goals.add(nodeId);
+        this.goals.put(nodeId,time);
     }
 
     @Override
@@ -175,7 +191,7 @@ public class MAALSSLRTA extends ALSSLRTA {
         Map<Integer,Integer> time_agents = this.ocuupied_times.get(ma.getNode().getId());
         if(time_agents == null)
         {
-            return !this.goals.contains(node.getNode().getId());
+            return !this.goals.containsKey(node.getNode().getId());
         }
         Set<Integer> times = time_agents.keySet();
         int time = ma.getTime();
@@ -201,7 +217,7 @@ public class MAALSSLRTA extends ALSSLRTA {
     {
         if(this.ocuupied_times.get(nodeId) ==null)
         {
-            if(this.goals.contains(nodeId))
+            if(this.goals.containsKey(nodeId))
                 return -2;
             Map<Integer,Integer> map = new HashMap<>();
             this.ocuupied_times.put(nodeId,map);
