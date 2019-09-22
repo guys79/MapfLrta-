@@ -2,7 +2,7 @@ package Model;
 
 import Controller.Controller;
 import Model.Algorithms.ALSSLRTA.AlssLrtaRealTimeSearchManager;
-import Model.Algorithms.Dijkstra.ShortestPathGenerator;
+import Model.Algorithms.ALSSLRTAIGNOREOTHERS.AlssLrtaIgnoreOthersRealTimeManager;
 import Model.Algorithms.LRTA.RealTimeSearchManager;
 import Model.Algorithms.MAALSSLRTA.MaAlssLrtaRealTimeSearchManager;
 import javafx.util.Pair;
@@ -16,13 +16,13 @@ import java.util.*;
 public class Model {
 
     private boolean first;//True IFF it's the first scenario
-    private int NUM_OF_AGENTS = 500;//Number of agents
+    private int NUM_OF_AGENTS = 130;//Number of agents
     private final int VISION_RADIUS = 20;//Number of agents
     private final int HEIGHT = 12;//The number of columns
     private final int WIDTH = 12;//The number of rows
     private final double DENSITY = 0.6;//The ratio between the number of walls to the overall number of nodes in the grid
-    private final int NUM_OF_NODES_TO_DEVELOP = 25;//The number of nodes that can be developed in a single iteration
-    private final int TYPE =2;// 0 - LRTA*, 1-aLSS-LRTA* 2- MA-aLSS-LRTA*
+    private final int NUM_OF_NODES_TO_DEVELOP = 45;//The number of nodes that can be developed in a single iteration
+    private int TYPE;// 0 - LRTA*, 1-aLSS-LRTA* 2- MA-aLSS-LRTA* 3- IgnoreOthers-Ma-aLSS-LRTA*
     private String fileName;
 
     private String mapPath;//The path to the map file
@@ -59,8 +59,9 @@ public class Model {
             ((MAScenarioProblemCreator)problemCreator).setNum_of_agents(NUM_OF_AGENTS);
     }
 
-    public Model(Controller controller,String filename) {
-        this(controller);
+    public Model(Controller controller,String filename,int type) {
+        this(controller,type);
+
         this.fileName = filename;
         String rel = new File("help.txt").getAbsolutePath();
         rel = rel.substring(0,rel.indexOf("help.txt"));
@@ -73,7 +74,8 @@ public class Model {
      * @param controller - The controller
      *
      */
-    public Model(Controller controller) {
+    public Model(Controller controller,int type) {
+        this.TYPE = type;
         String rel = new File("help.txt").getAbsolutePath();
         rel = rel.substring(0,rel.indexOf("help.txt"));
         fileName = "w_woundedcoast";//The name of the file
@@ -207,7 +209,14 @@ public class Model {
                 if(this.TYPE == 1)
                     realTimeSearchManager = new AlssLrtaRealTimeSearchManager(problem);
                 else
-                    realTimeSearchManager = new MaAlssLrtaRealTimeSearchManager(problem);
+                {
+                    if(this.TYPE == 2)
+                        realTimeSearchManager = new MaAlssLrtaRealTimeSearchManager(problem);
+                    else
+                    {
+                        realTimeSearchManager = new AlssLrtaIgnoreOthersRealTimeManager(problem);
+                    }
+                }
             }
             Map<Agent, List<Node>> paths;//The paths for each agent
 

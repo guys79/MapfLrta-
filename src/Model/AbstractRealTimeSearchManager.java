@@ -14,6 +14,7 @@ public abstract class AbstractRealTimeSearchManager implements IRealTimeSearchMa
     protected Map<Agent, List<Node>> pathsForAgents;//Key - agent, Value - The agent's prefix
     protected Map<Agent, Node> prev;//Key - agent, Value - The agent's prefix
     protected int numOfFinish;//Number of finished problems
+    private int iteration;//Number of iterations
     /**
      * The constructor of the class
      * @param problem - The given problem
@@ -77,7 +78,7 @@ public abstract class AbstractRealTimeSearchManager implements IRealTimeSearchMa
 
                 if (i <= prefix.size() - 1) {
                     if (!agent.moveAgent(prefix.get(i))) {
-                        System.out.println("Collision between agent " + agent.getId() + " and agent " + prefix.get(i).getOccupationId() + " in " + prefix.get(i));
+                        System.out.println("Collision between agent " + agent.getId() + " and agent " + prefix.get(i).getOccupationId() + " in " + prefix.get(i) +" at iteration "+iteration);
                         prefixesForAgents.put(agent, null);
                         return;
                     }
@@ -122,11 +123,11 @@ public abstract class AbstractRealTimeSearchManager implements IRealTimeSearchMa
      */
     public Map<Agent,List<Node>> search()
     {
-        int i=0;
+        iteration=0;
         long start,end;
         start =  System.currentTimeMillis();
         long sum =0l;
-        while(!isDone() && i<10000)
+        while(!isDone() && iteration<10000)
         {
             //System.out.println("Iteration number "+(i+1));
             calculatePrefix();
@@ -134,15 +135,15 @@ public abstract class AbstractRealTimeSearchManager implements IRealTimeSearchMa
             end = System.currentTimeMillis();
             sum+= (end-start);
 
-            i++;
+            iteration++;
             start =  System.currentTimeMillis();
         }
-        TestPreformer.getInstance().updateAverageIteration((sum*1.0)/i);
-        if(i>=10000)
+        TestPreformer.getInstance().updateAverageIteration((sum*1.0)/iteration);
+        if(iteration>=10000)
         {
             TestPreformer.getInstance().updateNonComplete();
         }
-        System.out.println("Number of iterations "+i);
+        System.out.println("Number of iterations "+iteration);
         clear();
         return this.pathsForAgents;
     }
@@ -157,6 +158,7 @@ public abstract class AbstractRealTimeSearchManager implements IRealTimeSearchMa
         {
             this.problem.getAgentsAndStartGoalNodes().get(agent).getValue().unInhabit();
         }
+
     }
 
 

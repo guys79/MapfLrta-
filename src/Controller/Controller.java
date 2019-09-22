@@ -16,6 +16,10 @@ import javafx.scene.control.TextField;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 
+import javax.swing.border.CompoundBorder;
+import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
+import java.awt.*;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -36,11 +40,15 @@ public class Controller{
     public GraphicsContext context;//The context
     public TextField text_field;//The text field get as an input the scenario number
     public Button scen_btn;//The enter button for the scenario number
+    public Button mark_btn;//The enter button for the scenario number
     public IntegerProperty time = new SimpleIntegerProperty();
-    public int[][] grid;//The graph
+    public int[][] grid;//The graphtext="Mark"
     public HashMap<Integer, int[]> nodeLocations = new HashMap<>();//Key - node's id, value - the location of the node [x,y]
     public HashMap<int[], Color> paths = new HashMap<>();//Key - path, Value - Agent's color
     private int agentCount = 0;//Number of agents
+    private int marked_x;
+    private int marked_y;
+
     private HashSet<int [] > noSolLocs;
     private Color[] colors = {//The colors available
             Color.RED,
@@ -63,6 +71,8 @@ public class Controller{
     private double cellWidth;//The height of the cell
     private double cellHeight;//The width of the cell
     private int maxTime = 0;//The amount of time for the longest path
+    public TextField enter_y_textField;
+    public TextField enter_x_textField;
 
     private void printColor(int id,Color color)
     {
@@ -139,7 +149,67 @@ public class Controller{
     {
         model.next();
     }
+    public void markButton()
+    {
+        boolean toMark;
+        int x = -1,y = -1;
+        try {
+            x = Integer.parseInt(this.enter_x_textField.getText());
+            y = Integer.parseInt(this.enter_y_textField.getText());
+            toMark = true;
+        }
+        catch (NumberFormatException e)
+        {
+            toMark = false;
+        }
 
+        if(toMark && this.mark_btn.getText().equals("Mark"))
+        {
+            marked_x = x;
+            marked_y = y;
+            mark(marked_x,marked_y);
+        }
+        else
+        {
+            unmark(marked_x,marked_y);
+        }
+
+        this.enter_y_textField.setText("");
+        this.enter_x_textField.setText("");
+    }
+    private void unmark(int x, int y)
+    {
+        mark_btn.setText("Mark");
+        if(grid[x][y] == -1)
+            context.setFill(Color.BLACK);
+        else
+            context.setFill(Color.WHITE);
+       /* context.moveTo(cellWidth*y,x*cellHeight );
+        context.lineTo(cellWidth*(y+1), cellHeight*x);
+        context.lineTo(cellWidth*(y+1), cellHeight*(x+1));
+        context.lineTo(cellWidth*y, cellHeight*(x+1));
+        context.stroke();
+
+        */
+        context.fillRect(y * cellWidth, x * cellHeight, cellWidth + 1, cellHeight + 1);
+    }
+    public void mark (int x,int y)
+    {
+
+            if(x<0 || x>= grid.length)
+                return;
+            if(y<0 || y>=grid[x].length)
+                return;
+            mark_btn.setText("UnMark");
+        context.setFill(Color.BLUE);
+        context.fillRect(y * cellWidth, x * cellHeight, cellWidth + 1, cellHeight + 1);
+        if(grid[x][y] == -1)
+            context.setFill(Color.BLACK);
+        else
+            context.setFill(Color.WHITE);
+        context.fillRect(y * cellWidth+(1.0/12)*cellWidth, x * cellHeight+(1.0/12)*cellHeight, cellWidth *5.0/6, cellHeight *5.0/6);
+
+    }
     /**
      * This function check whether he given string represents an integer
      * @param str - The given string
@@ -210,6 +280,8 @@ public class Controller{
      * @param grid - The given grid
      */
     public void initialize(int[][] grid){
+
+        mark_btn.setText("Mark");
         slider.setBlockIncrement(1);
         this.noSolLocs = new HashSet<>();
         slider.valueProperty().addListener((ChangeListener) (arg0, arg1, arg2) -> {

@@ -78,6 +78,8 @@ public class TestPreformer {
     {
         this.sumOfAverageTimePerIteration+= averageTimePerIteration;
     }
+
+
     /**
      * This function will print the calculated information of all the problems tested so far
      * @param path - The output file destination
