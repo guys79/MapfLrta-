@@ -106,16 +106,15 @@ public class ALSSLRTA implements IRealTimeSearchAlgorithm {
                 prefix.add(0, next.getNode());
                 next = next.getBack();
             }
-            if(flag)
-            {
-                if(!(((MaAlssLrtaSearchNode)next).getTime() > ((MaAlssLrtaSearchNode)current).getTime()))
+            if (flag) {
+                if (!(((MaAlssLrtaSearchNode) next).getTime() > ((MaAlssLrtaSearchNode) current).getTime()))
                     break;
-            }
-            else
+            } else
                 break;
             first = true;
+
         }
-        prefix.add(0,next.getNode());
+        prefix.add(0, next.getNode());
         if(agent.isDone())
         {
 
