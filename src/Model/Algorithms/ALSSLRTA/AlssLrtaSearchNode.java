@@ -1,6 +1,6 @@
 package Model.Algorithms.ALSSLRTA;
 
-import Model.Node;
+import Model.Components.Node;
 
 /**
  * This class represents a node that participates in the aLSS-LRTA* search

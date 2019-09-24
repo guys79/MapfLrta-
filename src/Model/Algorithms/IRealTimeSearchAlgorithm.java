@@ -1,4 +1,8 @@
-package Model;
+package Model.Algorithms;
+
+import Model.Components.Agent;
+import Model.Components.Node;
+import Model.Model;
 
 import java.util.List;
 
@@ -15,5 +19,5 @@ public interface IRealTimeSearchAlgorithm {
      * @param agent - The agent
      * @return - A prefix from the start node to the goal node path
      */
-    public List<Node> calculatePrefix(Node start,Node goal, int numOfNodesToDevelop, Agent agent);
+    public List<Node> calculatePrefix(Node start, Node goal, int numOfNodesToDevelop, Agent agent);
 }

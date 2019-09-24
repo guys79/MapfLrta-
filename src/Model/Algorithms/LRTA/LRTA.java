@@ -1,8 +1,8 @@
 package Model.Algorithms.LRTA;
 
-import Model.Agent;
-import Model.IRealTimeSearchAlgorithm;
-import Model.Node;
+import Model.Components.Agent;
+import Model.Algorithms.IRealTimeSearchAlgorithm;
+import Model.Components.Node;
 
 import java.util.*;
 

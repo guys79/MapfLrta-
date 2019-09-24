@@ -1,14 +1,15 @@
-package Model;
+package Model.Components;
 
 
 import Model.Algorithms.Dijkstra.ShortestPathGenerator;
+import Model.Model;
 import javafx.util.Pair;
 
 import java.util.*;
 /**
  * This class represents an abstract Real Time Search Manager
  */
-public abstract class AbstractRealTimeSearchManager implements IRealTimeSearchManager{
+public abstract class AbstractRealTimeSearchManager implements IRealTimeSearchManager {
     protected Problem problem;//The instance of the problem
     protected Map<Agent, List<Node>> prefixesForAgents;//Key - agent, Value - The agent's prefix
     protected Map<Agent, List<Node>> pathsForAgents;//Key - agent, Value - The agent's prefix
@@ -24,7 +25,7 @@ public abstract class AbstractRealTimeSearchManager implements IRealTimeSearchMa
         this.problem = problem;
 
         this.prefixesForAgents = new HashMap<>();
-        Map<Agent,Pair<Node,Node>> agentsAndStartGoalNodes= problem.getAgentsAndStartGoalNodes();
+        Map<Agent,Pair<Node, Node>> agentsAndStartGoalNodes= problem.getAgentsAndStartGoalNodes();
         pathsForAgents = new HashMap<>();
         Set<Agent> agents = agentsAndStartGoalNodes.keySet();
         this.prev = new HashMap<>();

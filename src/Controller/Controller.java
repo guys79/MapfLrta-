@@ -1,8 +1,7 @@
 package Controller;
 
-import Model.GridNode;
 import Model.Model;
-import Model.Node;
+import Model.Components.Node;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.value.ChangeListener;
@@ -16,10 +15,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 
-import javax.swing.border.CompoundBorder;
-import javax.swing.border.EmptyBorder;
-import javax.swing.border.LineBorder;
-import java.awt.*;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -46,8 +41,8 @@ public class Controller{
     public HashMap<Integer, int[]> nodeLocations = new HashMap<>();//Key - node's id, value - the location of the node [x,y]
     public HashMap<int[], Color> paths = new HashMap<>();//Key - path, Value - Agent's color
     private int agentCount = 0;//Number of agents
-    private int marked_x;
-    private int marked_y;
+    private int marked_x;//The marked x coordinates
+    private int marked_y;//The marked y coordinates
 
     private HashSet<int [] > noSolLocs;
     private Color[] colors = {//The colors available
@@ -71,77 +66,10 @@ public class Controller{
     private double cellWidth;//The height of the cell
     private double cellHeight;//The width of the cell
     private int maxTime = 0;//The amount of time for the longest path
-    public TextField enter_y_textField;
-    public TextField enter_x_textField;
+    public TextField enter_y_textField;//The text field for y
+    public TextField enter_x_textField;//The text field for x
 
-    private void printColor(int id,Color color)
-    {
-        System.out.print("Agent "+id+" color is: ");
-        if(color.equals(Color.RED))
-        {
-            System.out.println("Red");
-        }
-        if(color.equals(Color.DARKRED))
-        {
-            System.out.println("Dark Red");
-        }
-        if(color.equals(Color.ORANGE))
-        {
-            System.out.println("Orange");
-        }
 
-        if(color.equals(Color.DARKORANGE))
-        {
-            System.out.println("Dark Orange");
-        }
-        if(color.equals(Color.GOLDENROD))
-        {
-            System.out.println("Gold");
-        }
-        if(color.equals(Color.GREEN))
-        {
-            System.out.println("Green");
-        }
-        if(color.equals(Color.DARKGREEN))
-        {
-            System.out.println("Dark Green");
-        }
-        if(color.equals(Color.BLUE))
-        {
-            System.out.println("Blue");
-        }
-        if(color.equals(Color.DARKBLUE))
-        {
-            System.out.println("Dark Blue");
-        }
-        if(color.equals(Color.DARKGOLDENROD))
-        {
-            System.out.println("Dark Golden");
-        }
-        /*
-        Color.PINK,
-            Color.PURPLE,
-            Color.TURQUOISE,
-            Color.LAWNGREEN,
-            Color.BROWN
-         */
-        if(color.equals(Color.PINK))
-        {
-            System.out.println("Pink");
-        }
-        if(color.equals(Color.TURQUOISE))
-        {
-            System.out.println("Turquoise");
-        }
-        if(color.equals(Color.LAWNGREEN))
-        {
-            System.out.println("Lawn Green");
-        }
-        if(color.equals(Color.BROWN))
-        {
-            System.out.println("Brown");
-        }
-    }
     /**
      * This function will handle the next problem drawing
      */
@@ -149,6 +77,10 @@ public class Controller{
     {
         model.next();
     }
+
+    /**
+     * This function will implement the functionallity of the Marj button (The onclick event)
+     */
     public void markButton()
     {
         boolean toMark;
@@ -177,6 +109,12 @@ public class Controller{
         this.enter_y_textField.setText("");
         this.enter_x_textField.setText("");
     }
+
+    /**
+     * This function will unMark the cell at x,y
+     * @param x - The x coordinates
+     * @param y - The y coordinates
+     */
     private void unmark(int x, int y)
     {
         mark_btn.setText("Mark");
@@ -193,6 +131,11 @@ public class Controller{
         */
         context.fillRect(y * cellWidth, x * cellHeight, cellWidth + 1, cellHeight + 1);
     }
+    /**
+     * This function will mark the cell at x,y
+     * @param x - The x coordinates
+     * @param y - The y coordinates
+     */
     public void mark (int x,int y)
     {
 

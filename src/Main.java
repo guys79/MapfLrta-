@@ -1,18 +1,14 @@
 import Model.*;
 import Controller.*;
-import Model.Algorithms.Dijkstra.DijkstraSearchNode;
 import Model.Algorithms.Dijkstra.ShortestPathGenerator;
+import Model.Components.TestPreformer;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-import javax.xml.bind.SchemaOutputResolver;
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.*;
 
 public class Main extends Application {
@@ -23,19 +19,13 @@ public class Main extends Application {
     }
 
     final static int TYPE =2;// 0 - LRTA*, 1-aLSS-LRTA* 2- MA-aLSS-LRTA* 3- IgnoreOthers-Ma-aLSS-LRTA*
-    //Then we can read from the file
+
     public void start(Stage primaryStage) throws Exception {
 
         //The GUI
         FXMLLoader fxmlLoader = new FXMLLoader();
         Parent root = fxmlLoader.load(getClass().getResource("Controller/view.fxml").openStream());
         Controller controller = fxmlLoader.getController();
-    /*    PriorityQueue<DijkstraSearchNode> p = new PriorityQueue<>(new DijkstraComperator()) ;
-        GridNode gridNode = new GridNode(2,3);
-        DijkstraSearchNode dijkstraSearchNode = new DijkstraSearchNode(gridNode);
-        DijkstraSearchNode dijkstraSearchNode2 = new DijkstraSearchNode(gridNode);
-        add(p,dijkstraSearchNode);
-        add(p,dijkstraSearchNode2);*/
        String filename = "den312d";
 
         Model model = new Model(controller,filename,TYPE);
@@ -60,29 +50,12 @@ public class Main extends Application {
 
     }
 
-    public static void add(PriorityQueue<DijkstraSearchNode> open,DijkstraSearchNode node)
-    {
-        open.remove(node);
-        open.add(node);
-    }
-    /**
+
+
+     /**
      * This class will compare two DijkstraSearchNodes using their distance from the origin n
      */
-    class DijkstraComperator implements Comparator<DijkstraSearchNode>
-    {
 
-        @Override
-        public int compare(DijkstraSearchNode o1, DijkstraSearchNode o2) {
-            double dis1 = o1.getDistance();
-            double dis2 = o2.getDistance();
-
-            if(dis1 == dis2)
-                return 0;
-            if(dis1<dis2)
-                return -1;
-            return 1;
-        }
-    }
     public void test2(Controller controller)
     {
         int num_scene = 10;

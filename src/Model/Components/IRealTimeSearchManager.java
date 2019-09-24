@@ -1,4 +1,7 @@
-package Model;
+package Model.Components;
+
+import Model.Components.Agent;
+import Model.Model;
 
 import java.util.List;
 import java.util.Map;

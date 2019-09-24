@@ -1,5 +1,8 @@
-package Model;
+package Model.ProblemCreators;
 
+import Model.Components.*;
+import Model.Model;
+import Model.ProblemCreators.AbstractProblemCreator;
 import javafx.util.Pair;
 
 import java.io.BufferedReader;
@@ -11,7 +14,7 @@ import java.util.*;
 /**
  * This class represents a Problem Creator that imports the maps and scenarios from a .map and .map.scen files
  */
-public class ScenarioProblemCreator extends AbstractProblemCreator{
+public class ScenarioProblemCreator extends AbstractProblemCreator {
 
     private int index;//The Scenario index
     private String [][] scenarios;//All the scenarios (and their data)
@@ -54,7 +57,7 @@ public class ScenarioProblemCreator extends AbstractProblemCreator{
     }
 
     @Override
-    public Problem getProblem(String mapPath, String senerioPath, int toDevelop, int type,int visionRadius) {
+    public Problem getProblem(String mapPath, String senerioPath, int toDevelop, int type, int visionRadius) {
 
         this.toDevelop = toDevelop;
         this.type = type;
@@ -76,7 +79,7 @@ public class ScenarioProblemCreator extends AbstractProblemCreator{
             return null;
         }
 
-        Map<Agent,Pair<Node,Node>> start_and_goal = new HashMap<>();
+        Map<Agent,Pair<Node, Node>> start_and_goal = new HashMap<>();
         String [] scen = this.scenarios[index];
 
         int x_start = Integer.parseInt(scen[1]);

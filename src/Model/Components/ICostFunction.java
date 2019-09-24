@@ -1,4 +1,4 @@
-package Model;
+package Model.Components;
 
 /**
  * This interface represents a generic costFunction

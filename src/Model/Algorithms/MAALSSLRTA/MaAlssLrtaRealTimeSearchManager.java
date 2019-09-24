@@ -1,10 +1,9 @@
 package Model.Algorithms.MAALSSLRTA;
 
-import Model.AbstractRealTimeSearchManager;
-import Model.Agent;
-import Model.Algorithms.ALSSLRTA.AlssLrtaSearchNode;
-import Model.Node;
-import Model.Problem;
+import Model.Components.AbstractRealTimeSearchManager;
+import Model.Components.Agent;
+import Model.Components.Node;
+import Model.Components.Problem;
 import javafx.util.Pair;
 
 import java.util.*;
@@ -14,7 +13,7 @@ import java.util.*;
  */
 public class MaAlssLrtaRealTimeSearchManager extends AbstractRealTimeSearchManager {
     private int maxLength;//The maximum kength of prefix in a certain iteration
-    private int test;
+
     /**
      * The constructor of the class
      *
@@ -22,7 +21,7 @@ public class MaAlssLrtaRealTimeSearchManager extends AbstractRealTimeSearchManag
      */
     public MaAlssLrtaRealTimeSearchManager(Problem problem) {
         super(problem);
-        test = 0;
+
 
     }
 
@@ -37,8 +36,6 @@ public class MaAlssLrtaRealTimeSearchManager extends AbstractRealTimeSearchManag
         //Calculate the prefixes for all agents
         for(Agent agent:this.prefixesForAgents.keySet())
         {
-            //Calculate the prefixes for all agents who are not done
-          //  if(!agent.isDone())
                 prev.put(agent,agent.getCurrent());
         }
 
@@ -59,19 +56,17 @@ public class MaAlssLrtaRealTimeSearchManager extends AbstractRealTimeSearchManag
             {
                 prefix = prefixes.get(agent);
                 if(prefix == null) {
-                    //System.out.println("No Solution");
                     prefixesForAgents.put(agent, null);
                     List<Node> fail = new ArrayList<>();
-                    //fail.add(agent_goal_start.get(agent).getKey());
                     fail.add(agent.getCurrent());
                     prefix = fail;
-                //    pathsForAgents.put(agent, fail);
                 }
 
-                    //Adding the prefix to the path
-                    List<Node>path = pathsForAgents.get(agent);
-                    path.remove(path.size()-1);
-                    path.addAll(prefix);
+
+                //Adding the prefix to the path
+                List<Node>path = pathsForAgents.get(agent);
+                path.remove(path.size()-1);
+                path.addAll(prefix);
 
             }
             return;

@@ -1,7 +1,7 @@
 package Model.Algorithms.MAALSSLRTA;
 
 import Model.Algorithms.ALSSLRTA.AlssLrtaSearchNode;
-import Model.Node;
+import Model.Components.Node;
 
 public class MaAlssLrtaSearchNode extends AlssLrtaSearchNode {
 

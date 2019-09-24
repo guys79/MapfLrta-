@@ -1,8 +1,7 @@
-package Model;
+package Model.Components;
 
 import Model.Algorithms.ALSSLRTA.AlssLrtaAgentHeuristics;
 import Model.Algorithms.LRTA.AgentHeuristics;
-import Model.Algorithms.LRTA.ShortestPathAgentHeuristics;
 
 import java.util.HashSet;
 
@@ -22,7 +21,7 @@ public class Agent {
      * @param goal - The goal node
      * @param type - The type of search
      */
-    public Agent(int id,Node goal,int type)
+    public Agent(int id, Node goal, int type)
     {
         if(type == 0)
             heuristics = new AgentHeuristics(goal);

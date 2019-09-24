@@ -1,6 +1,11 @@
-package Model;
+package Model.ProblemCreators;
 
 import Model.Algorithms.Dijkstra.ShortestPathGenerator;
+import Model.Components.Agent;
+import Model.Components.GridCostFunction;
+import Model.Components.Node;
+import Model.Components.Problem;
+import Model.Model;
 import javafx.util.Pair;
 
 import javax.xml.bind.SchemaOutputResolver;
@@ -183,7 +188,7 @@ public class MAScenarioProblemCreator extends ScenarioProblemCreator {
         if(scenIndex == NUM_OF_SCENARIOS)
             return null;
 
-        Map<Agent,Pair<Node,Node>> start_and_goal = new HashMap<>();
+        Map<Agent,Pair<Node, Node>> start_and_goal = new HashMap<>();
         Map<Integer,String []> scenerio = this.scenarios[this.scenIndex];
         scenIndex++;
         Set<Integer> agent_ids = scenerio.keySet();

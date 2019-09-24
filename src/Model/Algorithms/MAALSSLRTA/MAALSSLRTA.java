@@ -1,13 +1,11 @@
 package Model.Algorithms.MAALSSLRTA;
 
 import Model.Algorithms.ALSSLRTA.ALSSLRTA;
-
-import Model.Agent;
+import Model.Components.Agent;
 import Model.Algorithms.ALSSLRTA.AlssLrtaSearchNode;
-import Model.Node;
-import Model.Problem;
+import Model.Components.Node;
+import Model.Components.Problem;
 import javafx.util.Pair;
-
 import java.util.*;
 
 /**
@@ -20,7 +18,7 @@ public class MAALSSLRTA extends ALSSLRTA {
     private int visionRadius;//The vision radius of all agents
     private Map<Integer,Integer> goals;//Key - node id , value - time
     private Map<Integer,Map<Integer,AlssLrtaSearchNode>> open_time;//Key - node id, value - key-time, value - node
-    public static int test = 0;
+
 
     /**
      * The constructor
@@ -29,7 +27,6 @@ public class MAALSSLRTA extends ALSSLRTA {
      */
     public MAALSSLRTA(Problem problem) {
         super(problem);
-        test++;
 
         Set<Agent> agents = problem.getAgentsAndStartGoalNodes().keySet();
         this.goals = new HashMap<>();
@@ -70,15 +67,7 @@ public class MAALSSLRTA extends ALSSLRTA {
         while(pAgents.size()>0)
         {
             Agent agent = pAgents.poll();
-            if(agent.getId() == 4 && test==1)
-            {
-                System.out.println(4);
 
-            }
-            if(agent.getId() == 58 && test==1)
-            {
-                System.out.println(58);
-            }
             if(agent.isDone())
             {
 
@@ -98,18 +87,15 @@ public class MAALSSLRTA extends ALSSLRTA {
                     System.out.println("No Solution agent " + agent.getId()+" can't move from "+agent.getCurrent() + " id = "+agent.getCurrent().getId());
                     prefixes.put(agent.getId(), prefix);
                     return prefixes;
-                    //return null;
+
                 }
 
-                    //Updating node
-                    for (int i = 0; i < prefix.size() - 1; i++) {
-                    if(prefix.get(i).getId() == 1695)
-                    {
 
-                    }
+                    //Updating node
+                    for (int i = 0; i < prefix.size()  - 1; i++) {
                         updateNode(prefix.get(i).getId(), i);
                     }
-                    inhabitAgent(prefix.get(prefix.size() - 1).getId(),prefix.size());
+                    inhabitAgent(prefix.get(prefix.size() - 1).getId(),prefix.size() - 1 );
                     prefixes.put(agent.getId(), prefix);
 
             }
@@ -150,10 +136,14 @@ public class MAALSSLRTA extends ALSSLRTA {
      */
     public boolean canReserve(int time,int nodeId)
     {
+
         Integer time2 = this.goals.get(nodeId);
-        if(time2 != null)
-            if(time2 <= time)
-            return false;
+        //It is a goal
+        if(time2 != null) {
+            if (time2 <= time)
+                return false;
+        }
+
         //first time
         if(this.ocuupied_times.get(nodeId) ==null)
         {
@@ -176,17 +166,18 @@ public class MAALSSLRTA extends ALSSLRTA {
     @Override
     protected void inhabitAgent(int nodeId,int time)
     {
-
-        this.ocuupied_times.remove(nodeId);
         this.goals.put(nodeId,time);
     }
 
     @Override
     protected boolean canInhabit(AlssLrtaSearchNode node) {
+
         if(!(node instanceof MaAlssLrtaSearchNode))
         {
             return super.canInhabit(node);
         }
+        if(this.goals.containsKey(node.getNode().getId()))
+            return false;
         MaAlssLrtaSearchNode ma = (MaAlssLrtaSearchNode)node;
         Map<Integer,Integer> time_agents = this.ocuupied_times.get(ma.getNode().getId());
         if(time_agents == null)
@@ -215,6 +206,7 @@ public class MAALSSLRTA extends ALSSLRTA {
      */
     public int getAgent(int nodeId,int time)
     {
+
         if(this.ocuupied_times.get(nodeId) ==null)
         {
             if(this.goals.containsKey(nodeId))

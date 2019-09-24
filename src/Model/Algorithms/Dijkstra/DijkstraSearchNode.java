@@ -1,6 +1,6 @@
 package Model.Algorithms.Dijkstra;
 
-import Model.Node;
+import Model.Components.Node;
 
 /**
  * This class represents a node in the Dijkstra search

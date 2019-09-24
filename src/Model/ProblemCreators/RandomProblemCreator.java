@@ -1,5 +1,8 @@
-package Model;
+package Model.ProblemCreators;
 
+import Model.Components.*;
+import Model.Model;
+import Model.ProblemCreators.AbstractProblemCreator;
 import javafx.util.Pair;
 
 import java.util.HashMap;
@@ -20,7 +23,7 @@ public class RandomProblemCreator extends AbstractProblemCreator {
     }
 
     @Override
-    public Problem getProblem(int numOfAgents, int height, int width, double density, int toDevelop, int type,int visionRadius) {
+    public Problem getProblem(int numOfAgents, int height, int width, double density, int toDevelop, int type, int visionRadius) {
         return getRandomProblem(numOfAgents,height,width,density,toDevelop,type,visionRadius);
     }
 
@@ -37,9 +40,9 @@ public class RandomProblemCreator extends AbstractProblemCreator {
      * @param visionRadius - The vision radius for each agent
      * @return - A random problem
      */
-    public Problem getRandomProblem(int numOfAgents,int height,int width, double density,int toDevelop,int type,int visionRadius)
+    public Problem getRandomProblem(int numOfAgents, int height, int width, double density, int toDevelop, int type, int visionRadius)
     {
-        Map<Agent, Pair<Node,Node>> agent_start_goal_nodes = new HashMap<>();
+        Map<Agent, Pair<Node, Node>> agent_start_goal_nodes = new HashMap<>();
         HashSet<Node> starts = new HashSet<>();
         HashSet<Node> goals = new HashSet<>();
 
@@ -81,9 +84,9 @@ public class RandomProblemCreator extends AbstractProblemCreator {
      * @param density - The density of the graph
      * @return - A new graph
      */
-    public Node [][] getRandomGraph(int height , int width,double density)
+    public Node[][] getRandomGraph(int height , int width, double density)
     {
-        Node [][] graph= new Node[height][width];
+        Node[][] graph= new Node[height][width];
         int numOfRemainingWalls = (int)(density*width*height);
         int numOfRemainingNodes;
         double probForHole;

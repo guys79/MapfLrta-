@@ -1,4 +1,7 @@
-package Model;
+package Model.ProblemCreators;
+
+import Model.Components.Problem;
+import Model.Model;
 
 /**
  * This interface represents a generic problem creator
@@ -15,7 +18,7 @@ public interface IProblemCreator {
      * @param visionRadius - The vision radius for each agent
      * @return - A problem
      */
-    public Problem getProblem(int numOfAgents,int height,int width, double density,int toDevelop,int type,int visionRadius);
+    public Problem getProblem(int numOfAgents, int height, int width, double density, int toDevelop, int type, int visionRadius);
 
     /**
      * This function will import a problem from a file
@@ -25,7 +28,7 @@ public interface IProblemCreator {
      * @param visionRadius - The vision radius for each agent
      * @return - The problem from the file
      */
-    public Problem getProblem(String path, int toDevelop, int type,int visionRadius);
+    public Problem getProblem(String path, int toDevelop, int type, int visionRadius);
 
     /**
      * This function will import a problem from a file
@@ -36,7 +39,7 @@ public interface IProblemCreator {
      * @param visionRadius - The vision radius for each agent
      * @return - The problem from the file
      */
-    public Problem getProblem(String mapPath,String scenarioPath, int toDevelop, int type,int visionRadius);
+    public Problem getProblem(String mapPath, String scenarioPath, int toDevelop, int type, int visionRadius);
 
     /**
      * This function will return the graph as a integer matrix

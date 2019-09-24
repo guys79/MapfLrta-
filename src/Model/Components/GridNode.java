@@ -1,4 +1,5 @@
-package Model;
+package Model.Components;
+
 /**
  * This class represents a node that is a part of a grid
  */

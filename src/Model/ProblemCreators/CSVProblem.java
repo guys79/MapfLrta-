@@ -1,5 +1,8 @@
-package Model;
+package Model.ProblemCreators;
 
+import Model.Components.*;
+import Model.Model;
+import Model.ProblemCreators.AbstractProblemCreator;
 import javafx.util.Pair;
 
 import java.io.BufferedReader;
@@ -33,7 +36,7 @@ public class CSVProblem extends AbstractProblemCreator {
 
     @Override
     public Problem getProblem(String path, int toDevelop, int type, int visionRadius) {
-        Map<Agent, Pair<Node,Node>> agent_start_goal_nodes = new HashMap<>();
+        Map<Agent, Pair<Node, Node>> agent_start_goal_nodes = new HashMap<>();
         graph = getGraphFromCSV(path);
         Agent agent = new Agent(0,graph[x_end][y_end],type);
         agent_start_goal_nodes.put(agent,new Pair<>(graph[x_start][y_start],graph[x_end][y_end]));
@@ -49,7 +52,7 @@ public class CSVProblem extends AbstractProblemCreator {
      * @return - The grid
      */
 
-    public Node [][] getGraphFromCSV(String path)
+    public Node[][] getGraphFromCSV(String path)
     {
         BufferedReader br = null;
         String line;
@@ -104,7 +107,7 @@ public class CSVProblem extends AbstractProblemCreator {
 
             }
             int num_of_rows = grid.size();
-            Node [][] nodeGrid = new Node[num_of_rows][num_of_colums];
+            Node[][] nodeGrid = new Node[num_of_rows][num_of_colums];
             for(int i=0;i<num_of_rows;i++)
             {
                 for(int j=0;j<num_of_colums;j++)

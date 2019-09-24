@@ -1,4 +1,8 @@
-package Model;
+package Model.ProblemCreators;
+
+import Model.Components.Node;
+import Model.Components.Problem;
+import Model.Model;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -8,7 +12,7 @@ import java.io.PrintWriter;
  * This class represents an abstract ProblemCreator
  */
 public abstract class AbstractProblemCreator implements IProblemCreator {
-    protected Node [][] graph;//The graph
+    protected Node[][] graph;//The graph
     protected String problemInString;//The problem representation in string
 
     @Override
@@ -17,17 +21,17 @@ public abstract class AbstractProblemCreator implements IProblemCreator {
     }
 
     @Override
-    public Problem getProblem(String path, int toDevelop, int type,int visionRadius) {
+    public Problem getProblem(String path, int toDevelop, int type, int visionRadius) {
         throw  new UnsupportedOperationException();
     }
 
     @Override
-    public Problem getProblem(String mapPath, String SenerioPath, int toDevelop, int type,int visionRadius) {
+    public Problem getProblem(String mapPath, String SenerioPath, int toDevelop, int type, int visionRadius) {
         throw  new UnsupportedOperationException();
     }
 
     @Override
-    public Problem getProblem(int numOfAgents, int height, int width, double density, int toDevelop, int type,int visionRadius) {
+    public Problem getProblem(int numOfAgents, int height, int width, double density, int toDevelop, int type, int visionRadius) {
         throw  new UnsupportedOperationException();
     }
 
@@ -60,7 +64,7 @@ public abstract class AbstractProblemCreator implements IProblemCreator {
      * @param graph - The given graph
      * @return - The same graph in the new format int [][]
      */
-    private int [][] intoIntGrid(Node [][]graph)
+    private int [][] intoIntGrid(Node[][]graph)
     {
         int [][] intGrid = new int[graph.length][graph[0].length];
         for(int i=0;i<graph.length;i++)

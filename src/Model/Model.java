@@ -5,6 +5,11 @@ import Model.Algorithms.ALSSLRTA.AlssLrtaRealTimeSearchManager;
 import Model.Algorithms.ALSSLRTAIGNOREOTHERS.AlssLrtaIgnoreOthersRealTimeManager;
 import Model.Algorithms.LRTA.RealTimeSearchManager;
 import Model.Algorithms.MAALSSLRTA.MaAlssLrtaRealTimeSearchManager;
+import Model.Components.*;
+import Model.ProblemCreators.IProblemCreator;
+import Model.ProblemCreators.MAScenarioProblemCreator;
+import Model.ProblemCreators.RandomProblemCreator;
+import Model.ProblemCreators.ScenarioProblemCreator;
 import javafx.util.Pair;
 
 import java.io.File;
@@ -137,7 +142,18 @@ public class Model {
                 if(this.TYPE == 1)
                     realTimeSearchManager = new AlssLrtaRealTimeSearchManager(problem);
                 else
-                    realTimeSearchManager = new MaAlssLrtaRealTimeSearchManager(problem);
+                {
+                    if(this.TYPE == 2)
+                        realTimeSearchManager = new MaAlssLrtaRealTimeSearchManager(problem);
+                    else
+                    {
+                        if(this.TYPE == 3)
+                            realTimeSearchManager = new AlssLrtaIgnoreOthersRealTimeManager(problem);
+                        else
+                            realTimeSearchManager = new AlssLrtaIgnoreOthersRealTimeManager(problem);
+
+                    }
+                }
             }
 
 

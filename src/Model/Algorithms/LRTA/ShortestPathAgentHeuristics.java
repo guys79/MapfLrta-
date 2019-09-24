@@ -1,7 +1,7 @@
 package Model.Algorithms.LRTA;
 
 import Model.Algorithms.ALSSLRTA.AlssLrtaAgentHeuristics;
-import Model.Node;
+import Model.Components.Node;
 import Model.Algorithms.Dijkstra.ShortestPathGenerator;
 
 /**

@@ -1,4 +1,4 @@
-package Model;
+package Model.Components;
 
 /**
  * This class represents a GridCOstFunction

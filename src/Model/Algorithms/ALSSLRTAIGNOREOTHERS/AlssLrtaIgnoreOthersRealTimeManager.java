@@ -1,17 +1,19 @@
 package Model.Algorithms.ALSSLRTAIGNOREOTHERS;
 
-import Model.AbstractRealTimeSearchManager;
-import Model.Agent;
+import Model.Components.AbstractRealTimeSearchManager;
+import Model.Components.Agent;
 import Model.Algorithms.ALSSLRTA.ALSSLRTA;
-import Model.Algorithms.MAALSSLRTA.MAALSSLRTA;
-import Model.Node;
-import Model.Problem;
+import Model.Components.Node;
+import Model.Components.Problem;
 import javafx.util.Pair;
 
 import java.util.*;
 
+/**
+ * This class represents an aLSS-LRTA* manager (half before crush)
+ */
 public class AlssLrtaIgnoreOthersRealTimeManager extends AbstractRealTimeSearchManager {
-    private int maxLength;
+    private int maxLength; // The length of the longest prefix
 
     /**
      * The constructor of the class

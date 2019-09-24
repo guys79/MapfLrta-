@@ -1,7 +1,10 @@
 package Model.Algorithms.ALSSLRTA;
 
-import Model.*;
+import Model.Algorithms.IRealTimeSearchAlgorithm;
 import Model.Algorithms.MAALSSLRTA.MaAlssLrtaSearchNode;
+import Model.Components.Agent;
+import Model.Components.Node;
+import Model.Components.Problem;
 
 import java.util.*;
 

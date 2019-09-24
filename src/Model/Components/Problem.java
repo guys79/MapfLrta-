@@ -1,6 +1,5 @@
-package Model;
+package Model.Components;
 
-import Model.Algorithms.Dijkstra.ShortestPathGenerator;
 import javafx.util.Pair;
 
 import java.util.Map;
@@ -109,7 +108,7 @@ public class Problem {
 
     /**
      * This function will initialize the graph using an array of nodes
-     * The assumption that the array of nodes is an array of Model.GridNode
+     * The assumption that the array of nodes is an array of Model.Components.GridNode
      * each edge costs 1, diagonal cost sqrt(2), eah edge is undirected
      * @param graph - the given graph
      */

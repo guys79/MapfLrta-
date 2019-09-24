@@ -1,8 +1,8 @@
 package Model.Algorithms.ALSSLRTA;
 
-import Model.GridNode;
-import Model.IAgentHeuristics;
-import Model.Node;
+import Model.Components.GridNode;
+import Model.Components.IAgentHeuristics;
+import Model.Components.Node;
 import java.util.HashMap;
 import java.util.Map;
 

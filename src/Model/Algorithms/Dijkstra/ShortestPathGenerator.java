@@ -1,7 +1,7 @@
 package Model.Algorithms.Dijkstra;
 
 
-import Model.Node;
+import Model.Components.Node;
 import javafx.util.Pair;
 
 import java.io.*;

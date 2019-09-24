@@ -1,9 +1,8 @@
 package Model.Algorithms.Dijkstra;
 
-import Model.GridNode;
-import Model.Node;
+import Model.Components.GridNode;
+import Model.Components.Node;
 
-import javax.print.MultiDoc;
 import java.util.*;
 
 /**
