@@ -1,9 +1,6 @@
-package Model.Algorithms;
+package Model.Components;
 
 
-import Model.Algorithms.Dijkstra.ShortestPathGenerator;
-import Model.Components.*;
-import Model.Model;
 import javafx.util.Pair;
 
 import java.util.*;
@@ -103,7 +100,7 @@ public abstract class AbstractRealTimeSearchManager implements IRealTimeSearchMa
      */
     public boolean isDone()
     {
-        if(iteration>100)
+        if(iteration>1000)
             return true;
         HashSet<Agent> agents = new HashSet<>(problem.getAgentsAndStartGoalNodes().keySet());
         if(this.prefixesForAgents.values().contains(null))
@@ -126,6 +123,7 @@ public abstract class AbstractRealTimeSearchManager implements IRealTimeSearchMa
      */
     public Map<Agent,List<Node>> search()
     {
+        System.out.println("start search");
         iteration=0;
         long start,end;
         start =  System.currentTimeMillis();

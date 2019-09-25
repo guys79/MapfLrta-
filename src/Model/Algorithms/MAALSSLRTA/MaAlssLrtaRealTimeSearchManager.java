@@ -1,6 +1,6 @@
 package Model.Algorithms.MAALSSLRTA;
 
-import Model.Algorithms.AbstractRealTimeSearchManager;
+import Model.Components.AbstractRealTimeSearchManager;
 import Model.Components.Agent;
 import Model.Components.Node;
 import Model.Components.Problem;
@@ -13,6 +13,7 @@ import java.util.*;
  */
 public class MaAlssLrtaRealTimeSearchManager extends AbstractRealTimeSearchManager {
     private int maxLength;//The maximum kength of prefix in a certain iteration
+    public static int test =0;
 
     /**
      * The constructor of the class
@@ -29,7 +30,7 @@ public class MaAlssLrtaRealTimeSearchManager extends AbstractRealTimeSearchManag
     @Override
     protected void calculatePrefix()
     {
-
+        test++;
         prev = new HashMap<>();
 
 
@@ -45,8 +46,12 @@ public class MaAlssLrtaRealTimeSearchManager extends AbstractRealTimeSearchManag
         Collection<Agent> agents = agent_goal_start.keySet();
         MAALSSLRTA maalsslrta = new MAALSSLRTA(problem);
         this.prev.clear();
-        Map<Integer,List<Node>> prefixes = maalsslrta.getPrefixes(problem.getNumberOfNodeToDevelop());
 
+        Map<Integer,List<Node>> prefixes = maalsslrta.getPrefixes(problem.getNumberOfNodeToDevelop());
+        for(HashMap.Entry<Integer,List<Node>> prefix : prefixes.entrySet())
+        {
+            System.out.println("Agent "+prefix.getKey()+" prefix "+prefix.getValue());
+        }
 
         //If there is no solution
         if(prefixes.containsValue(null))
@@ -177,6 +182,7 @@ public class MaAlssLrtaRealTimeSearchManager extends AbstractRealTimeSearchManag
             for (Agent agent2 : agents) {
 
                 List<Node> prefix = this.prefixesForAgents.get(agent2);
+
                 if (i <= prefix.size() - 1) {
                     int index = i;
                     Node node = prefix.get(index);

@@ -1,7 +1,7 @@
-package Model.Algorithms.ALSSLRTA;
+package Model.Heuristics;
 
 import Model.Components.GridNode;
-import Model.Components.IAgentHeuristics;
+import Model.Heuristics.IAgentHeuristics;
 import Model.Components.Node;
 import java.util.HashMap;
 import java.util.Map;
@@ -19,22 +19,52 @@ public class AlssLrtaAgentHeuristics implements IAgentHeuristics {
      */
     public AlssLrtaAgentHeuristics(Node goal)
     {
-        localHeuristics = new HashMap<>();
+
         this.goal = goal;
-        localHeuristics.put(goal.getId(),0d);
+        if(goal!=null)
+        {
+            localHeuristics = new HashMap<>();
+            localHeuristics.put(goal.getId(),0d);
+        }
+
     }
 
+
+
+    protected double getHeuristicsForTwoFromFunction(Node origin,Node target)
+    {
+        //Manheten Distance
+        double value = 0;
+        if(origin instanceof GridNode && target instanceof GridNode) {
+            GridNode gd1 = (GridNode) origin;
+            GridNode gd2 = (GridNode) target;
+            double D=1;
+            double D2 = Math.sqrt(2);
+            double dx = Math.abs(gd1.getX() - gd2.getX());
+            double dy = Math.abs(gd1.getY() - gd2.getY());
+
+            value = D * (dx + dy) + (D2 - 2 * D) * Math.min(dx, dy);
+        }
+        else//In case the node is not GridNode, in our case it is unexpected
+        {
+            System.out.println("Fuck");
+        }
+        return value;
+    }
     /**
      * This function will return the heuristics of the node
      * @param node - The node
      * @return - The heuristics of the node
      */
     @Override
-    public double getHeuristics(Node node) {
+    public double getHeuristics(Node node,Node goal) {
 
-        if(localHeuristics.containsKey(node.getId()))
-            return getHeuristicsFromMemory(node);
-        return getHeuristicsFromFunction(node);
+        if(this.goal !=null) {
+            if (localHeuristics.containsKey(node.getId()))
+                return getHeuristicsFromMemory(node);
+            return getHeuristicsFromFunction(node);
+        }
+        return getHeuristicsForTwoFromFunction(node,goal);
     }
 
 
@@ -44,7 +74,7 @@ public class AlssLrtaAgentHeuristics implements IAgentHeuristics {
      * @param newVal - The new heuristic value for the node
      */
     @Override
-    public void updateHeuristics(Node node, double newVal) {
+    public void updateHeuristics(Node node,Node goal, double newVal){
         this.localHeuristics.put(node.getId(),newVal);
     }
 
@@ -66,7 +96,7 @@ public class AlssLrtaAgentHeuristics implements IAgentHeuristics {
      * @param n - The given node n
      * @return - The heuristic value of a given node
      */
-    public double getHeuristicsFromFunction(Node n)
+    protected double getHeuristicsFromFunction(Node n)
     {
 
         double value = 0;
@@ -89,8 +119,8 @@ public class AlssLrtaAgentHeuristics implements IAgentHeuristics {
     }
 
     @Override
-    public double getInitialHeuristicValue(Node n) {
-        return getHeuristicsFromFunction(n);
+    public double getInitialHeuristicValue(Node n,Node goal) {
+        return getHeuristicsForTwoFromFunction(n,goal);
     }
 
     /**

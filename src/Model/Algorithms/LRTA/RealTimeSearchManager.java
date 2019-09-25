@@ -1,7 +1,7 @@
 package Model.Algorithms.LRTA;
 
 import Model.Algorithms.IRealTimeSearchAlgorithm;
-import Model.Algorithms.AbstractRealTimeSearchManager;
+import Model.Components.AbstractRealTimeSearchManager;
 import Model.Components.Agent;
 import Model.Components.Node;
 import Model.Components.Problem;

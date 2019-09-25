@@ -1,9 +1,8 @@
 package Model.Algorithms.ALSSLRTAHALT;
 
 import Model.Algorithms.ALSSLRTA.ALSSLRTA;
-import Model.Algorithms.AbstractRealTimeSearchManager;
+import Model.Components.AbstractRealTimeSearchManager;
 import Model.Components.Agent;
-import Model.Algorithms.ALSSLRTAIGNOREOTHERS.AlssLrtaIgnoreOthersRealTimeManager;
 import Model.Components.Node;
 import Model.Components.Problem;
 import javafx.util.Pair;
@@ -109,7 +108,7 @@ public class AlssLrtaHaltRealTimeManager extends AbstractRealTimeSearchManager {
 
     @Override
     public void move() {
-        System.out.println("Begin");
+
         this.haltedAgents.clear();
         Collection<Agent> agents = new HashSet<>(problem.getAgentsAndStartGoalNodes().keySet());
 
@@ -123,22 +122,14 @@ public class AlssLrtaHaltRealTimeManager extends AbstractRealTimeSearchManager {
                 if (i <= prefix.size() - 1) {
                     Node nextNode = prefix.get(i);
                     //Halt
-                    if(agent.getId() == 94)
-                    {
-                        if(i==1)
-                            System.out.println("Number "+i+" "+agent.getCurrent().getOccupationId());
-
-                    }
 
 
-                        if(i==2 && agent.getId() == 56)
-                            System.out.println();
                         //System.out.println("second");
                     if (this.haltedAgents.contains(agent.getId()) || !agent.moveAgent(nextNode)) {
                         prefix.remove(i);
                         prefix.add(i,agent.getCurrent());
-                        if(!this.haltedAgents.contains(agent.getId()))
-                            System.out.println("Collision between agent " + agent.getId() + " and agent " + nextNode.getOccupationId() + " in " + nextNode+" time "+i);
+                       // if(!this.haltedAgents.contains(agent.getId()))
+                          //  System.out.println("Collision between agent " + agent.getId() + " and agent " + nextNode.getOccupationId() + " in " + nextNode+" time "+i);
                         this.haltedAgents.add(agent.getId());
                   //      prefixesForAgents.put(agent, null);
                         //return;
@@ -155,10 +146,7 @@ public class AlssLrtaHaltRealTimeManager extends AbstractRealTimeSearchManager {
 
 
             List<Node> prefix = this.prefixesForAgents.get(agent);
-            if(agent.getId() == 56)
-                System.out.println("56 "+prefix);
-            if(agent.getId() == 94)
-                System.out.println("94 "+prefix);
+
             //System.out.println("The Prefix of the agent "+agent.getId()+" "+prefix);
             int index = prefix.size() - 1;
             Node node=prefix.get(index);
@@ -181,7 +169,7 @@ public class AlssLrtaHaltRealTimeManager extends AbstractRealTimeSearchManager {
 
         }
 
-        System.out.println();
+
     }
 
     @Override

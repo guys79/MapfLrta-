@@ -1,14 +1,11 @@
 package Model.ProblemCreators;
 
-import Model.Algorithms.Dijkstra.ShortestPathGenerator;
 import Model.Components.Agent;
 import Model.Components.GridCostFunction;
 import Model.Components.Node;
 import Model.Components.Problem;
-import Model.Model;
 import javafx.util.Pair;
 
-import javax.xml.bind.SchemaOutputResolver;
 import java.io.*;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -24,17 +21,19 @@ public class MAScenarioProblemCreator extends ScenarioProblemCreator {
     Map<Integer,String []>[] scenarios;//The scenarios
     final int NUM_OF_SCENARIOS = 2000;// Number of wanted scenarios pre map
     private int scenIndex;//The index of the current scenario
+    private int type;//The type
 
     /**
      * The constructor.
      * @param num_of_agents - Number of agents
      */
-    public MAScenarioProblemCreator(int num_of_agents)
+    public MAScenarioProblemCreator(int num_of_agents,int type)
     {
         super();
         scenIndex = 0;
         this.num_of_agents = num_of_agents;
         this.scenarios = new Map[NUM_OF_SCENARIOS];
+        this.type = type;
 
     }
 
@@ -217,7 +216,8 @@ public class MAScenarioProblemCreator extends ScenarioProblemCreator {
                 return next();
             }
             System.out.println("Agent "+id+" start "+ start+" goal "+ goal);
-            Agent agent = new Agent(id,goal,2);
+            System.out.println("TYPE = "+type);
+            Agent agent = new Agent(id,goal,type);
             start_and_goal.put(agent,new Pair<>(start,goal));
         }
         System.out.println("scenario "+(this.scenIndex-1));

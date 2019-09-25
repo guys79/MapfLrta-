@@ -23,7 +23,7 @@ import java.util.*;
 public class Model {
 
     private boolean first;//True IFF it's the first scenario
-    private int NUM_OF_AGENTS = 10;//Number of agents
+    private int NUM_OF_AGENTS = 100;//Number of agents
     private final int VISION_RADIUS = 20;//Number of agents
     private final int HEIGHT = 12;//The number of columns
     private final int WIDTH = 12;//The number of rows
@@ -208,8 +208,7 @@ public class Model {
             double maxSpan = -1;
             double cost;
             for (Agent agent : agents){
-                if(agent.getId() == 32)
-                    System.out.println();
+
                 controller.addAgent(paths.get(agent), agent.getGoal());
                 List<Node> path = paths.get(agent);
                 double pathCost = 0;

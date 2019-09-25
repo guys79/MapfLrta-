@@ -1,7 +1,8 @@
 package Model.Components;
 
-import Model.Algorithms.ALSSLRTA.AlssLrtaAgentHeuristics;
-import Model.Algorithms.LRTA.AgentHeuristics;
+import Model.Heuristics.AlssLrtaAgentHeuristics;
+import Model.Heuristics.HeuristicFactory;
+import Model.Heuristics.IAgentHeuristics;
 
 import java.util.HashSet;
 
@@ -15,6 +16,7 @@ public class Agent {
     private Node current;//The current node the agent is on
     private boolean isDone;//True IFF the agent reached the goal
     private HashSet<Integer> needToBeUpdated;//The set of nodes that their "updated" flag  = true
+    private Node goal;
     /**
      * The constructor of the agent
      * @param id - The id of the agent
@@ -26,7 +28,7 @@ public class Agent {
         heuristics = HeuristicFactory.getInstance().getAgentHeuristics(type,goal);
         this.id = id;
         this.isDone = false;
-
+        this.goal = goal;
         this.needToBeUpdated = new HashSet();
     }
 
@@ -53,7 +55,7 @@ public class Agent {
      */
     public Node getGoal()
     {
-        return ((AlssLrtaAgentHeuristics)heuristics).getGoal();
+        return goal;
 
     }
     /**
@@ -71,7 +73,7 @@ public class Agent {
      */
     public void updateHeuristic(Node node, double newVal)
     {
-        this.heuristics.updateHeuristics(node,newVal);
+        this.heuristics.updateHeuristics(node,getGoal(),newVal);
 
     }
 
@@ -90,7 +92,7 @@ public class Agent {
      */
     public double getHeuristicValue(Node n)
     {
-        return this.heuristics.getHeuristics(n);
+        return this.heuristics.getHeuristics(n,getGoal());
     }
 
     /**
@@ -100,7 +102,7 @@ public class Agent {
      */
     public double getInitialHeuristicValue(Node n)
     {
-        return this.heuristics.getInitialHeuristicValue(n);
+        return this.heuristics.getInitialHeuristicValue(n,goal);
     }
     /**
      * This function will return the current state of the agent

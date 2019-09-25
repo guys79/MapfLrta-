@@ -18,7 +18,7 @@ public class Main extends Application {
         launch(args);
     }
 
-    final static int TYPE =4;// 0 - LRTA*, 1-aLSS-LRTA* 2- MA-aLSS-LRTA* 3- IgnoreOthers-Ma-aLSS-LRTA*
+    final static int TYPE =2;// 0 - LRTA*, 1-aLSS-LRTA* 2- MA-aLSS-LRTA* 3- IgnoreOthers-Ma-aLSS-LRTA*
 
     public void start(Stage primaryStage) throws Exception {
 
@@ -29,7 +29,7 @@ public class Main extends Application {
        String filename = "den312d";
 
         Model model = new Model(controller,filename,TYPE);
-       // ShortestPathGenerator.getInstance().setFilename(filename);
+        ShortestPathGenerator.getInstance().setFilename(filename);
         model.next();
         primaryStage.setTitle(model.toString());
        // TestPreformer.getInstance().printInfo("");

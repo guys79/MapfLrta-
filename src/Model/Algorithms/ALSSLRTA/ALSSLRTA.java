@@ -22,7 +22,7 @@ public class ALSSLRTA implements IRealTimeSearchAlgorithm {
     protected Problem problem;//Tye given problem
     private Agent agent;// The given agent
     private HashSet<Integer> needToBeUpdated;//Set of nodes that need their update flag =true
-
+    public static int g=0;
 
 
     /**
@@ -31,7 +31,7 @@ public class ALSSLRTA implements IRealTimeSearchAlgorithm {
      */
     public ALSSLRTA(Problem problem)
     {
-
+        g++;
         this.problem = problem;
         this.closed = new HashMap<>();
         open = new PriorityQueue<>(new CompareAlssNode());
@@ -59,6 +59,7 @@ public class ALSSLRTA implements IRealTimeSearchAlgorithm {
     }
     @Override
     public  List<Node> calculatePrefix(Node start, Node goal, int numOfNodesToDevelop, Agent agent) {
+
         clearOpen();//Clear open
         List<Node> prefix = new ArrayList<>();
         this.agent = agent;
@@ -68,6 +69,12 @@ public class ALSSLRTA implements IRealTimeSearchAlgorithm {
 
 
 
+        if(agent.getId() == 3 && g==9 ) {
+            for(AlssLrtaSearchNode alssLrtaSearchNode : open)
+                System.out.println(alssLrtaSearchNode.getNode()+" "+agent.getHeuristicValue(alssLrtaSearchNode.getNode())+" "+getF(alssLrtaSearchNode));
+            System.out.println();
+
+        }
         //The A* procedure
         aStarPrecedure();
 
@@ -302,7 +309,7 @@ public class ALSSLRTA implements IRealTimeSearchAlgorithm {
                         AlssLrtaSearchNode pulled = this.closed.get(node.getNode().getId());
                         if (pulled != null) {
                             if (node instanceof MaAlssLrtaSearchNode && pulled instanceof MaAlssLrtaSearchNode) {
-                                if (((MaAlssLrtaSearchNode) node).getTime() > ((MaAlssLrtaSearchNode) pulled).getTime()) {
+                                if (((MaAlssLrtaSearchNode) node).getTime() < ((MaAlssLrtaSearchNode) pulled).getTime()) {
                                //     System.out.println(agent.getId() + " agent id");
                                     setGNode(node, temp);
                                       node.setBack(state);
@@ -520,11 +527,20 @@ public class ALSSLRTA implements IRealTimeSearchAlgorithm {
         public int compare(AlssLrtaSearchNode o1, AlssLrtaSearchNode o2) {
 
 
-           double f1 = getF(o1);
+                double f1 = getF(o1);
                 double f2 = getF(o2);
                 if (f1 == f2) {
-                    if(o1 instanceof MaAlssLrtaSearchNode && o2 instanceof MaAlssLrtaSearchNode)
+                    if(o1 instanceof MaAlssLrtaSearchNode && o2 instanceof MaAlssLrtaSearchNode) {
+                        boolean flag1 = o1.getBack()!=null && o1.getBack().getNode().getId()!=o1.getNode().getId();
+                        boolean flag2 = o2.getBack()!=null && o2.getBack().getNode().getId()!=o2.getNode().getId();
+                        if(!((flag1 && flag2) || (!flag1 && !flag2))) {
+                            if (flag1)
+                                return -1;
+                            return 1;
+                        }
                         return ((MaAlssLrtaSearchNode) o1).getTime() - ((MaAlssLrtaSearchNode) o2).getTime();
+                    }
+
                     return 0;
                 }
                 if (f1 < f2)

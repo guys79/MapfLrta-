@@ -1,6 +1,5 @@
-package Model.Algorithms.LRTA;
+package Model.Heuristics;
 
-import Model.Algorithms.ALSSLRTA.AlssLrtaAgentHeuristics;
 import Model.Components.Node;
 import Model.Algorithms.Dijkstra.ShortestPathGenerator;
 
@@ -17,8 +16,14 @@ public class ShortestPathAgentHeuristics extends AlssLrtaAgentHeuristics {
         super(goal);
     }
 
+
     @Override
-    public double getHeuristicsFromFunction(Node n) {
+    protected double getHeuristicsFromFunction(Node n) {
         return ShortestPathGenerator.getInstance().getShortestPath(n,goal);
+    }
+
+    @Override
+    protected double getHeuristicsForTwoFromFunction(Node origin, Node target) {
+        return ShortestPathGenerator.getInstance().getShortestPath(origin,target);
     }
 }

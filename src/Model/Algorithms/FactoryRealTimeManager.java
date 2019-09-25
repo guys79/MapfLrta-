@@ -45,18 +45,28 @@ public class FactoryRealTimeManager {
 
         IRealTimeSearchManager realTimeSearchManager;
         if (type == 0) {
+
             realTimeSearchManager = new RealTimeSearchManager(problem);
         } else {
-            if (type == 1)
+            if (type == 1) {
+
                 realTimeSearchManager = new AlssLrtaRealTimeSearchManager(problem);
+            }
             else {
-                if (type == 2)
+                if (type == 2 || type == 5) {
+
                     realTimeSearchManager = new MaAlssLrtaRealTimeSearchManager(problem);
+                }
                 else {
                     if (type == 3)
+                    {
+
                         realTimeSearchManager = new AlssLrtaIgnoreOthersRealTimeManager(problem);
-                    else
+                    }
+                    else {
+
                         realTimeSearchManager = new AlssLrtaHaltRealTimeManager(problem);
+                    }
 
                 }
             }

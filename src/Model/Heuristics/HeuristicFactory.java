@@ -1,7 +1,6 @@
-package Model.Components;
+package Model.Heuristics;
 
-import Model.Algorithms.ALSSLRTA.AlssLrtaAgentHeuristics;
-import Model.Algorithms.LRTA.AgentHeuristics;
+import Model.Components.Node;
 
 /**
  * This class will use the Factory DP + Singleton DP to create IAgentHeuristics
@@ -35,14 +34,27 @@ public class HeuristicFactory {
      * @param goal - The goal
      * @return - The heuristics mechanism for an agent
      */
-    public IAgentHeuristics getAgentHeuristics(int type,Node goal)
+    public IAgentHeuristics getAgentHeuristics(int type, Node goal)
     {
         IAgentHeuristics heuristics;
-        if(type == 0)
+        if(type == 0) {
+
+
             heuristics = new AgentHeuristics(goal);
+        }
         else
         {
-            heuristics = new AlssLrtaAgentHeuristics(goal);
+            if(type == 5) {
+
+                heuristics = CollectiveHeuristicsManager.getInstance();
+            }
+            else
+            {
+
+                //heuristics = new AlssLrtaAgentHeuristics(goal);
+                heuristics = new ShortestPathAgentHeuristics(goal);
+            }
+
 
         }
         return heuristics;

@@ -1,4 +1,6 @@
-package Model.Components;
+package Model.Heuristics;
+
+import Model.Components.Node;
 
 /**
  * This interface represents a generic heuristics for a single agent
@@ -10,27 +12,21 @@ public interface IAgentHeuristics {
      * @param node - The node
      * @return - The heuristics of the node
      */
-    public double getHeuristics(Node node);
-
+    public double getHeuristics(Node node,Node target);
 
     /**
      * This function will update the heuristics of the node with the given value
-     * @param node - The given node
+     * @param origin  - The origin node
+     * @param goal - The goal node
      * @param newVal - The new heuristic value for the node
      */
-    public void updateHeuristics(Node node, double newVal);
+    public void updateHeuristics(Node origin, Node goal,double newVal);
 
-    /**
-     * This function will return the heuristic value of a given node
-     * From the heuristic function
-     * @param n - The given node n
-     * @return - The heuristic value of a given node
-     */
-    public double getHeuristicsFromFunction(Node n);
+
     /**
      * This function will return the heuristic value of the node from this agent's perspective.
      * @param n - The given node
      * @return - The heuristic value
      */
-    public double getInitialHeuristicValue(Node n);
+    public double getInitialHeuristicValue(Node n, Node goal);
 }

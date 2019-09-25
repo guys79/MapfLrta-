@@ -40,6 +40,7 @@ public class FactoryProblemCreator {
         IProblemCreator problemCreator;
         if(type == 0)
         {
+
             //throw new UnsupportedOperationException();
             problemCreator = new RandomProblemCreator();
         }
@@ -53,7 +54,8 @@ public class FactoryProblemCreator {
             }
             else
             {
-                problemCreator = new MAScenarioProblemCreator(numOfAgents);
+
+                problemCreator = new MAScenarioProblemCreator(numOfAgents,type);
             }
         }
         return problemCreator;
