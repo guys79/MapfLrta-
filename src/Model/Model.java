@@ -2,13 +2,15 @@ package Model;
 
 import Controller.Controller;
 import Model.Algorithms.ALSSLRTA.AlssLrtaRealTimeSearchManager;
+import Model.Algorithms.ALSSLRTAHALT.AlssLrtaHaltRealTimeManager;
 import Model.Algorithms.ALSSLRTAIGNOREOTHERS.AlssLrtaIgnoreOthersRealTimeManager;
+import Model.Algorithms.FactoryRealTimeManager;
+import Model.ProblemCreators.FactoryProblemCreator;
 import Model.Algorithms.LRTA.RealTimeSearchManager;
 import Model.Algorithms.MAALSSLRTA.MaAlssLrtaRealTimeSearchManager;
 import Model.Components.*;
 import Model.ProblemCreators.IProblemCreator;
 import Model.ProblemCreators.MAScenarioProblemCreator;
-import Model.ProblemCreators.RandomProblemCreator;
 import Model.ProblemCreators.ScenarioProblemCreator;
 import javafx.util.Pair;
 
@@ -89,25 +91,7 @@ public class Model {
         outputPath = rel+"res\\Outputs\\output.csv";
         first = true;
         prev = new HashMap<>();
-        if(this.TYPE == 0)
-        {
-            //throw new UnsupportedOperationException();
-            this.problemCreator = new RandomProblemCreator();
-        }
-        else
-        {
-            if(TYPE == 1)
-            {
-
-               //this.problemCreator = new CSVProblem();
-                this.problemCreator = new ScenarioProblemCreator();
-            }
-            else
-            {
-                this.problemCreator = new MAScenarioProblemCreator(this.NUM_OF_AGENTS);
-            }
-        }
-
+        this.problemCreator = FactoryProblemCreator.getInstance().getProblemCreator(this.TYPE,this.NUM_OF_AGENTS);
         this.controller = controller;
         this.controller.setModel(this);
 
@@ -119,42 +103,19 @@ public class Model {
      * This function will set the scenario with the given index
      * @param index - The given index
      */
-    public void setScenario(int index)
-    {
+    public void setScenario(int index) {
 
-        Problem problem = ((ScenarioProblemCreator)problemCreator).setScenarios(index);
-        HashSet <int []> locs = new HashSet();
-        for(Pair<Node,Node> p : prev.values())
-        {
-            int [] a = {((GridNode)p.getKey()).getX(),((GridNode)p.getKey()).getY()};
-            int [] b = {((GridNode)p.getValue()).getX(),((GridNode)p.getValue()).getY()};
+        Problem problem = ((ScenarioProblemCreator) problemCreator).setScenarios(index);
+        HashSet<int[]> locs = new HashSet();
+        for (Pair<Node, Node> p : prev.values()) {
+            int[] a = {((GridNode) p.getKey()).getX(), ((GridNode) p.getKey()).getY()};
+            int[] b = {((GridNode) p.getValue()).getX(), ((GridNode) p.getValue()).getY()};
             locs.add(a);
             locs.add(b);
         }
         controller.clear(locs);
         if (problem != null) {
-            if(this.TYPE == 0)
-            {
-                realTimeSearchManager = new RealTimeSearchManager(problem);
-            }
-            else
-            {
-                if(this.TYPE == 1)
-                    realTimeSearchManager = new AlssLrtaRealTimeSearchManager(problem);
-                else
-                {
-                    if(this.TYPE == 2)
-                        realTimeSearchManager = new MaAlssLrtaRealTimeSearchManager(problem);
-                    else
-                    {
-                        if(this.TYPE == 3)
-                            realTimeSearchManager = new AlssLrtaIgnoreOthersRealTimeManager(problem);
-                        else
-                            realTimeSearchManager = new AlssLrtaIgnoreOthersRealTimeManager(problem);
-
-                    }
-                }
-            }
+            realTimeSearchManager = FactoryRealTimeManager.getInstance().getProblemCreator(this.TYPE, problem);
 
 
             Map<Agent, List<Node>> paths;//The paths for each agent
@@ -166,29 +127,32 @@ public class Model {
 
             //Time calculation
             long endTime = System.currentTimeMillis();
-            long time = endTime-startTime;
+            long time = endTime - startTime;
             final int NUMBER_OF_DIGITS = 4;
-            int help = (int)Math.pow(10,NUMBER_OF_DIGITS);
-            double timeInSeconds = (time*1.0)/1000;
-            timeInSeconds = Math.round(timeInSeconds*help)/(help*1.0);
+            int help = (int) Math.pow(10, NUMBER_OF_DIGITS);
+            double timeInSeconds = (time * 1.0) / 1000;
+            timeInSeconds = Math.round(timeInSeconds * help) / (help * 1.0);
 
             //Print the results
             prev = problem.getAgentsAndStartGoalNodes();
             Set<Agent> agents = prev.keySet();
 
-            for (Agent agent : agents){
-             //   System.out.print("agent "+agent.getId()+" color is: ");
+            for (Agent agent : agents) {
+                //   System.out.print("agent "+agent.getId()+" color is: ");
                 controller.addAgent(paths.get(agent), agent.getGoal());
                 //printPathCost(paths.get(agent),problem);
             }
-            System.out.println("TIme elapsed "+time +" ms");
-            System.out.println("TIme elapsed "+timeInSeconds +" seconds");
+            System.out.println("TIme elapsed " + time + " ms");
+            System.out.println("TIme elapsed " + timeInSeconds + " seconds");
 
             System.out.println();
             controller.draw();
 
+
         }
     }
+
+
     /**
      * This function will move to the next scenario on the same map
      * The function will solve the problem and present the solution
@@ -216,24 +180,7 @@ public class Model {
             controller.clear(locs);
         }
         if (problem != null) {
-            if(this.TYPE == 0)
-            {
-                realTimeSearchManager = new RealTimeSearchManager(problem);
-            }
-            else
-            {
-                if(this.TYPE == 1)
-                    realTimeSearchManager = new AlssLrtaRealTimeSearchManager(problem);
-                else
-                {
-                    if(this.TYPE == 2)
-                        realTimeSearchManager = new MaAlssLrtaRealTimeSearchManager(problem);
-                    else
-                    {
-                        realTimeSearchManager = new AlssLrtaIgnoreOthersRealTimeManager(problem);
-                    }
-                }
-            }
+            realTimeSearchManager = FactoryRealTimeManager.getInstance().getProblemCreator(this.TYPE,problem);
             Map<Agent, List<Node>> paths;//The paths for each agent
 
             long startTime;
