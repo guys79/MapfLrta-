@@ -23,13 +23,7 @@ public class Agent {
      */
     public Agent(int id, Node goal, int type)
     {
-        if(type == 0)
-            heuristics = new AgentHeuristics(goal);
-        else
-        {
-            heuristics = new AlssLrtaAgentHeuristics(goal);
-            //heuristics = new ShortestPathAgentHeuristics(goal);
-        }
+        heuristics = HeuristicFactory.getInstance().getAgentHeuristics(type,goal);
         this.id = id;
         this.isDone = false;
 

@@ -9,7 +9,7 @@ import Model.Components.IRealTimeSearchManager;
 import Model.Components.Problem;
 
 /**
- * This class will use the Factory DP + Singleton DP to create IProblemCreator
+ * This class will use the Factory DP + Singleton DP to create IRealTImeSearchManager
  */
 public class FactoryRealTimeManager {
 
