@@ -158,6 +158,7 @@ public class ScenarioProblemCreator extends AbstractProblemCreator {
         names.add("brc101d");
         names.add("brc300d");
         names.add("ht_chantry");
+        names.add("lak303d");
         names.add("ht_mansion_n");
         names.add("lt_gallowstemplar_n");
         canT = true;
@@ -165,10 +166,7 @@ public class ScenarioProblemCreator extends AbstractProblemCreator {
         {
             if(path.contains(str))
             {
-                if(str.equals("brc000d"))
-                {
-                    System.out.println();
-                }
+
                 canT = false;
                 break;
             }

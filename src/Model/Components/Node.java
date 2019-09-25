@@ -155,11 +155,14 @@ public class Node {
      */
     public void moveOut()
     {
+
         if(!this.isInhabitated)
             this.occupationId = -1;
+
     }
     public void unInhabit()
     {
+
         this.isInhabitated = false;
         this.occupationId = -1;
     }

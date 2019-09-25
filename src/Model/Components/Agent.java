@@ -130,6 +130,7 @@ public class Agent {
      */
     public void setCurrent(Node current) {
         this.current = current;
+        current.moveIn(this.id);
     }
 
     /**
@@ -145,9 +146,10 @@ public class Agent {
 
             return false;
         }
-
-        current.moveOut();
-        current = target;
+        if(current.getId()!= target.getId()) {
+            current.moveOut();
+            current = target;
+        }
 
 
         return true;

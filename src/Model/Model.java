@@ -23,7 +23,7 @@ import java.util.*;
 public class Model {
 
     private boolean first;//True IFF it's the first scenario
-    private int NUM_OF_AGENTS = 130;//Number of agents
+    private int NUM_OF_AGENTS = 10;//Number of agents
     private final int VISION_RADIUS = 20;//Number of agents
     private final int HEIGHT = 12;//The number of columns
     private final int WIDTH = 12;//The number of rows
@@ -31,7 +31,6 @@ public class Model {
     private final int NUM_OF_NODES_TO_DEVELOP = 45;//The number of nodes that can be developed in a single iteration
     private int TYPE;// 0 - LRTA*, 1-aLSS-LRTA* 2- MA-aLSS-LRTA* 3- IgnoreOthers-Ma-aLSS-LRTA*
     private String fileName;
-
     private String mapPath;//The path to the map file
     private String scenPath;//The path to the scenario file
     private String outputPath;//The path to the output file
@@ -60,12 +59,22 @@ public class Model {
         next();
     }
 
+    /**
+     * This function will set the number of agents
+     * @param NUM_OF_AGENTS - The given number of agents
+     */
     public void setNUM_OF_AGENTS(int NUM_OF_AGENTS) {
         this.NUM_OF_AGENTS = NUM_OF_AGENTS;
         if(problemCreator!=null)
             ((MAScenarioProblemCreator)problemCreator).setNum_of_agents(NUM_OF_AGENTS);
     }
 
+    /**
+     * The constructor of the class
+     * @param controller - The given Controller
+     * @param filename - The given file name (the name of the map)
+     * @param type - The type of search
+     */
     public Model(Controller controller,String filename,int type) {
         this(controller,type);
 
@@ -94,9 +103,6 @@ public class Model {
         this.problemCreator = FactoryProblemCreator.getInstance().getProblemCreator(this.TYPE,this.NUM_OF_AGENTS);
         this.controller = controller;
         this.controller.setModel(this);
-
-
-        //private String fileName = "AR0011SR";//The name of the file
     }
 
     /**
@@ -138,9 +144,7 @@ public class Model {
             Set<Agent> agents = prev.keySet();
 
             for (Agent agent : agents) {
-                //   System.out.print("agent "+agent.getId()+" color is: ");
                 controller.addAgent(paths.get(agent), agent.getGoal());
-                //printPathCost(paths.get(agent),problem);
             }
             System.out.println("TIme elapsed " + time + " ms");
             System.out.println("TIme elapsed " + timeInSeconds + " seconds");
@@ -204,9 +208,9 @@ public class Model {
             double maxSpan = -1;
             double cost;
             for (Agent agent : agents){
-           //     System.out.print("agent "+agent.getId()+" color is: ");
+                if(agent.getId() == 32)
+                    System.out.println();
                 controller.addAgent(paths.get(agent), agent.getGoal());
-                //printPathCost(paths.get(agent),problem);
                 List<Node> path = paths.get(agent);
                 double pathCost = 0;
                 for(int i=0;i<path.size()-1;i++) {
@@ -224,49 +228,30 @@ public class Model {
             TestPreformer.getInstance().updatePerSearch(Node.average,time,sumOfCosts,maxSpan);
             System.out.println();
             controller.draw();
-            //return Node.average;
+
 
         }
 
-        //return Double.MAX_VALUE;
-    }
-
-    /**
-     * This function will print the cost of the path
-     * @param path - The given path
-     * @param problem - The given problem
-     *
-     */
-    private void printPathCost(List<Node> path,Problem problem)
-    {
-        double sum = 0;
-        double delta;
-       // int numOfDIag = 0;
-        for(int i=0;i<path.size()-1;i++)
-        {
-            delta = problem.getCost(path.get(i),path.get(i+1));
-            //if(delta!= 1)
-           // {
-           //     numOfDIag++;
-          //  }
-            sum+= delta;
-        }
-        System.out.println("sum = "+sum);
-   //     System.out.println("number of diagonal "+numOfDIag);
-    //    System.out.println("number of non-diagonal "+(path.size()-numOfDIag-1));
 
     }
+
 
     @Override
     public String toString() {
         if(this.TYPE == 0)
-        {
             return "LRTA*";
-        }
         if(TYPE == 1)
-        {
             return "aLSS-LRTA*";
-        }
-        return "Multi Agent aLSS-LRTA*";
+        if(this.TYPE == 2)
+            return "Prioritized Multi Agent aLSS-LRTA*";
+        if(this.TYPE == 3)
+            return "Multi Agent aLSS-LRTA* (Ignore crushes)";
+        if(this.TYPE == 4)
+            return "Multi Agent aLSS-LRTA* (Halt upon crush)";
+        if(this.TYPE == 5)
+            return "Prioritized Multi Agent aLSS-LRTA* (Collective learning)";
+        if(this.TYPE == 6)
+            return "Centralized LSS-LRTA*";
+        return "Efficient Prioritized Multi Agent aLSS-LRTA*";
     }
 }

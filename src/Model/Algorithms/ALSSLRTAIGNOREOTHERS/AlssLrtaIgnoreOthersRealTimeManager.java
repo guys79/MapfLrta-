@@ -1,6 +1,6 @@
 package Model.Algorithms.ALSSLRTAIGNOREOTHERS;
 
-import Model.Components.AbstractRealTimeSearchManager;
+import Model.Algorithms.AbstractRealTimeSearchManager;
 import Model.Components.Agent;
 import Model.Algorithms.ALSSLRTA.ALSSLRTA;
 import Model.Components.Node;
@@ -99,6 +99,8 @@ public class AlssLrtaIgnoreOthersRealTimeManager extends AbstractRealTimeSearchM
         }
         //Converting the prefixes to be with the same length
         for (Agent agent : agents) {
+            if(agent.getId() == 32)
+                System.out.println();
             prefix = this.prefixesForAgents.get(agent);
 
             int length = prefix.size();

@@ -14,10 +14,12 @@ import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
+import javafx.util.Pair;
 
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 
 /**
  * This class represents the controller that manages the GUI
@@ -39,7 +41,7 @@ public class Controller{
     public IntegerProperty time = new SimpleIntegerProperty();
     public int[][] grid;//The graphtext="Mark"
     public HashMap<Integer, int[]> nodeLocations = new HashMap<>();//Key - node's id, value - the location of the node [x,y]
-    public HashMap<int[], Color> paths = new HashMap<>();//Key - path, Value - Agent's color
+    public HashMap<int[], Pair<Color,Integer>> paths = new HashMap<>();//Key - path, Value - Agent's color
     private int agentCount = 0;//Number of agents
     private int marked_x;//The marked x coordinates
     private int marked_y;//The marked y coordinates
@@ -226,6 +228,9 @@ public class Controller{
 
         mark_btn.setText("Mark");
         slider.setBlockIncrement(1);
+
+
+
         this.noSolLocs = new HashSet<>();
         slider.valueProperty().addListener((ChangeListener) (arg0, arg1, arg2) -> {
 //            time.setValue((int)(slider.getValue()/100*maxTime));
@@ -274,16 +279,17 @@ public class Controller{
     private void drawAgents(){
         if (grid == null) return;
 
-        for (HashMap.Entry<int[], Color> entry : paths.entrySet()){
+        for (HashMap.Entry<int[], Pair<Color,Integer>> entry : paths.entrySet()){
             int[] path = entry.getKey();
             int nodeID = getNode(path, time.getValue());
             int[] pos = nodeLocations.get(nodeID);
 
-            int endNodeID = getNode(path, path.length-1);
-            int[] endPos = nodeLocations.get(endNodeID);
+            //int endNodeID = getNode(path, path.length-1);
+
+            int[] endPos = nodeLocations.get(entry.getValue().getValue());
 
 
-            context.setFill(entry.getValue());
+            context.setFill(entry.getValue().getKey());
 
             context.fillRect(endPos[0] * cellWidth, endPos[1] * cellHeight, cellWidth, cellHeight);
 
@@ -335,8 +341,7 @@ public class Controller{
             pathArr[i] = path.get(i).getId();
         }
 
-        paths.put(pathArr, colors[agentCount++ % colors.length]);
-
+        paths.put(pathArr, new Pair<>(colors[agentCount++ % colors.length],goal.getId()));
         if (pathArr.length-1 > maxTime){
             maxTime = pathArr.length-1;
             slider.setMax(maxTime);
