@@ -26,6 +26,7 @@ public class MAScenarioProblemCreator extends ScenarioProblemCreator {
     /**
      * The constructor.
      * @param num_of_agents - Number of agents
+     * @param type  - the given type
      */
     public MAScenarioProblemCreator(int num_of_agents,int type)
     {

@@ -7,19 +7,34 @@ import javafx.util.Pair;
 
 import java.util.*;
 
+// TODO: 9/26/2019 Dijkstra phase
+/**
+ * This class represents the centralized-Lrta*
+ */
 public class CentrelizedLRTA{
 
-    private CentrelizedLRTAState goal;
-    private CentrelizedLRTAState current;
-    private int numberOfNodes;
-    private PriorityQueue<CentrelizedLRTASearchNode> open;
-    private PriorityQueue<CentrelizedLRTASearchNode> close;
+    private CentrelizedLRTAState goal;//The goal
+    private CentrelizedLRTAState current;//The current state
+    private int numberOfNodes;///The number of nodes
+    private PriorityQueue<CentrelizedLRTASearchNode> open;//The open list
+    private PriorityQueue<CentrelizedLRTASearchNode> close;//The close list
     private Map<String, Pair<Double,Double>>info; // key - id, pair - key - gVal val - hVal
 
+    /**
+     * The constructor
+     */
     public CentrelizedLRTA()
     {
         info = new HashMap<>();
     }
+
+    /**
+     * This function will calculate the prefixes for the agents
+     * @param current - The current state
+     * @param goal - The goal state
+     * @param numOfNodesToDevelop - The number of nodes
+     * @return - The prefixes
+     */
     public List<CentrelizedLRTAState> calculatePrefixes(CentrelizedLRTAState current, CentrelizedLRTAState goal,int numOfNodesToDevelop) {
 
         this.goal = goal;
@@ -45,10 +60,19 @@ public class CentrelizedLRTA{
 
     }
 
+    /**
+     * This function will check id the state is a goal state
+     * @param state -The given state
+     * @return - True IFF the given state is the goal state
+     */
     private boolean checkIfGoal(CentrelizedLRTAState state)
     {
         return state.equals(goal);
     }
+
+    /**
+     * This function will handle the lookahead prt of the algorithm
+     */
     private void lookAhead()
     {
 
@@ -63,6 +87,7 @@ public class CentrelizedLRTA{
             if(checkIfGoal(polled.getState()))
                 return;
             open.poll();
+            expansions++;
             close.add(polled);
 
             Set<CentrelizedLRTAState> neighbors = polled.getState().getLegalStates();
@@ -82,6 +107,12 @@ public class CentrelizedLRTA{
         }
         
     }
+
+    /**
+     * This function will set the G value of the node while updating all elements necessary
+     * @param node - The given node
+     * @param val - The new val
+     */
     private void setGVal(CentrelizedLRTASearchNode node, double val)
     {
         node.setgVal(val);
@@ -91,6 +122,12 @@ public class CentrelizedLRTA{
         else
             this.info.put(node.getState().getId(),new Pair<>(val,vals.getValue()));
     }
+
+    /**
+     * This function will transform all the set of states into a set of search nodes
+     * @param states- The given set of states
+     * @return -  A new set of transformed states
+     */
     private Set<CentrelizedLRTASearchNode> transformSet(Set<CentrelizedLRTAState> states)
     {
         Set<CentrelizedLRTASearchNode> transStates = new HashSet<>();
@@ -100,6 +137,12 @@ public class CentrelizedLRTA{
         }
         return transStates;
     }
+
+    /**
+     * This function will transform a single state into a search node
+     * @param state - The given state
+     * @return - The search node
+     */
     private CentrelizedLRTASearchNode transformSingle(CentrelizedLRTAState state)
     {
 
@@ -114,18 +157,25 @@ public class CentrelizedLRTA{
         else
         {
             res = new CentrelizedLRTASearchNode(state);
-            res.setgVal(vals.getKey());
+            //res.setgVal(vals.getKey());
             res.sethVal(vals.getValue());
             return res;
         }
     }
+
+    /**
+     * This function will return the best state
+     * @return - the best state
+     */
     private CentrelizedLRTASearchNode bestState()
     {
         return open.poll();
     }
 
 
-    
+    /**
+     * This class will compare between two nodes (Using f value)
+     */
     public class CompareCentrelizedSearchNodes implements Comparator<CentrelizedLRTASearchNode>
     {
 

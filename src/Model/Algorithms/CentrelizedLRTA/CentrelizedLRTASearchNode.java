@@ -3,12 +3,20 @@ package Model.Algorithms.CentrelizedLRTA;
 import Model.Heuristics.HeuristicFactory;
 import Model.Heuristics.IAgentHeuristics;
 
+/**
+ * This class represents a search node in the Centralized-Lrta* algorithm
+ */
 public class CentrelizedLRTASearchNode {
 
-    private CentrelizedLRTAState state;
-    private CentrelizedLRTASearchNode back;
-    private double gVal;
-    private double hVal;
+    private CentrelizedLRTAState state;//The state
+    private CentrelizedLRTASearchNode back;//The predecessor
+    private double gVal;//The g value
+    private double hVal;//The h value
+
+    /**
+     * The constructor of the class
+     * @param state - The given state
+     */
     public CentrelizedLRTASearchNode (CentrelizedLRTAState state)
     {
         this.state = state;
@@ -17,30 +25,57 @@ public class CentrelizedLRTASearchNode {
         hVal = CentrelizedHeuristics.getInstance().getVal(state);
     }
 
+    /**
+     * Ths function will return the h val of the node
+     * @return - The h val of the node
+     */
     public double gethVal() {
         return hVal;
     }
 
+    /**
+     * This function will set the h val of the node
+     * @param hVal - The h value
+     */
     public void sethVal(double hVal) {
         this.hVal = hVal;
     }
 
+    /**
+     * This function will set the g val of the node
+     * @param gVal - The g value
+     */
     public void setgVal(double gVal) {
         this.gVal = gVal;
     }
-
+    /**
+     * Ths function will return the g val of the node
+     * @return - The g val of the node
+     */
     public double getgVal() {
         return gVal;
     }
 
+    /**
+     * This function will return the state
+     * @return - The state
+     */
     public CentrelizedLRTAState getState() {
         return state;
     }
 
+    /**
+     * This function will set the predecessor of the state
+     * @param back - The given predecessor
+     */
     public void setBack(CentrelizedLRTASearchNode back) {
         this.back = back;
     }
 
+    /**
+     * This function will return the predecessor of the state
+     * @return - The predecessor of the state
+     */
     public CentrelizedLRTASearchNode getBack() {
         return back;
     }

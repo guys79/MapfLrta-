@@ -11,8 +11,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * This class represents a centralized Lrta* manager
+ */
 public class CentrelizedLRTARealTimeSearchManager extends AbstractRealTimeSearchManager {
-    CentrelizedLRTA centrelizedLRTA;
+    CentrelizedLRTA centrelizedLRTA;//The algorithm
     /**
      * The constructor of the class
      *

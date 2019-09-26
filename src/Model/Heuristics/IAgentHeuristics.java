@@ -10,6 +10,7 @@ public interface IAgentHeuristics {
     /**
      * This function will return the heuristics of the node
      * @param node - The node
+     * @param target  - The target node
      * @return - The heuristics of the node
      */
     public double getHeuristics(Node node,Node target);
@@ -26,6 +27,7 @@ public interface IAgentHeuristics {
     /**
      * This function will return the heuristic value of the node from this agent's perspective.
      * @param n - The given node
+     * @param goal  - The goal node
      * @return - The heuristic value
      */
     public double getInitialHeuristicValue(Node n, Node goal);

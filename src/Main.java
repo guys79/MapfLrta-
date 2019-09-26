@@ -18,8 +18,9 @@ public class Main extends Application {
         launch(args);
     }
 
-    final static int TYPE =2;// 0 - LRTA*, 1-aLSS-LRTA* 2- MA-aLSS-LRTA* 3- IgnoreOthers-Ma-aLSS-LRTA*
+    final static int TYPE =6;// 0 - LRTA*, 1-aLSS-LRTA* 2- MA-aLSS-LRTA* 3- IgnoreOthers-Ma-aLSS-LRTA*
 
+    // TODO: 9/26/2019 OD in A*
     public void start(Stage primaryStage) throws Exception {
 
         //The GUI
@@ -52,9 +53,7 @@ public class Main extends Application {
 
 
 
-     /**
-     * This class will compare two DijkstraSearchNodes using their distance from the origin n
-     */
+
 
     public void test2(Controller controller)
     {

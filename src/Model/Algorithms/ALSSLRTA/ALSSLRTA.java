@@ -52,6 +52,7 @@ public class ALSSLRTA implements IRealTimeSearchAlgorithm {
     /**
      * This function inhabits an agent in it's goal
      * @param nodeId - The given node id
+     * @param agentId  - The agent id
      */
     protected void inhabitAgent(int nodeId,int agentId)
     {

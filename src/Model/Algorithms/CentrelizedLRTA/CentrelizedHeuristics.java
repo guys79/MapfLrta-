@@ -3,24 +3,43 @@ package Model.Algorithms.CentrelizedLRTA;
 import Model.Components.GridNode;
 import Model.Components.Node;
 
+/**
+ * This cass handles the heuristics of the centralized state (Singleton DP used)
+ */
 public class CentrelizedHeuristics {
-    private static CentrelizedHeuristics instance;
-    private CentrelizedLRTAState goal;
+    private static CentrelizedHeuristics instance;//The instance
+    private CentrelizedLRTAState goal;//The goal state
 
+    /**
+     * The private constructor
+     */
     private CentrelizedHeuristics() {
 
     }
 
+    /**
+     * This function will set the goal with the give state
+     * @param goal - The given goal state
+     */
     public void setGoal(CentrelizedLRTAState goal) {
         this.goal = goal;
     }
 
+    /**
+     * This function will return the instance of the class (the Singleton)
+     * @return - the instance
+     */
     public static CentrelizedHeuristics getInstance() {
         if (instance == null)
             instance = new CentrelizedHeuristics();
         return instance;
     }
 
+    /**
+     * This function will return the heuristic value
+     * @param state - The given state
+     * @return - The heuristic value of the given state
+     */
     public double getVal(CentrelizedLRTAState state) {
         double sum = 0;
         for (int i = 0; i < state.getNumOfAgets(); i++) {
@@ -30,6 +49,12 @@ public class CentrelizedHeuristics {
         return sum;
     }
 
+    /**
+     * This function will calculate the heuristic of the origin goal af if the target state was the goal
+     * @param origin - The origin state
+     * @param target - The target state
+     * @return - The heuristic value
+     */
     protected double getHeuristicsForTwoFromFunction(Node origin, Node target) {
         //Manheten Distance
         double value = 0;

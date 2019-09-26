@@ -30,14 +30,30 @@ public class CentrelizedLRTAState {
 
     }
 
+    /**
+     * This function will return the node of the indexTh agent
+     * @param index - The index
+     * @return- The location of the agent
+     */
     public Node getLocationAt(int index)
     {
         return this.locations[index];
     }
+
+    /**
+     * This function will return the number of agents
+     * @return - The number of agents
+     */
     public int getNumOfAgets()
     {
         return this.locations.length;
     }
+
+    /**
+     * This function will return the cost of a transaction between this state to the given one
+     * @param state - The given state
+     * @return - The cost of the transaction between this state to the given one
+     */
     public double getCost(CentrelizedLRTAState state)
     {
         double sum =0 ;
@@ -49,6 +65,11 @@ public class CentrelizedLRTAState {
         }
         return sum;
     }
+
+    /**
+     * this function will return the if od the state
+     * @return - The id
+     */
     public String getId() {
         return id;
     }
@@ -98,7 +119,7 @@ public class CentrelizedLRTAState {
         }
 
         //Fetch the neighbors of te node
-        Set<Node> nodes = this.locations[index].getNeighbors().keySet();
+        Set<Node> nodes = new HashSet<>(this.locations[index].getNeighbors().keySet());
         nodes.add(this.locations[index]);
         if(index ==0) {
             Node [] init;

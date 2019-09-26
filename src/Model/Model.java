@@ -88,7 +88,7 @@ public class Model {
     /**
      * The constructor of the class
      * @param controller - The controller
-     *
+     * @param type  - The given type
      */
     public Model(Controller controller,int type) {
         this.TYPE = type;

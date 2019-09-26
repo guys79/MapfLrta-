@@ -3,6 +3,7 @@ package Model.Algorithms;
 import Model.Algorithms.ALSSLRTA.AlssLrtaRealTimeSearchManager;
 import Model.Algorithms.ALSSLRTAHALT.AlssLrtaHaltRealTimeManager;
 import Model.Algorithms.ALSSLRTAIGNOREOTHERS.AlssLrtaIgnoreOthersRealTimeManager;
+import Model.Algorithms.CentrelizedLRTA.CentrelizedLRTARealTimeSearchManager;
 import Model.Algorithms.LRTA.RealTimeSearchManager;
 import Model.Algorithms.MAALSSLRTA.MaAlssLrtaRealTimeSearchManager;
 import Model.Components.IRealTimeSearchManager;
@@ -65,7 +66,15 @@ public class FactoryRealTimeManager {
                     }
                     else {
 
-                        realTimeSearchManager = new AlssLrtaHaltRealTimeManager(problem);
+                        if (type == 6)
+                        {
+
+                            realTimeSearchManager = new CentrelizedLRTARealTimeSearchManager(problem);
+                        }
+                        else {
+
+                            realTimeSearchManager = new AlssLrtaHaltRealTimeManager(problem);
+                        }
                     }
 
                 }
