@@ -1,6 +1,8 @@
 package Model.Algorithms.MAALSSLRTA;
 
 import Model.Algorithms.ALSSLRTA.ALSSLRTA;
+import Model.Algorithms.Rules.IRules;
+import Model.Algorithms.Rules.RuleBook;
 import Model.Components.Agent;
 import Model.Algorithms.ALSSLRTA.AlssLrtaSearchNode;
 import Model.Components.Node;

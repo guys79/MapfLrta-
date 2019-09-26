@@ -526,6 +526,10 @@ public class ALSSLRTA implements IRealTimeSearchAlgorithm {
         @Override
         public int compare(AlssLrtaSearchNode o1, AlssLrtaSearchNode o2) {
 
+            if(o1.getNode().getId() == agent.getGoal().getId())
+                return -1;
+            if(o2.getNode().getId() == agent.getGoal().getId())
+                return 1;
 
                 double f1 = getF(o1);
                 double f2 = getF(o2);

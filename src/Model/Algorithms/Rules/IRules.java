@@ -1,4 +1,4 @@
-package Model.Algorithms.MAALSSLRTA;
+package Model.Algorithms.Rules;
 
 /**
  * This interface represents a generic set of rules

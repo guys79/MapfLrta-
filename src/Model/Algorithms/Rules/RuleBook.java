@@ -1,5 +1,8 @@
-package Model.Algorithms.MAALSSLRTA;
+package Model.Algorithms.Rules;
 
+
+import Model.Algorithms.MAALSSLRTA.MAALSSLRTA;
+import Model.Algorithms.Rules.IRules;
 
 /**
  * This class represents the Rule Book for MAPF
