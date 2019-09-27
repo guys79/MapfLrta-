@@ -7,7 +7,9 @@ import javafx.util.Pair;
 
 import java.util.*;
 
-// TODO: 9/26/2019 Dijkstra phase
+// TODO: 27/09/2019 Do OD + conclution, since a state is a combination of number of states, it will take some time to identify that the state is not good,
+// TODO: 27/09/2019 Maybe implement aLSS-LRTA* (first do our algorithm)
+// TODO: 27/09/2019 notes! 
 /**
  * This class represents the centralized-Lrta*
  */
@@ -86,16 +88,22 @@ public class CentrelizedLRTA{
 
     public void update()
     {
-        updateClose(transformSingle(current,null));
+        updateClose(transformSingle(current,null), new HashSet<>());
     }
 
-    private double updateClose(CentrelizedLRTASearchNode node)
+    private double updateClose(CentrelizedLRTASearchNode node, Set<String> dontSummon)
     {
+        dontSummon.add(node.getState().getId());
         Set<CentrelizedLRTASearchNode> children = this.needToUpdateg.get(node.getState().getId());
         if(children!=null && children.size()>0) {
             double min_f = Double.MAX_VALUE;
             for (CentrelizedLRTASearchNode child : children) {
-                min_f = Double.min(min_f, getF(child) - node.getState().getCost(child.getState()));
+                if(!dontSummon.contains(child.getState().getId()))
+                    min_f = Double.min(min_f, updateClose(child,dontSummon) - node.getState().getCost(child.getState()));
+                else
+                {
+                    min_f = Double.min(min_f, getF(child) - node.getState().getCost(child.getState()));
+                }
 
             }
             Pair <Double,Double> p =this.info.get(node.getState().getId());
@@ -137,7 +145,7 @@ public class CentrelizedLRTA{
             for(CentrelizedLRTASearchNode node : transformedNeighbors)
             {
                 temp = node.getState().getCost(polled.getState()) + polled.getgVal();
-                if(node.getgVal()>temp)
+                if(node.getgVal()>temp )
                 {
                     setGVal(node,temp,polled);
                     node.setBack(polled);
@@ -151,7 +159,10 @@ public class CentrelizedLRTA{
     }
     private  double getF(CentrelizedLRTASearchNode node)
     {
-        return node.getgVal() + node.gethVal();
+        Pair <Double,Double> vals = this.info.get(node.getState().getId());
+        if(vals == null)
+            return node.getgVal() + node.gethVal();
+        return node.getgVal() + vals.getValue();
     }
     /**
      * This function will set the G value of the node while updating all elements necessary

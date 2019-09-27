@@ -100,8 +100,10 @@ public abstract class AbstractRealTimeSearchManager implements IRealTimeSearchMa
      */
     public boolean isDone()
     {
-        if(iteration>100)
+        if(iteration>20) {
+            TestPreformer.getInstance().updateNonComplete();
             return true;
+        }
         HashSet<Agent> agents = new HashSet<>(problem.getAgentsAndStartGoalNodes().keySet());
         if(this.prefixesForAgents.values().contains(null))
         {
@@ -141,10 +143,7 @@ public abstract class AbstractRealTimeSearchManager implements IRealTimeSearchMa
             start =  System.currentTimeMillis();
         }
         TestPreformer.getInstance().updateAverageIteration((sum*1.0)/iteration);
-        if(iteration>=10000)
-        {
-            TestPreformer.getInstance().updateNonComplete();
-        }
+
         System.out.println("Number of iterations "+iteration);
         clear();
         return this.pathsForAgents;
