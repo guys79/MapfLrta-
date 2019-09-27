@@ -14,20 +14,89 @@ public class CentrelizedLRTAState {
 
     private Node [] locations;//The locations of the agents
     private String id;
+    private int time;
+    private int numInGoal;
+    private CentrelizedLRTAState goal;
+
+
+
+    public int getNumInGoal() {
+        return numInGoal;
+    }
+
+
+    public boolean isPredecessor(CentrelizedLRTAState state)
+    {
+        if(state.time != time - 1)
+            return false;
+        for(int i=0;i<this.locations.length;i++)
+        {
+            if(!this.locations[i].isNeighbor(state.locations[i]))
+                return false;
+        }
+        return true;
+    }
+    public int numOfMovingAgents(CentrelizedLRTAState state)
+    {
+        int num =0;
+        for(int i=0;i<this.locations.length;i++)
+        {
+            if(this.locations[i].getId() != state.locations[i].getId())
+                num++;
+        }
+        return num;
+    }
     /**
      * The constructor
      * @param locations - The locations of the agents
      */
-    public CentrelizedLRTAState(Node [] locations)
+    public CentrelizedLRTAState(Node [] locations,int time,CentrelizedLRTAState goal)
     {
-        this.locations = locations;
+
+
+        this.locations = new Node[locations.length];
+        this.time = time;
+        Node [] goalLocations;
+        if(goal != null)
+            goalLocations = goal.locations;
+        else
+            goalLocations = this.locations;
+
         this.id = "";
-        for(int i=0;i<locations.length;i++)
+        this.numInGoal = 0;
+       // System.out.println();
+
+        for(int i=0;i<this.locations.length;i++)
         {
-            id += locations[i].getId()+",";
+            this.locations[i] = locations[i];
+            if(this.locations[i].getId() ==goalLocations[i].getId())
+                numInGoal++;
+            id += this.locations[i].getId()+",";
+         //   System.out.print(this.locations[i].getId()+",");
         }
+        //id +=time;
         id = id.substring(0,id.length()-1);
 
+    }
+
+   /* public boolean check()
+    {
+        String id="";
+        for(int i=0;i<this.locations.length;i++)
+        {
+            id += this.locations[i].getId()+",";
+            //   System.out.print(this.locations[i].getId()+",");
+        }
+        id = id.substring(0,id.length()-1);
+        if(!(id.equals(this.id)))
+            throw new UnsupportedOperationException("fuckkk");
+        return id.equals(this.id);
+    }
+
+    */
+
+    public int getTime() {
+        return time;
     }
 
     /**
@@ -37,6 +106,8 @@ public class CentrelizedLRTAState {
      */
     public Node getLocationAt(int index)
     {
+
+
         return this.locations[index];
     }
 
@@ -46,6 +117,8 @@ public class CentrelizedLRTAState {
      */
     public int getNumOfAgets()
     {
+
+
         return this.locations.length;
     }
 
@@ -63,6 +136,8 @@ public class CentrelizedLRTAState {
         {
             sum+=stateLocs[i].getWeight(this.locations[i]);
         }
+
+
         return sum;
     }
 
@@ -76,6 +151,7 @@ public class CentrelizedLRTAState {
 
     @Override
     public boolean equals(Object obj) {
+
         if(!(obj instanceof CentrelizedLRTAState))
             return false;
         return ((CentrelizedLRTAState)obj).id .equals( id);
@@ -92,9 +168,11 @@ public class CentrelizedLRTAState {
      */
     public Set<CentrelizedLRTAState> getLegalStates()
     {
+
         int index = 0;
 
         Set<CentrelizedLRTAState> res = getLegalStates(index,true,null, new HashSet<>());
+
         return res;
     }
 
@@ -108,11 +186,13 @@ public class CentrelizedLRTAState {
      */
     private Set<CentrelizedLRTAState> getLegalStates(int index,boolean isSame,Node [] locs,Set<CentrelizedLRTAState> res)
     {
+        //count++;
+       // System.out.println(count);
         //Stop
         if(index == this.locations.length)
         {
             if(!isSame) {
-                CentrelizedLRTAState centrelizedLRTAState = new CentrelizedLRTAState(locs);
+                CentrelizedLRTAState centrelizedLRTAState = new CentrelizedLRTAState(locs,time+1,goal);
                 res.add(centrelizedLRTAState);
             }
             return null;
@@ -122,12 +202,14 @@ public class CentrelizedLRTAState {
         Set<Node> nodes = new HashSet<>(this.locations[index].getNeighbors().keySet());
         nodes.add(this.locations[index]);
         if(index ==0) {
+
             Node [] init;
             for (Node neigh : nodes) {
                 init = new Node[this.locations.length];
                 init[index] = neigh;
                 getLegalStates(index+1,isSame&&this.locations[index].getId() == neigh.getId(),init,res);
             }
+
 
             return res;
         }
@@ -155,18 +237,21 @@ public class CentrelizedLRTAState {
      */
     private boolean allowed(Node [] locs,int index,Node neigh)
     {
+
         Node prev = this.locations[index];
         Node otherPrev;
         for(int i=0;i<index;i++)
         {
-            if(locs[i].getId() == neigh.getId())
+            if(locs[i].getId() == neigh.getId()) {
                 return false;
+            }
 
             if(locs[i].getId() == prev.getId())
             {
                 otherPrev = this.locations[i];
-                if(otherPrev.getId() == neigh.getId())
+                if(otherPrev.getId() == neigh.getId()) {
                     return false;
+                }
             }
         }
         return true;

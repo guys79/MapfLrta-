@@ -100,7 +100,7 @@ public abstract class AbstractRealTimeSearchManager implements IRealTimeSearchMa
      */
     public boolean isDone()
     {
-        if(iteration>1000)
+        if(iteration>100)
             return true;
         HashSet<Agent> agents = new HashSet<>(problem.getAgentsAndStartGoalNodes().keySet());
         if(this.prefixesForAgents.values().contains(null))

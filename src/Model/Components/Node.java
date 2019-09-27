@@ -86,8 +86,11 @@ public class Node {
      */
     public double getWeight(Node n)
     {
+        if(n.getId() == this.getId())
+            return 0;
         if(this.neighbors.containsKey(n))
             return this.neighbors.get(n);
+
         return Double.MAX_VALUE;
     }
     /**

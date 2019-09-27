@@ -17,8 +17,12 @@ public class CentrelizedLRTA{
     private CentrelizedLRTAState current;//The current state
     private int numberOfNodes;///The number of nodes
     private PriorityQueue<CentrelizedLRTASearchNode> open;//The open list
-    private PriorityQueue<CentrelizedLRTASearchNode> close;//The close list
+    private Set<CentrelizedLRTASearchNode> close;//The close list
     private Map<String, Pair<Double,Double>>info; // key - id, pair - key - gVal val - hVal
+    private Map<String,Set<CentrelizedLRTASearchNode>> needToUpdateg;
+
+
+    public int g;
 
     /**
      * The constructor
@@ -26,6 +30,7 @@ public class CentrelizedLRTA{
     public CentrelizedLRTA()
     {
         info = new HashMap<>();
+        g=0;
     }
 
     /**
@@ -37,17 +42,25 @@ public class CentrelizedLRTA{
      */
     public List<CentrelizedLRTAState> calculatePrefixes(CentrelizedLRTAState current, CentrelizedLRTAState goal,int numOfNodesToDevelop) {
 
+        g++;
         this.goal = goal;
         this.current = current;
-
+        this.needToUpdateg = new HashMap<>();
         this.numberOfNodes = numOfNodesToDevelop;
         this.open =new PriorityQueue<>(new CompareCentrelizedSearchNodes());
-        this.close =new PriorityQueue<>();
-
+        this.close =new HashSet<>();
+        if(g==2)
+        {
+            System.out.println();
+        }
         //Lookahead
         lookAhead();
         //Extract th best state
         CentrelizedLRTASearchNode centrelizedLRTASearchNode = bestState();
+
+
+        update();
+
 
         List<CentrelizedLRTAState> prefix = new ArrayList<>();
         
@@ -70,6 +83,28 @@ public class CentrelizedLRTA{
         return state.equals(goal);
     }
 
+
+    public void update()
+    {
+        updateClose(transformSingle(current,null));
+    }
+
+    private double updateClose(CentrelizedLRTASearchNode node)
+    {
+        Set<CentrelizedLRTASearchNode> children = this.needToUpdateg.get(node.getState().getId());
+        if(children!=null && children.size()>0) {
+            double min_f = Double.MAX_VALUE;
+            for (CentrelizedLRTASearchNode child : children) {
+                min_f = Double.min(min_f, getF(child) - node.getState().getCost(child.getState()));
+
+            }
+            Pair <Double,Double> p =this.info.get(node.getState().getId());
+            this.info.put(node.getState().getId(),new Pair<>(p.getKey(),min_f));
+            children.clear();
+            return min_f;
+        }
+        return getF(node);
+    }
     /**
      * This function will handle the lookahead prt of the algorithm
      */
@@ -77,10 +112,12 @@ public class CentrelizedLRTA{
     {
 
         
-        CentrelizedLRTASearchNode current = new CentrelizedLRTASearchNode(this.current);
-        current.setgVal(0);
+        CentrelizedLRTASearchNode current = new CentrelizedLRTASearchNode(this.current,null);
+        setGVal(current,0,null);
+        this.needToUpdateg.put(current.getState().getId(),null);
         int expansions  = 0;
         open.add(current);
+
         while(  expansions  <this.numberOfNodes)
         {
             CentrelizedLRTASearchNode polled =  open.peek();
@@ -90,32 +127,57 @@ public class CentrelizedLRTA{
             expansions++;
             close.add(polled);
 
+
+
             Set<CentrelizedLRTAState> neighbors = polled.getState().getLegalStates();
-            Set<CentrelizedLRTASearchNode> transformedNeighbors = transformSet(neighbors);
+
+            Set<CentrelizedLRTASearchNode> transformedNeighbors = transformSet(neighbors,polled);
             double temp;
+         //   double min_f = Double.MAX_VALUE;
             for(CentrelizedLRTASearchNode node : transformedNeighbors)
             {
-                temp = node.getState().getCost(polled.getState());
+                temp = node.getState().getCost(polled.getState()) + polled.getgVal();
                 if(node.getgVal()>temp)
                 {
-                    setGVal(node,temp);
+                    setGVal(node,temp,polled);
                     node.setBack(polled);
+                    open.remove(node);
                     open.add(node);
-                    
+                   // min_f = Double.min(min_f,getF(node));
                 }
             }
         }
         
     }
-
+    private  double getF(CentrelizedLRTASearchNode node)
+    {
+        return node.getgVal() + node.gethVal();
+    }
     /**
      * This function will set the G value of the node while updating all elements necessary
      * @param node - The given node
      * @param val - The new val
      */
-    private void setGVal(CentrelizedLRTASearchNode node, double val)
+    private void setGVal(CentrelizedLRTASearchNode node, double val,CentrelizedLRTASearchNode pre)
     {
-        node.setgVal(val);
+
+
+        //update
+        if(pre!=null) {
+            Set<CentrelizedLRTASearchNode> preBack = this.needToUpdateg.get(pre.getState().getId());
+            if(preBack == null)
+                preBack = new HashSet<>();
+            preBack.add(node);
+        }
+
+
+
+        Set<CentrelizedLRTASearchNode>back = this.needToUpdateg.get(node.getState().getId());
+        if(back == null)
+            back = new HashSet<>();
+        this.needToUpdateg.put(node.getState().getId(),back);
+
+        node.setgVal(val,pre);
         Pair<Double,Double> vals = this.info.get(node.getState().getId());
         if(vals == null)
             this.info.put(node.getState().getId(),new Pair<>(val,node.gethVal()));
@@ -128,12 +190,14 @@ public class CentrelizedLRTA{
      * @param states- The given set of states
      * @return -  A new set of transformed states
      */
-    private Set<CentrelizedLRTASearchNode> transformSet(Set<CentrelizedLRTAState> states)
+    private Set<CentrelizedLRTASearchNode> transformSet(Set<CentrelizedLRTAState> states,CentrelizedLRTASearchNode pre)
     {
         Set<CentrelizedLRTASearchNode> transStates = new HashSet<>();
         for(CentrelizedLRTAState state : states)
         {
-            transStates.add(transformSingle(state));
+
+            transStates.add(transformSingle(state,pre));
+
         }
         return transStates;
     }
@@ -143,20 +207,27 @@ public class CentrelizedLRTA{
      * @param state - The given state
      * @return - The search node
      */
-    private CentrelizedLRTASearchNode transformSingle(CentrelizedLRTAState state)
+    private CentrelizedLRTASearchNode transformSingle(CentrelizedLRTAState state,CentrelizedLRTASearchNode pre)
     {
 
         Pair<Double,Double> vals = this.info.get(state.getId());
         CentrelizedLRTASearchNode res;
         if(vals == null)
         {
-            res = new CentrelizedLRTASearchNode(state);
-            this.info.put(state.getId(),new Pair<>(res.getgVal(),res.gethVal()));
+            double gVal;
+
+            res = new CentrelizedLRTASearchNode(state,pre);
+            if(this.needToUpdateg.containsKey(state.getId()))
+                gVal = res.getgVal();
+            else
+                gVal = Double.MAX_VALUE;
+
+            this.info.put(state.getId(),new Pair<>(gVal,res.gethVal()));
             return res;
         }
         else
         {
-            res = new CentrelizedLRTASearchNode(state);
+            res = new CentrelizedLRTASearchNode(state,pre);
             //res.setgVal(vals.getKey());
             res.sethVal(vals.getValue());
             return res;
@@ -181,12 +252,37 @@ public class CentrelizedLRTA{
 
         @Override
         public int compare(CentrelizedLRTASearchNode o1, CentrelizedLRTASearchNode o2) {
+
+            boolean isG1=checkIfGoal(o1.getState());
+            boolean isG2=checkIfGoal(o2.getState());
+            if(isG1 && isG2)
+            {
+                return o1.getState().getTime() - o2.getState().getTime();
+            }
+            else
+            {
+                if(!(!isG1 && !isG2))
+                {
+                    if(isG1)
+                        return -1;
+                    return 1;
+                }
+            }
+            int g1 = o1.getState().getNumInGoal();
+            int g2 = o2.getState().getNumInGoal();
+            if( g1!= g2)
+            {
+                return g2-g1;
+            }
             double f1 = o1.getgVal() + o1.gethVal();
             double f2 = o2.getgVal() + o2.gethVal();
             if(f1<f2)
                 return -1;
-            if(f1==f2)
-                return 0;
+            if(f1==f2) {
+                if(o1.getNumOfMoving() != o2.getNumOfMoving())
+                    return o2.getNumOfMoving() - o1.getNumOfMoving();
+                return o1.getState().getTime() - o2.getState().getTime();
+            }
             return 1;
         }
     }

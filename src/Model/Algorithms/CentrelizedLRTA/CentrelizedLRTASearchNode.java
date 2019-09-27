@@ -12,18 +12,28 @@ public class CentrelizedLRTASearchNode {
     private CentrelizedLRTASearchNode back;//The predecessor
     private double gVal;//The g value
     private double hVal;//The h value
+    private int numOfMoving;
+
+
 
     /**
      * The constructor of the class
      * @param state - The given state
      */
-    public CentrelizedLRTASearchNode (CentrelizedLRTAState state)
+    public CentrelizedLRTASearchNode (CentrelizedLRTAState state, CentrelizedLRTASearchNode pre)
     {
+
+        if(pre == null)
+            this.numOfMoving = 0;
+        else
+            this.numOfMoving = pre.getState().numOfMovingAgents(state);
         this.state = state;
         back = null;
         gVal = Double.MAX_VALUE;
         hVal = CentrelizedHeuristics.getInstance().getVal(state);
     }
+
+
 
     /**
      * Ths function will return the h val of the node
@@ -45,9 +55,19 @@ public class CentrelizedLRTASearchNode {
      * This function will set the g val of the node
      * @param gVal - The g value
      */
-    public void setgVal(double gVal) {
+    public void setgVal(double gVal,CentrelizedLRTASearchNode pre) {
         this.gVal = gVal;
+        if(pre == null)
+            this.numOfMoving = 0;
+        else
+            this.numOfMoving = pre.getState().numOfMovingAgents(state);
+
     }
+
+    public int getNumOfMoving() {
+        return numOfMoving;
+    }
+
     /**
      * Ths function will return the g val of the node
      * @return - The g val of the node

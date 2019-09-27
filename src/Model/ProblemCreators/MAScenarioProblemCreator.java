@@ -217,7 +217,6 @@ public class MAScenarioProblemCreator extends ScenarioProblemCreator {
                 return next();
             }
             System.out.println("Agent "+id+" start "+ start+" goal "+ goal);
-            System.out.println("TYPE = "+type);
             Agent agent = new Agent(id,goal,type);
             start_and_goal.put(agent,new Pair<>(start,goal));
         }

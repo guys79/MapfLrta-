@@ -38,24 +38,41 @@ public class CentrelizedLRTARealTimeSearchManager extends AbstractRealTimeSearch
         {
             prefixes.put(agent,new ArrayList<>());
             Pair<Node,Node> vals = startGoal.get(agent);
+            order[i] = agent;
             goal[i] =vals.getValue();
             start[i] =agent.getCurrent();
             i++;
         }
-        CentrelizedLRTAState goalState = new CentrelizedLRTAState(goal);
-        CentrelizedLRTAState startState = new CentrelizedLRTAState(start);
+        CentrelizedLRTAState goalState = new CentrelizedLRTAState(goal,Integer.MAX_VALUE,null);
+        CentrelizedLRTAState startState = new CentrelizedLRTAState(start,0,goalState);
+        System.out.println(startState.getId());
         CentrelizedHeuristics.getInstance().setGoal(goalState);
-        List<CentrelizedLRTAState> states = this.centrelizedLRTA.calculatePrefixes(startState,goalState,problem.getNumberOfNodeToDevelop());
+        List<CentrelizedLRTAState> states = this.centrelizedLRTA.calculatePrefixes(startState,goalState,problem.getNumberOfNodeToDevelop()*startGoal.size());
         Agent agent;
 
-
+        if(states.get(states.size()-1).equals(goalState))
+        {
+            for(Agent agent2: order)
+                agent2.done();
+        }
         for (int k=0;k<states.size();k++) {
             for (int j=0;j<startGoal.size();j++) {
                 agent = order[j];
                 prefixes.get(agent).add(states.get(k).getLocationAt(j));
+       //         System.out.print(states.get(k).getLocationAt(j).getId()+",");
             }
+       //     System.out.println(states.get(k).getId());
         }
         this.prefixesForAgents = prefixes;
+        for (int j=0;j<order.length;j++) {
+            agent = order[j];
+            //Adding the prefix to the path
+            List<Node> path = pathsForAgents.get(agent);
+            path.remove(path.size()-1);
+            path.addAll(prefixes.get(agent));
+        }
+
+
 
     }
 }

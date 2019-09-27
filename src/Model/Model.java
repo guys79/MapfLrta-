@@ -23,7 +23,7 @@ import java.util.*;
 public class Model {
 
     private boolean first;//True IFF it's the first scenario
-    private int NUM_OF_AGENTS = 100;//Number of agents
+    private int NUM_OF_AGENTS = 3;//Number of agents
     private final int VISION_RADIUS = 20;//Number of agents
     private final int HEIGHT = 12;//The number of columns
     private final int WIDTH = 12;//The number of rows
