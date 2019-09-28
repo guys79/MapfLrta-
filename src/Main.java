@@ -22,7 +22,7 @@ public class Main extends Application {
     final static int NUM_OF_AGENTS =5;
     final static int NUM_TO_DEV =45;
     final static String filename = "arena";
-    // TODO: 9/26/2019 OD in A*
+
     public void start(Stage primaryStage) throws Exception {
 
         //The GUI
