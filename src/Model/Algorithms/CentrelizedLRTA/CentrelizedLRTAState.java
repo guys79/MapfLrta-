@@ -1,5 +1,6 @@
 package Model.Algorithms.CentrelizedLRTA;
 
+import Model.Components.GridNode;
 import Model.Components.Node;
 
 import java.util.HashMap;
@@ -17,7 +18,8 @@ public class CentrelizedLRTAState {
     private int time;
     private int numInGoal;
     private CentrelizedLRTAState goal;
-
+    private int chengedAgents;//The state where the agent the numInODth index has moved
+    private boolean changed;
 
 
     public int getNumInGoal() {
@@ -46,13 +48,23 @@ public class CentrelizedLRTAState {
         }
         return num;
     }
+
+    public boolean isRealState()
+    {
+        return  this.chengedAgents== 0;
+    }
     /**
      * The constructor
      * @param locations - The locations of the agents
      */
-    public CentrelizedLRTAState(Node [] locations,int time,CentrelizedLRTAState goal)
+    public CentrelizedLRTAState(Node [] locations,int time,CentrelizedLRTAState goal,int numInOD,boolean changed)
     {
 
+        this.chengedAgents= numInOD;
+        this.changed = changed;
+
+        if(numInOD == locations.length)
+            this.chengedAgents =0;//Real
 
         this.locations = new Node[locations.length];
         this.time = time;
@@ -69,6 +81,8 @@ public class CentrelizedLRTAState {
         for(int i=0;i<this.locations.length;i++)
         {
             this.locations[i] = locations[i];
+            if(goalLocations[i] == null)
+                System.out.println();
             if(this.locations[i].getId() ==goalLocations[i].getId())
                 numInGoal++;
             id += this.locations[i].getId()+",";
@@ -192,7 +206,7 @@ public class CentrelizedLRTAState {
         if(index == this.locations.length)
         {
             if(!isSame) {
-                CentrelizedLRTAState centrelizedLRTAState = new CentrelizedLRTAState(locs,time+1,goal);
+                CentrelizedLRTAState centrelizedLRTAState = new CentrelizedLRTAState(locs,time+1,goal,chengedAgents+1,true);
                 res.add(centrelizedLRTAState);
             }
             return null;
@@ -229,6 +243,33 @@ public class CentrelizedLRTAState {
     }
 
     /**
+     * This function will return the legal states that can be achieves by preforming a single action
+     * @return - The set of legal states
+     */
+    public Set<CentrelizedLRTAState> getLegalStatesOD()
+    {
+        Set<CentrelizedLRTAState> neigh = new HashSet<>();
+        int index = chengedAgents;
+
+            Node[] loc;
+            Set<Node> neighbors = this.locations[index].getNeighbors().keySet();
+            int i=0;
+            for(Node node : neighbors) {
+                loc = new Node[this.locations.length];
+                for (int j = 0; j < this.locations.length; j++) {
+                    loc[j] = this.locations[j];
+                }
+                loc[index] = node;
+                if (allowed(loc, index, node) && !(index==this.locations.length-1 && !changed)) {
+                    neigh.add(new CentrelizedLRTAState(loc, time + 1, goal, index+1,changed || this.locations[index].getId()!= node.getId()));
+                }
+                i++;
+            }
+
+        return neigh;
+    }
+
+    /**
      * This function will check id the state is legal
      * @param locs - the locations
      * @param index - the index in the array
@@ -255,5 +296,16 @@ public class CentrelizedLRTAState {
             }
         }
         return true;
+    }
+
+    @Override
+    public String toString() {
+        String str = "";
+
+        for(int i=0;i<this.locations.length;i++)
+        {
+            str+="["+((GridNode)this.locations[i]).getX()+","+((GridNode)this.locations[i]).getY()+"]";
+        }
+        return str;
     }
 }

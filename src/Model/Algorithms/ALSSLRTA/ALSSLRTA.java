@@ -70,12 +70,6 @@ public class ALSSLRTA implements IRealTimeSearchAlgorithm {
 
 
 
-        if(agent.getId() == 3 && g==9 ) {
-            for(AlssLrtaSearchNode alssLrtaSearchNode : open)
-                System.out.println(alssLrtaSearchNode.getNode()+" "+agent.getHeuristicValue(alssLrtaSearchNode.getNode())+" "+getF(alssLrtaSearchNode));
-            System.out.println();
-
-        }
         //The A* procedure
         aStarPrecedure();
 

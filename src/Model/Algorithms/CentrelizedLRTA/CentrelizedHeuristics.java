@@ -1,5 +1,6 @@
 package Model.Algorithms.CentrelizedLRTA;
 
+import Model.Algorithms.Dijkstra.ShortestPathGenerator;
 import Model.Components.GridNode;
 import Model.Components.Node;
 
@@ -43,7 +44,9 @@ public class CentrelizedHeuristics {
     public double getVal(CentrelizedLRTAState state) {
         double sum = 0;
         for (int i = 0; i < state.getNumOfAgets(); i++) {
-            sum += getHeuristicsForTwoFromFunction(state.getLocationAt(i), goal.getLocationAt(i));
+            sum += getHeuristicsForTwoFromFunction2(state.getLocationAt(i), goal.getLocationAt(i));
+            //sum =Double.max(sum, getHeuristicsForTwoFromFunction2(state.getLocationAt(i), goal.getLocationAt(i)));
+           // sum += getHeuristicsForTwoFromFunction(state.getLocationAt(i), goal.getLocationAt(i));
         }
 
         return sum;
@@ -72,5 +75,13 @@ public class CentrelizedHeuristics {
             System.out.println("Fuck");
         }
         return value;
+    }/**
+     * This function will calculate the heuristic of the origin goal af if the target state was the goal
+     * @param origin - The origin state
+     * @param target - The target state
+     * @return - The heuristic value
+     */
+    protected double getHeuristicsForTwoFromFunction2(Node origin, Node target) {
+      return ShortestPathGenerator.getInstance().getShortestPath(origin,target);
     }
 }

@@ -100,7 +100,7 @@ public abstract class AbstractRealTimeSearchManager implements IRealTimeSearchMa
      */
     public boolean isDone()
     {
-        if(iteration>20) {
+        if(iteration>1000) {
             TestPreformer.getInstance().updateNonComplete();
             return true;
         }
@@ -161,6 +161,8 @@ public abstract class AbstractRealTimeSearchManager implements IRealTimeSearchMa
         }
 
     }
+
+
 
 
 }

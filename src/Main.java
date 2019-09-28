@@ -19,7 +19,9 @@ public class Main extends Application {
     }
 
     final static int TYPE =6;// 0 - LRTA*, 1-aLSS-LRTA* 2- MA-aLSS-LRTA* 3- IgnoreOthers-Ma-aLSS-LRTA*
-
+    final static int NUM_OF_AGENTS =5;
+    final static int NUM_TO_DEV =45;
+    final static String filename = "arena";
     // TODO: 9/26/2019 OD in A*
     public void start(Stage primaryStage) throws Exception {
 
@@ -27,9 +29,11 @@ public class Main extends Application {
         FXMLLoader fxmlLoader = new FXMLLoader();
         Parent root = fxmlLoader.load(getClass().getResource("Controller/view.fxml").openStream());
         Controller controller = fxmlLoader.getController();
-       String filename = "den312d";
+
 
         Model model = new Model(controller,filename,TYPE);
+        model.setNUM_OF_AGENTS(NUM_OF_AGENTS);
+        model.setNUM_OF_NODES_TO_DEVELOP(NUM_TO_DEV);
         ShortestPathGenerator.getInstance().setFilename(filename);
         model.next();
         primaryStage.setTitle(model.toString());

@@ -23,12 +23,12 @@ import java.util.*;
 public class Model {
 
     private boolean first;//True IFF it's the first scenario
-    private int NUM_OF_AGENTS = 3;//Number of agents
+    private int NUM_OF_AGENTS ;//Number of agents
     private final int VISION_RADIUS = 20;//Number of agents
     private final int HEIGHT = 12;//The number of columns
     private final int WIDTH = 12;//The number of rows
     private final double DENSITY = 0.6;//The ratio between the number of walls to the overall number of nodes in the grid
-    private final int NUM_OF_NODES_TO_DEVELOP = 45;//The number of nodes that can be developed in a single iteration
+    private  int NUM_OF_NODES_TO_DEVELOP ;//The number of nodes that can be developed in a single iteration
     private int TYPE;// 0 - LRTA*, 1-aLSS-LRTA* 2- MA-aLSS-LRTA* 3- IgnoreOthers-Ma-aLSS-LRTA*
     private String fileName;
     private String mapPath;//The path to the map file
@@ -39,7 +39,13 @@ public class Model {
     private IProblemCreator problemCreator;//The problem creator
     private IRealTimeSearchManager realTimeSearchManager;//The real time search manager
 
+
+    public void setNUM_OF_NODES_TO_DEVELOP(int NUM_OF_NODES_TO_DEVELOP) {
+        this.NUM_OF_NODES_TO_DEVELOP = NUM_OF_NODES_TO_DEVELOP;
+    }
+
     /**
+     *
      * This function will srt the filename with the given file name
      * @param fileName - The given file name
      */
