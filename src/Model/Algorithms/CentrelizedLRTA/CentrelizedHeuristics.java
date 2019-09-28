@@ -4,6 +4,11 @@ import Model.Algorithms.Dijkstra.ShortestPathGenerator;
 import Model.Components.GridNode;
 import Model.Components.Node;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 /**
  * This cass handles the heuristics of the centralized state (Singleton DP used)
  */
@@ -43,13 +48,24 @@ public class CentrelizedHeuristics {
      */
     public double getVal(CentrelizedLRTAState state) {
         double sum = 0;
+        double max = 0;
+        double val;
+        List<Double> vals = new ArrayList<>();
         for (int i = 0; i < state.getNumOfAgets(); i++) {
-            sum += getHeuristicsForTwoFromFunction2(state.getLocationAt(i), goal.getLocationAt(i));
-            //sum =Double.max(sum, getHeuristicsForTwoFromFunction2(state.getLocationAt(i), goal.getLocationAt(i)));
+            val = getHeuristicsForTwoFromFunction2(state.getLocationAt(i), goal.getLocationAt(i));
+            vals.add(0,val);
+            sum += val;
+            max =Double.max(sum, val);
            // sum += getHeuristicsForTwoFromFunction(state.getLocationAt(i), goal.getLocationAt(i));
         }
-
-        return sum;
+        double sum2 = 0;
+        for(Double value : vals)
+        {
+            sum2+= max-value;
+        }
+        double avg = sum2/vals.size();
+        double part = avg/max;
+        return sum*part;
     }
 
     /**

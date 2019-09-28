@@ -172,7 +172,8 @@ public class CentrelizedLRTA{
             if(checkIfGoal(polled.getState()))
                 return polled;
             removeOpen(polled);
-            expansions++;
+            if(polled.getState().isRealState())
+                expansions++;
             close.add(polled);
             if(open_best.size() == 0)
             {
@@ -376,8 +377,9 @@ public class CentrelizedLRTA{
             if(f1<f2)
                 return -1;
             if(f1==f2) {
+
                 if(o1.getNumOfMoving() != o2.getNumOfMoving())
-                    return o2.getNumOfMoving() - o1.getNumOfMoving();
+                    return o1.getNumOfMoving() - o2.getNumOfMoving();
                 return o1.getState().getTime() - o2.getState().getTime();
             }
             return 1;

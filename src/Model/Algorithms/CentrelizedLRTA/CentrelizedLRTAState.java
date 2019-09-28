@@ -81,8 +81,7 @@ public class CentrelizedLRTAState {
         for(int i=0;i<this.locations.length;i++)
         {
             this.locations[i] = locations[i];
-            if(goalLocations[i] == null)
-                System.out.println();
+
             if(this.locations[i].getId() ==goalLocations[i].getId())
                 numInGoal++;
             id += this.locations[i].getId()+",";

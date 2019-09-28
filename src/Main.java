@@ -21,7 +21,7 @@ public class Main extends Application {
     final static int TYPE =6;// 0 - LRTA*, 1-aLSS-LRTA* 2- MA-aLSS-LRTA* 3- IgnoreOthers-Ma-aLSS-LRTA*
     final static int NUM_OF_AGENTS =5;
     final static int NUM_TO_DEV =45;
-    final static String filename = "arena";
+    final static String filename = "den312d";
 
     public void start(Stage primaryStage) throws Exception {
 
