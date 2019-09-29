@@ -20,7 +20,7 @@ public class LongestPathBudgetPolicy implements IBudgetPolicy {
         for(Map.Entry<Agent,Pair<Node,Node>> entry : agentsAndStartGoalNodes.entrySet())
         {
             agent = entry.getKey();
-            val = agent.getHeuristicValue(entry.getValue().getKey());
+            val = agent.getHeuristicValue(agent.getCurrent());
             heuristics.put(agent,val);
             sum+=val;
             agents[k] = agent;
