@@ -71,7 +71,7 @@ public class RandomProblemCreator extends AbstractProblemCreator {
             agent_start_goal_nodes.put(agent,new Pair<>(start,goal));
         }
 
-        Problem problem = new Problem(graph,agent_start_goal_nodes,toDevelop,new GridCostFunction(),visionRadius);
+        Problem problem = new Problem(graph,agent_start_goal_nodes,toDevelop,new GridCostFunction(),visionRadius,type);
         problemInString = Problem.print(graph,agent_start_goal_nodes);
         return problem;
     }

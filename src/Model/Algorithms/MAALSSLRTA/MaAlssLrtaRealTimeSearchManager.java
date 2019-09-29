@@ -47,11 +47,11 @@ public class MaAlssLrtaRealTimeSearchManager extends AbstractRealTimeSearchManag
         MAALSSLRTA maalsslrta = new MAALSSLRTA(problem);
         this.prev.clear();
 
-        Map<Integer,List<Node>> prefixes = maalsslrta.getPrefixes(problem.getNumberOfNodeToDevelop());
-        for(HashMap.Entry<Integer,List<Node>> prefix : prefixes.entrySet())
+        Map<Integer,List<Node>> prefixes = maalsslrta.getPrefixes(this.budgetMap);
+        /*for(HashMap.Entry<Integer,List<Node>> prefix : prefixes.entrySet())
         {
             System.out.println("Agent "+prefix.getKey()+" prefix "+prefix.getValue());
-        }
+        }*/
 
         //If there is no solution
         if(prefixes.containsValue(null))

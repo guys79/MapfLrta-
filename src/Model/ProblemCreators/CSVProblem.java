@@ -40,7 +40,7 @@ public class CSVProblem extends AbstractProblemCreator {
         graph = getGraphFromCSV(path);
         Agent agent = new Agent(0,graph[x_end][y_end],type);
         agent_start_goal_nodes.put(agent,new Pair<>(graph[x_start][y_start],graph[x_end][y_end]));
-        Problem problem = new Problem(graph,agent_start_goal_nodes,toDevelop,new GridCostFunction(),visionRadius);
+        Problem problem = new Problem(graph,agent_start_goal_nodes,toDevelop,new GridCostFunction(),visionRadius,type);
         problemInString = Problem.print(graph,agent_start_goal_nodes);
         System.out.println(problemInString);
         return problem;

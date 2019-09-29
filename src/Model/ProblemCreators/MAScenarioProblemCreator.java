@@ -221,6 +221,6 @@ public class MAScenarioProblemCreator extends ScenarioProblemCreator {
             start_and_goal.put(agent,new Pair<>(start,goal));
         }
         System.out.println("scenario "+(this.scenIndex-1));
-        return new Problem(this.graph,start_and_goal,getToDevelop(),new GridCostFunction(),getVisionRadius());
+        return new Problem(this.graph,start_and_goal,getToDevelop(),new GridCostFunction(),getVisionRadius(),type);
     }
 }

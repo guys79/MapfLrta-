@@ -109,7 +109,7 @@ public class ScenarioProblemCreator extends AbstractProblemCreator {
         Agent agent = new Agent(0,goal,type);
         start_and_goal.put(agent,new Pair<>(start,goal));
         index++;
-        return new Problem(this.graph,start_and_goal,toDevelop,new GridCostFunction(),this.visionRadius);
+        return new Problem(this.graph,start_and_goal,toDevelop,new GridCostFunction(),this.visionRadius,type);
     }
 
     /**

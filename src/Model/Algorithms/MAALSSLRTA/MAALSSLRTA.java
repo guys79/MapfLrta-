@@ -54,10 +54,10 @@ public class MAALSSLRTA extends ALSSLRTA {
 
     /**
      * This function will return the prefixes of the agents after an iteration
-     * @param numOfNodesToDevelop - The number of nodes allowed to develop
+     * @param budgetMap - The budget for each agent
      * @return - The prefixes of the agents after an iteration
      */
-    public Map<Integer,List<Node>> getPrefixes(int numOfNodesToDevelop)
+    public Map<Integer,List<Node>> getPrefixes(Map<Agent,Integer>budgetMap)
     {
         Map<Agent,Pair<Node,Node>> agent_goal_start = problem.getAgentsAndStartGoalNodes();
         Set<Agent> agents = agent_goal_start.keySet();
@@ -65,7 +65,7 @@ public class MAALSSLRTA extends ALSSLRTA {
 
         Map<Integer,List<Node>> prefixes = new HashMap<>();
         pAgents.addAll(agents);
-
+        int numOfNodesToDevelop;
         while(pAgents.size()>0)
         {
             Agent agent = pAgents.poll();
@@ -80,7 +80,7 @@ public class MAALSSLRTA extends ALSSLRTA {
 
             }
             else {
-
+                numOfNodesToDevelop = budgetMap.get(agent);
                 Node current = agent.getCurrent();
 
                 List<Node> prefix = super.calculatePrefix(current, agent.getGoal(), numOfNodesToDevelop, agent);

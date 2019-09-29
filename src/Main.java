@@ -18,8 +18,8 @@ public class Main extends Application {
         launch(args);
     }
 
-    final static int TYPE =6;// 0 - LRTA*, 1-aLSS-LRTA* 2- MA-aLSS-LRTA* 3- IgnoreOthers-Ma-aLSS-LRTA*
-    final static int NUM_OF_AGENTS =5;
+    final static int TYPE =2;// 0 - LRTA*, 1-aLSS-LRTA* 2- MA-aLSS-LRTA* 3- IgnoreOthers-Ma-aLSS-LRTA*
+    final static int NUM_OF_AGENTS =100;
     final static int NUM_TO_DEV =45;
     final static String filename = "den312d";
 

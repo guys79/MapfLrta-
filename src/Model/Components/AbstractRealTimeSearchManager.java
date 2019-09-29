@@ -1,6 +1,8 @@
 package Model.Components;
 
 
+import Model.Algorithms.BudgetPolicy.BudgetPolicyFactory;
+import Model.Algorithms.BudgetPolicy.IBudgetPolicy;
 import javafx.util.Pair;
 
 import java.util.*;
@@ -14,6 +16,7 @@ public abstract class AbstractRealTimeSearchManager implements IRealTimeSearchMa
     protected Map<Agent, Node> prev;//Key - agent, Value - The agent's prefix
     protected int numOfFinish;//Number of finished problems
     private int iteration;//Number of iterations
+    protected Map<Agent,Integer> budgetMap;
     /**
      * The constructor of the class
      * @param problem - The given problem
@@ -41,6 +44,24 @@ public abstract class AbstractRealTimeSearchManager implements IRealTimeSearchMa
 
 
 
+    }
+
+    public void calculatePrefixAndBudget()
+    {
+        this.budgetMap = new HashMap<>();
+        int type = this.problem.getType();
+        IBudgetPolicy policy = BudgetPolicyFactory.getInstance().getPolicy(type);
+        int totalBudget = problem.getNumberOfNodeToDevelop()*problem.getAgentsAndStartGoalNodes().size();
+        budgetMap = policy.getBudgetMap(problem.getAgentsAndStartGoalNodes(),totalBudget);
+        calculatePrefix();
+    }
+
+    protected int getAgentBudget(Agent agent)
+    {
+        Integer budget = this.budgetMap.get(agent);
+        if (budget == null)
+            return 0;
+        return budget;
     }
 
     /**
@@ -134,7 +155,7 @@ public abstract class AbstractRealTimeSearchManager implements IRealTimeSearchMa
         {
 
             System.out.println("Iteration number "+(iteration));
-            calculatePrefix();
+            calculatePrefixAndBudget();
             move();
             end = System.currentTimeMillis();
             sum+= (end-start);

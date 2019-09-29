@@ -54,7 +54,7 @@ public class FactoryRealTimeManager {
                 realTimeSearchManager = new AlssLrtaRealTimeSearchManager(problem);
             }
             else {
-                if (type == 2 || type == 5) {
+                if (type == 2 || type == 5 || type == 7) {
 
                     realTimeSearchManager = new MaAlssLrtaRealTimeSearchManager(problem);
                 }
