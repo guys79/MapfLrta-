@@ -21,7 +21,7 @@ public class CentrelizedLRTA{
     protected Set<CentrelizedLRTASearchNode> close;//The close list
     protected Map<String, Pair<Double,Double>>info; // key - id, pair - key - gVal val - hVal
     protected Map<String,Set<CentrelizedLRTASearchNode>> needToUpdateg;
-    protected Map<String,CentrelizedLRTASearchNode> open_id;
+    protected Map<String,CentrelizedLRTASearchNode> open_id;//Key - State id, value - the node
 
 
 
@@ -35,6 +35,8 @@ public class CentrelizedLRTA{
         info = new HashMap<>();
         g=0;
     }
+
+
     private void addOpen(CentrelizedLRTASearchNode node) {
         if (!this.open_id.containsKey(node.getState().getId())) {
             open.add(node);

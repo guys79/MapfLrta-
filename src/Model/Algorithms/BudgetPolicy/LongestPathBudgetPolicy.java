@@ -6,7 +6,9 @@ import javafx.util.Pair;
 
 import javax.xml.crypto.dom.DOMCryptoContext;
 import java.util.*;
-
+/**
+ * This class represents a budget policy where the agent with the highest heuristics gets more sevelopment time
+ */
 public class LongestPathBudgetPolicy implements IBudgetPolicy {
     @Override
     public Map<Agent, Integer> getBudgetMap(Map<Agent, Pair<Node, Node>> agentsAndStartGoalNodes, int totalBudget) {
@@ -64,6 +66,9 @@ public class LongestPathBudgetPolicy implements IBudgetPolicy {
         return budgetForAgent;
     }
 
+    /**
+     * This class will compare between two pairs of Agent - budget
+     */
     public class BudgetComperator implements Comparator<Pair<Agent,Integer>>
     {
 

@@ -8,6 +8,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
+/**
+ * This class represents a budget policy where every agent gets the same budget
+ */
 public class EqualBudget implements IBudgetPolicy {
     @Override
     public Map<Agent, Integer> getBudgetMap(Map<Agent, Pair<Node, Node>> agentsAndStartGoalNodes, int totalBudget) {
