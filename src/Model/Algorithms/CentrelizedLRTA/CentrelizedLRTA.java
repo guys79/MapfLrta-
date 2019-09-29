@@ -6,9 +6,7 @@ import Model.Components.Node;
 import javafx.util.Pair;
 
 import java.util.*;
-
-// TODO: 27/09/2019 Do OD + conclution, since a state is a combination of number of states, it will take some time to identify that the state is not good,
-// TODO: 27/09/2019 Maybe implement aLSS-LRTA* (first do our algorithm)
+// TODO: 29/09/2019 experiment!
 // TODO: 27/09/2019 notes! 
 /**
  * This class represents the centralized-Lrta*
