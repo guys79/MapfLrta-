@@ -64,19 +64,7 @@ public class RuleBook implements IRules {
      * @return - True IFF there will be no swapping if the move described will cause no swapping between agents
      */
     private boolean checkForSwappings(int origin, int target,int time) {
-        //At time 0 is the start positioning
-        //The assumption the time>1 when swapping
-        int id1 = this.maalsslrta.getAgent(origin,time);
-        if(id1 == -1)
-            return true;
-        int id2 = this.maalsslrta.getAgent(target,time-1);
-        if(id2 == -1)
-            return true;
-        if(id2==-2)
-            return false;
-
-        //agent 1 wants to move from origin to target
-        return id1!=id2;
+      return maalsslrta.checkSwapping(time,origin,target);
     }
 
 }

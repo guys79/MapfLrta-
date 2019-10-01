@@ -82,7 +82,8 @@ public class MAALSSLRTA extends ALSSLRTA {
             else {
                 numOfNodesToDevelop = budgetMap.get(agent);
                 Node current = agent.getCurrent();
-
+                if(agent.getId() == 41 || agent.getId() == 18)
+                    System.out.println("Agent "+agent.getId()+" current - "+current);
                 List<Node> prefix = super.calculatePrefix(current, agent.getGoal(), numOfNodesToDevelop, agent);
 
                 if (prefix == null) {
@@ -159,7 +160,27 @@ public class MAALSSLRTA extends ALSSLRTA {
 
 
     }
+    public boolean checkSwapping(int time,int originNodeId,int targetNodeId)
+    {
 
+        //If any book the origin node at time
+        Map<Integer,Integer> times =this.ocuupied_times.get(originNodeId);
+        if(times == null) {
+            return true;
+        }
+        Integer agent = times.get(time);
+        if(agent == null)
+            return true;
+        //If any book the target node at time -1
+        times = this.ocuupied_times.get(targetNodeId);
+        if(times == null)
+            return true;
+        Integer prevId = times.get(time-1);
+        if(prevId ==null)
+            return true;
+        return agent.intValue() != prevId.intValue();
+
+    }
     /**
      * This function "inhabits" an agent in the node
      * It means that the agent has reached it's goal and now he is not moving from that spot
@@ -169,6 +190,7 @@ public class MAALSSLRTA extends ALSSLRTA {
     protected void inhabitAgent(int nodeId,int time)
     {
         this.goals.put(nodeId,time);
+        updateNode(nodeId,time);
     }
 
     @Override
@@ -194,7 +216,7 @@ public class MAALSSLRTA extends ALSSLRTA {
             if(time<=timeSet)
                 return false;
         }
-        return true;
+        return this.canBeAtTime(time,this.getAgent().getCurrent(),node.getNode());
 
 
     }
@@ -252,6 +274,10 @@ public class MAALSSLRTA extends ALSSLRTA {
 
     @Override
     protected boolean canBeAtTime(int time, Node origin, Node target) {
+        if(this.getAgent().getId() == 18&& time == 23)
+            System.out.println(18);
+        if(this.getAgent().getId() == 41&& time == 23)
+            System.out.println(41);
         return rules.isValidMove(origin.getId(),target.getId(),time);
     }
 

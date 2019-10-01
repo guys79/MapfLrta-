@@ -17,6 +17,8 @@ public abstract class AbstractRealTimeSearchManager implements IRealTimeSearchMa
     protected int numOfFinish;//Number of finished problems
     private int iteration;//Number of iterations
     protected Map<Agent,Integer> budgetMap;
+    private boolean success;
+    private double iterationAvergae;
     /**
      * The constructor of the class
      * @param problem - The given problem
@@ -44,6 +46,14 @@ public abstract class AbstractRealTimeSearchManager implements IRealTimeSearchMa
 
 
 
+    }
+
+    public boolean isSuccess() {
+        return success;
+    }
+
+    public int getIteration() {
+        return iteration;
     }
 
     public void calculatePrefixAndBudget()
@@ -93,6 +103,7 @@ public abstract class AbstractRealTimeSearchManager implements IRealTimeSearchMa
             for (Agent agent : agents) {
 
                 List<Node> prefix = this.prefixesForAgents.get(agent);
+
                 if (prefix == null)
                     return;
 
@@ -121,14 +132,16 @@ public abstract class AbstractRealTimeSearchManager implements IRealTimeSearchMa
      */
     public boolean isDone()
     {
-        if(iteration>1000) {
-            TestPreformer.getInstance().updateNonComplete();
+        if(iteration>100000) {
+
+            success = false;
             return true;
         }
         HashSet<Agent> agents = new HashSet<>(problem.getAgentsAndStartGoalNodes().keySet());
         if(this.prefixesForAgents.values().contains(null))
         {
-            TestPreformer.getInstance().updateNonComplete();
+
+            success = false;
             return true;
         }
         for(Agent agent : agents)
@@ -146,28 +159,33 @@ public abstract class AbstractRealTimeSearchManager implements IRealTimeSearchMa
      */
     public Map<Agent,List<Node>> search()
     {
+        success = true;
         System.out.println("start search");
         iteration=0;
         long start,end;
         start =  System.currentTimeMillis();
-        long sum =0l;
+        this.iterationAvergae =0l;
         while(!isDone())
         {
 
-            System.out.println("Iteration number "+(iteration));
+         //   System.out.println("Iteration number "+(iteration));
             calculatePrefixAndBudget();
             move();
             end = System.currentTimeMillis();
-            sum+= (end-start);
+            iterationAvergae+= (end-start);
 
             iteration++;
             start =  System.currentTimeMillis();
         }
-        TestPreformer.getInstance().updateAverageIteration((sum*1.0)/iteration);
-
+        iterationAvergae = iteration/iterationAvergae;
+        System.out.println(success);
         System.out.println("Number of iterations "+iteration);
         clear();
         return this.pathsForAgents;
+    }
+
+    public double getIterationAvergae() {
+        return iterationAvergae;
     }
 
     /**

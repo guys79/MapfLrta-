@@ -37,11 +37,12 @@ public class Main extends Application {
         ShortestPathGenerator.getInstance().setFilename(filename);
         model.next();
         primaryStage.setTitle(model.toString());
+        primaryStage.setScene(new Scene(root, 1600, 975));
+         primaryStage.show();
        // TestPreformer.getInstance().printInfo("");
        //test(controller);
-       // test2(controller);
-        primaryStage.setScene(new Scene(root, 1600, 975));
-        primaryStage.show();
+   //     test(controller);
+
 
 
         //Laptop
@@ -59,9 +60,10 @@ public class Main extends Application {
 
 
 
-    public void test2(Controller controller)
+    public void test(Controller controller)
     {
-        int num_scene = 10;
+        //int num_scene = 20;
+        int num_scene = 2;
         List<Integer> numOfAgents = new ArrayList<>();
         numOfAgents.add(1);
         numOfAgents.add(10);
@@ -83,29 +85,35 @@ public class Main extends Application {
         }
 
         Model model;
+        int [] types = {2,3,4,5,7,6};
+        String rawPath;
         String prefix = "res\\Outputs\\tests";
-        for (String filename : names) {
+        int g = 0;
+        for(int k=0;k<types.length;k++) {
+            g=0;
+            for (String filename : names) {
 
-            System.out.println("File name - "+filename);
-            folder = new File(rel+prefix+"\\"+filename);
-            folder.mkdir();
+                g++;
+                System.out.println("File name - " + filename);
+                folder = new File(rel + prefix + "\\" + filename);
+                folder.mkdir();
+                for (int i = 0; i < numOfAgents.size(); i++) {
+                    ShortestPathGenerator.getInstance().setFilename(filename);
+                    model = new Model(controller, filename, types[k]);
+                    model.setNUM_OF_AGENTS(numOfAgents.get(i));
 
-            for (int i = 0; i < numOfAgents.size(); i++) {
-                ShortestPathGenerator.getInstance().setFilename(filename);
-                model = new Model(controller, filename,TYPE);
-                model.setNUM_OF_AGENTS(numOfAgents.get(i));
-                for (int j = 0; j < num_scene; j++) {
-                    model.next();
+                    for (int j = 0; j < num_scene; j++) {
+                        model.next();
+
+                    }
+                    path = rel + prefix + "\\" + model.toString() + "\\" + filename + "\\perfectHeuristics_" + numOfAgents.get(i) + ".txt";
+                    rawPath = rel + prefix + "\\" + filename + "\\perfectHeuristics_" + numOfAgents.get(i) + ".csv";
+                    TestPreformer.getInstance().printInfo(path, rawPath);
+
 
                 }
-                path = rel+prefix+"\\"+filename+"\\perfectHeuristics_"+numOfAgents.get(i)+".txt";
-                TestPreformer.getInstance().printInfo(path);
-
-
-
             }
         }
-
 
     }
 

@@ -35,6 +35,7 @@ public class Model {
     private String scenPath;//The path to the scenario file
     private String outputPath;//The path to the output file
     private Controller controller;//The controller
+
     private Map<Agent, Pair<Node,Node>> prev;//The previous agent's goals
     private IProblemCreator problemCreator;//The problem creator
     private IRealTimeSearchManager realTimeSearchManager;//The real time search manager
@@ -98,6 +99,7 @@ public class Model {
      */
     public Model(Controller controller,int type) {
         this.TYPE = type;
+
         String rel = new File("help.txt").getAbsolutePath();
         rel = rel.substring(0,rel.indexOf("help.txt"));
         fileName = "w_woundedcoast";//The name of the file
@@ -230,7 +232,7 @@ public class Model {
             System.out.println("TIme elapsed "+time +" ms");
             System.out.println("TIme elapsed "+timeInSeconds +" seconds");
             System.out.println("Average updates " +Node.average);
-            TestPreformer.getInstance().updatePerSearch(Node.average,time,sumOfCosts,maxSpan);
+            TestPreformer.getInstance().updatePerSearch(Node.average,time,sumOfCosts,maxSpan,((AbstractRealTimeSearchManager)realTimeSearchManager).getIteration(),((AbstractRealTimeSearchManager)realTimeSearchManager).isSuccess(),((AbstractRealTimeSearchManager)realTimeSearchManager).getIterationAvergae());
             System.out.println();
             controller.draw();
 

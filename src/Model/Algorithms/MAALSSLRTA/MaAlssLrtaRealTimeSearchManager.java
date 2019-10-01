@@ -159,7 +159,8 @@ public class MaAlssLrtaRealTimeSearchManager extends AbstractRealTimeSearchManag
                 List<Node> prefix = this.prefixesForAgents.get(agent);
                 if (prefix == null)
                     return;
-
+                if((agent.getId() == 41 || agent.getId() == 18) && i<=prefix.size()-1)
+                    System.out.println("Agent "+agent.getId()+" move - "+i +" "+prefix.get(i));
                 //Try to move the agent
                 if (i <= prefix.size() - 1) {
                     if (!agent.moveAgent(prefix.get(i))) {
