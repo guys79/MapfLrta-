@@ -18,10 +18,10 @@ public class Main extends Application {
         launch(args);
     }
 
-    final static int TYPE =7;// 0 - LRTA*, 1-aLSS-LRTA* 2- MA-aLSS-LRTA* 3- IgnoreOthers-Ma-aLSS-LRTA*
-    final static int NUM_OF_AGENTS =100;
+    final static int TYPE =6;// 0 - LRTA*, 1-aLSS-LRTA* 2- MA-aLSS-LRTA* 3- IgnoreOthers-Ma-aLSS-LRTA*
+    final static int NUM_OF_AGENTS =1;
     final static int NUM_TO_DEV =45;
-    final static String filename = "den312d";
+    final static String filename = "ht_mansion_n";
 
     public void start(Stage primaryStage) throws Exception {
 
@@ -31,7 +31,7 @@ public class Main extends Application {
         Controller controller = fxmlLoader.getController();
 
 
-        Model model = new Model(controller,filename,TYPE);
+       Model model = new Model(controller,filename,TYPE);
         model.setNUM_OF_AGENTS(NUM_OF_AGENTS);
         model.setNUM_OF_NODES_TO_DEVELOP(NUM_TO_DEV);
         ShortestPathGenerator.getInstance().setFilename(filename);
@@ -40,8 +40,8 @@ public class Main extends Application {
         primaryStage.setScene(new Scene(root, 1600, 975));
          primaryStage.show();
        // TestPreformer.getInstance().printInfo("");
-       //test(controller);
-   //     test(controller);
+        //test(controller);
+
 
 
 
@@ -70,6 +70,12 @@ public class Main extends Application {
         numOfAgents.add(50);
         numOfAgents.add(75);
         numOfAgents.add(100);
+        List<Integer> dev = new ArrayList<>();
+        dev.add(5);
+        dev.add(15);
+        dev.add(50);
+        dev.add(100);
+        dev.add(300);
 
 
         String rel = new File("help.txt").getAbsolutePath();
@@ -85,30 +91,39 @@ public class Main extends Application {
         }
 
         Model model;
-        int [] types = {2,3,4,5,7,6};
+        int [] types = {2,7,3,4,5,6};
         String rawPath;
         String prefix = "res\\Outputs\\tests";
-        int g = 0;
         for(int k=0;k<types.length;k++) {
-            g=0;
+            folder = new File(rel + prefix + "\\" +types[k]);
+            if(!folder.exists())
+                folder.mkdir();
+
             for (String filename : names) {
 
-                g++;
                 System.out.println("File name - " + filename);
-                folder = new File(rel + prefix + "\\" + filename);
+                folder = new File(rel + prefix + "\\" +types[k]+"\\" +filename);
+                if(folder.exists())
+                    continue;
                 folder.mkdir();
                 for (int i = 0; i < numOfAgents.size(); i++) {
                     ShortestPathGenerator.getInstance().setFilename(filename);
                     model = new Model(controller, filename, types[k]);
+
                     model.setNUM_OF_AGENTS(numOfAgents.get(i));
+                    for(int h = 0 ;h<dev.size();h++) {
+                        model.setNUM_OF_NODES_TO_DEVELOP(dev.get(h));
 
-                    for (int j = 0; j < num_scene; j++) {
-                        model.next();
+                        for (int j = 0; j < num_scene; j++) {
+                            model.next();
 
+                        }
+
+                        path =rel + prefix + "\\" +types[k]+"\\" +filename + "\\perfectHeuristics_" + numOfAgents.get(i) +"_"+dev.get(h)+ ".txt";
+                        rawPath =rel + prefix + "\\" +types[k]+"\\" +filename + "\\perfectHeuristics_" + numOfAgents.get(i) +"_"+dev.get(h)+ ".csv";
+                        TestPreformer.getInstance().printInfo(path, rawPath);
                     }
-                    path = rel + prefix + "\\" + model.toString() + "\\" + filename + "\\perfectHeuristics_" + numOfAgents.get(i) + ".txt";
-                    rawPath = rel + prefix + "\\" + filename + "\\perfectHeuristics_" + numOfAgents.get(i) + ".csv";
-                    TestPreformer.getInstance().printInfo(path, rawPath);
+
 
 
                 }

@@ -46,9 +46,12 @@ public class CentrelizedLRTA{
     }
     private void removeOpen(CentrelizedLRTASearchNode node)
     {
-        CentrelizedLRTASearchNode to_delete = this.open_id.remove(node.getState().getId());
-        this.open.remove(to_delete);
-        this.open_best.remove(to_delete);
+        if(node!=null) {
+            CentrelizedLRTASearchNode to_delete = this.open_id.remove(node.getState().getId());
+            this.open.remove(to_delete);
+            this.open_best.remove(to_delete);
+        }
+
     }
     /**
      * This function will calculate the prefixes for the agents
@@ -68,13 +71,17 @@ public class CentrelizedLRTA{
         this.open_id = new HashMap<>();
         this.open_best = new PriorityQueue<>(new CompareCentrelizedSearchNodes());
         this.close =new HashSet<>();
-        if(g==100)
+        if(g==1)
+        {
             System.out.println();
+        }
+        System.out.println("g - "+g);
         //Lookahead
         CentrelizedLRTASearchNode centrelizedLRTASearchNode =lookAhead();
         //Extract th best state
-        if(centrelizedLRTASearchNode ==null)
+        if(centrelizedLRTASearchNode ==null) {
             centrelizedLRTASearchNode = bestState();
+        }
         else
             bestState();
 
@@ -95,6 +102,8 @@ public class CentrelizedLRTA{
     }
     protected List<CentrelizedLRTAState> getPrefix(CentrelizedLRTASearchNode centrelizedLRTASearchNode)
     {
+        if(centrelizedLRTASearchNode==null)
+            return null;
         List<CentrelizedLRTAState> prefix = new ArrayList<>();
         CentrelizedLRTAState state;
         prefix.add(0,centrelizedLRTASearchNode.getState());
@@ -160,13 +169,14 @@ public class CentrelizedLRTA{
         this.needToUpdateg.put(current.getState().getId(),null);
         int expansions  = 0;
         addOpen(current);
-        int gf = 0;
+
 
         while(  expansions  <this.numberOfNodes)
         {
             CentrelizedLRTASearchNode polled =  open.peek();
+
             if(polled == null) {
-                System.out.println();
+
                 return null;
             }
             if(checkIfGoal(polled.getState()))
@@ -175,13 +185,7 @@ public class CentrelizedLRTA{
             if(polled.getState().isRealState())
                 expansions++;
             close.add(polled);
-            if(open_best.size() == 0)
-            {
-                if(gf>0)
-                    System.out.println();
-                else
-                    gf++;
-            }
+
 
 
 
@@ -205,7 +209,7 @@ public class CentrelizedLRTA{
             }
 
         }
-        System.out.println(expansions);
+
         return null;
     }
     private  double getF(CentrelizedLRTASearchNode node)

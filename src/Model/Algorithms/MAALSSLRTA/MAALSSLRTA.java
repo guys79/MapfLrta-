@@ -61,7 +61,8 @@ public class MAALSSLRTA extends ALSSLRTA {
     {
         Map<Agent,Pair<Node,Node>> agent_goal_start = problem.getAgentsAndStartGoalNodes();
         Set<Agent> agents = agent_goal_start.keySet();
-        PriorityQueue<Agent> pAgents = new PriorityQueue<>(new CompareAgentsHeurstics());
+        PriorityQueue<Agent> pAgents = new PriorityQueue<>(new CompareAgentsPriority());
+        //PriorityQueue<Agent> pAgents = new PriorityQueue<>(new CompareAgentsHeurstics());
 
         Map<Integer,List<Node>> prefixes = new HashMap<>();
         pAgents.addAll(agents);
@@ -82,8 +83,7 @@ public class MAALSSLRTA extends ALSSLRTA {
             else {
                 numOfNodesToDevelop = budgetMap.get(agent);
                 Node current = agent.getCurrent();
-                if(agent.getId() == 41 || agent.getId() == 18)
-                    System.out.println("Agent "+agent.getId()+" current - "+current);
+
                 List<Node> prefix = super.calculatePrefix(current, agent.getGoal(), numOfNodesToDevelop, agent);
 
                 if (prefix == null) {
@@ -271,13 +271,30 @@ public class MAALSSLRTA extends ALSSLRTA {
             return 1;
         }
     }
+    /**
+     * This class will compare between agents by comparing their priority
+     */
+    public static class CompareAgentsPriority implements Comparator<Agent>
+    {
+        public CompareAgentsPriority()
+        {
 
+        }
+
+        @Override
+        public int compare(Agent o1, Agent o2) {
+            double p1 = o1.getPriority();
+            double p2 = o2.getPriority();
+            if(p1>p2)
+                return 1;
+            if(p2>p1)
+                return -1;
+            return 0;
+        }
+    }
     @Override
     protected boolean canBeAtTime(int time, Node origin, Node target) {
-        if(this.getAgent().getId() == 18&& time == 23)
-            System.out.println(18);
-        if(this.getAgent().getId() == 41&& time == 23)
-            System.out.println(41);
+
         return rules.isValidMove(origin.getId(),target.getId(),time);
     }
 

@@ -28,12 +28,21 @@ public class MaAlssLrtaRealTimeSearchManager extends AbstractRealTimeSearchManag
 
 
     @Override
+    protected void getPriorities()
+    {
+        for(Agent agent:this.prefixesForAgents.keySet())
+        {
+            agent.setPriority(agent.getHeuristicValue(agent.getCurrent()));
+        }
+    }
+
+    @Override
     protected void calculatePrefix()
     {
         test++;
         prev = new HashMap<>();
 
-
+        getPriorities();
         //Calculate the prefixes for all agents
         for(Agent agent:this.prefixesForAgents.keySet())
         {
@@ -159,8 +168,7 @@ public class MaAlssLrtaRealTimeSearchManager extends AbstractRealTimeSearchManag
                 List<Node> prefix = this.prefixesForAgents.get(agent);
                 if (prefix == null)
                     return;
-                if((agent.getId() == 41 || agent.getId() == 18) && i<=prefix.size()-1)
-                    System.out.println("Agent "+agent.getId()+" move - "+i +" "+prefix.get(i));
+
                 //Try to move the agent
                 if (i <= prefix.size() - 1) {
                     if (!agent.moveAgent(prefix.get(i))) {

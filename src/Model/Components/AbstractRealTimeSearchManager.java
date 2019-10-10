@@ -79,7 +79,13 @@ public abstract class AbstractRealTimeSearchManager implements IRealTimeSearchMa
      */
     protected abstract void calculatePrefix();
 
+    /**
+     * This function will give each agent it's priority for the iteration
+     */
+    protected void getPriorities()
+    {
 
+    }
     /**
      * This function will move the agents according to their calculated prefixes
      */
@@ -132,7 +138,7 @@ public abstract class AbstractRealTimeSearchManager implements IRealTimeSearchMa
      */
     public boolean isDone()
     {
-        if(iteration>100000) {
+        if(iteration>15000) {
 
             success = false;
             return true;
@@ -167,7 +173,7 @@ public abstract class AbstractRealTimeSearchManager implements IRealTimeSearchMa
         this.iterationAvergae =0l;
         while(!isDone())
         {
-
+            getPriorities();
          //   System.out.println("Iteration number "+(iteration));
             calculatePrefixAndBudget();
             move();

@@ -17,6 +17,7 @@ public class Agent {
     private boolean isDone;//True IFF the agent reached the goal
     private HashSet<Integer> needToBeUpdated;//The set of nodes that their "updated" flag  = true
     private Node goal;
+    private double priority;//The priority of the agent, The higher the priority, the more urgent the agent
     /**
      * The constructor of the agent
      * @param id - The id of the agent
@@ -28,10 +29,18 @@ public class Agent {
         heuristics = HeuristicFactory.getInstance().getAgentHeuristics(type,goal);
         this.id = id;
         this.isDone = false;
+        this.priority = 0;
         this.goal = goal;
         this.needToBeUpdated = new HashSet();
     }
 
+    public double getPriority() {
+        return priority;
+    }
+
+    public void setPriority(double priority) {
+        this.priority = priority;
+    }
 
     /**
      * This funciton will set the Set of agents that their "updated" flag is true

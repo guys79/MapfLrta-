@@ -91,11 +91,7 @@ public class CentrelizedLRTARealTimeSearchManager extends AbstractRealTimeSearch
 
         //Get prefixes
         List<CentrelizedLRTAState> states = this.centrelizedLRTA.calculatePrefixes(startState,goalState,problem.getNumberOfNodeToDevelop());
-        for(CentrelizedLRTAState st :states)
-        {
-            System.out.println(st);
-        }
-        System.out.println();
+
         Agent agent;
 
         //If done

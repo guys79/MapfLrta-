@@ -63,8 +63,10 @@ public class CentrelizedLRTAState {
         this.chengedAgents= numInOD;
         this.changed = changed;
 
-        if(numInOD == locations.length)
-            this.chengedAgents =0;//Real
+        if(numInOD == locations.length) {
+            this.changed = false;
+            this.chengedAgents = 0;//Real
+        }
 
         this.locations = new Node[locations.length];
         this.time = time;
@@ -251,6 +253,7 @@ public class CentrelizedLRTAState {
         int index = chengedAgents;
 
             Node[] loc;
+            //Set<Node> neighbors = new HashSet<>(this.locations[index].getNeighbors().keySet());
             Set<Node> neighbors = this.locations[index].getNeighbors().keySet();
             int i=0;
             for(Node node : neighbors) {
@@ -259,7 +262,7 @@ public class CentrelizedLRTAState {
                     loc[j] = this.locations[j];
                 }
                 loc[index] = node;
-                if (allowed(loc, index, node) && !(index==this.locations.length-1 && !changed)) {
+                if (allowed(loc, index, node) && !(index != this.locations.length-1 && !changed)) {
                     neigh.add(new CentrelizedLRTAState(loc, time + 1, goal, index+1,changed || this.locations[index].getId()!= node.getId()));
                 }
                 i++;
@@ -277,6 +280,8 @@ public class CentrelizedLRTAState {
      */
     private boolean allowed(Node [] locs,int index,Node neigh)
     {
+        if(this.locations.length == 1)
+            return  true;
 
         Node prev = this.locations[index];
         Node otherPrev;
