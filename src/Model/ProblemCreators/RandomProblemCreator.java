@@ -23,8 +23,8 @@ public class RandomProblemCreator extends AbstractProblemCreator {
     }
 
     @Override
-    public Problem getProblem(int numOfAgents, int height, int width, double density, int toDevelop, int type, int visionRadius) {
-        return getRandomProblem(numOfAgents,height,width,density,toDevelop,type,visionRadius);
+    public Problem getProblem(int numOfAgents, int height, int width, double density, int toDevelop, int type, int visionRadius,int prefixLength) {
+        return getRandomProblem(numOfAgents,height,width,density,toDevelop,type,visionRadius,prefixLength);
     }
 
 
@@ -38,9 +38,10 @@ public class RandomProblemCreator extends AbstractProblemCreator {
      * @param type - The given search type
      * @param toDevelop  - number of nodes allowed to be developed in one iteration
      * @param visionRadius - The vision radius for each agent
+     * @param prefixLength - The length of the prefix
      * @return - A random problem
      */
-    public Problem getRandomProblem(int numOfAgents, int height, int width, double density, int toDevelop, int type, int visionRadius)
+    public Problem getRandomProblem(int numOfAgents, int height, int width, double density, int toDevelop, int type, int visionRadius,int prefixLength)
     {
         Map<Agent, Pair<Node, Node>> agent_start_goal_nodes = new HashMap<>();
         HashSet<Node> starts = new HashSet<>();
@@ -71,7 +72,7 @@ public class RandomProblemCreator extends AbstractProblemCreator {
             agent_start_goal_nodes.put(agent,new Pair<>(start,goal));
         }
 
-        Problem problem = new Problem(graph,agent_start_goal_nodes,toDevelop,new GridCostFunction(),visionRadius,type);
+        Problem problem = new Problem(graph,agent_start_goal_nodes,toDevelop,new GridCostFunction(),visionRadius,type,prefixLength);
         problemInString = Problem.print(graph,agent_start_goal_nodes);
         return problem;
     }

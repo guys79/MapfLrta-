@@ -23,18 +23,20 @@ public class MAScenarioProblemCreator extends ScenarioProblemCreator {
     private int scenIndex;//The index of the current scenario
     private int type;//The type
 
+
     /**
      * The constructor.
      * @param num_of_agents - Number of agents
      * @param type  - the given type
      */
-    public MAScenarioProblemCreator(int num_of_agents,int type)
+    public MAScenarioProblemCreator(int num_of_agents,int type, int prefixLength)
     {
         super();
         scenIndex = 0;
         this.num_of_agents = num_of_agents;
         this.scenarios = new Map[NUM_OF_SCENARIOS];
         this.type = type;
+        this.prefixLength = prefixLength;
 
     }
 
@@ -221,6 +223,6 @@ public class MAScenarioProblemCreator extends ScenarioProblemCreator {
             start_and_goal.put(agent,new Pair<>(start,goal));
         }
         System.out.println("scenario "+(this.scenIndex-1));
-        return new Problem(this.graph,start_and_goal,getToDevelop(),new GridCostFunction(),getVisionRadius(),type);
+        return new Problem(this.graph,start_and_goal,getToDevelop(),new GridCostFunction(),getVisionRadius(),type,this.prefixLength);
     }
 }

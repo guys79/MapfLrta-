@@ -23,6 +23,7 @@ public class ScenarioProblemCreator extends AbstractProblemCreator {
     private int type;//The type of search
     protected boolean canT;//True if the char 'T' represents a passable way in the map
     protected String mapPath;
+    protected int prefixLength;
     /**
      * This constructor of the class.
      */
@@ -57,7 +58,7 @@ public class ScenarioProblemCreator extends AbstractProblemCreator {
     }
 
     @Override
-    public Problem getProblem(String mapPath, String senerioPath, int toDevelop, int type, int visionRadius) {
+    public Problem getProblem(String mapPath, String senerioPath, int toDevelop, int type, int visionRadius,int prefixLength) {
 
         this.toDevelop = toDevelop;
         this.type = type;
@@ -67,7 +68,7 @@ public class ScenarioProblemCreator extends AbstractProblemCreator {
         this.mapPath = mapPath;
         getGraphAndScenarios(mapPath,senerioPath);
         index =999;
-
+        this.prefixLength = prefixLength;
         return next();
     }
 
@@ -109,7 +110,7 @@ public class ScenarioProblemCreator extends AbstractProblemCreator {
         Agent agent = new Agent(0,goal,type);
         start_and_goal.put(agent,new Pair<>(start,goal));
         index++;
-        return new Problem(this.graph,start_and_goal,toDevelop,new GridCostFunction(),this.visionRadius,type);
+        return new Problem(this.graph,start_and_goal,toDevelop,new GridCostFunction(),this.visionRadius,type,prefixLength);
     }
 
     /**

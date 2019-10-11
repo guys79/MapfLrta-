@@ -16,9 +16,10 @@ public interface IProblemCreator {
      * @param toDevelop - The number of nodes allowed to be developed in a single iteration
      * @param type - Thw type of search
      * @param visionRadius - The vision radius for each agent
+     * @param prefixLength - The length of the prefix in each round
      * @return - A problem
      */
-    public Problem getProblem(int numOfAgents, int height, int width, double density, int toDevelop, int type, int visionRadius);
+    public Problem getProblem(int numOfAgents, int height, int width, double density, int toDevelop, int type, int visionRadius,int prefixLength);
 
     /**
      * This function will import a problem from a file
@@ -26,9 +27,10 @@ public interface IProblemCreator {
      * @param toDevelop - The number of nodes allowed to be developed in a single iteration
      * @param type - Thw type of search
      * @param visionRadius - The vision radius for each agent
+     * @param prefixLength - The length of the prefix in each round
      * @return - The problem from the file
      */
-    public Problem getProblem(String path, int toDevelop, int type, int visionRadius);
+    public Problem getProblem(String path, int toDevelop, int type, int visionRadius,int prefixLength);
 
     /**
      * This function will import a problem from a file
@@ -37,9 +39,10 @@ public interface IProblemCreator {
      * @param toDevelop - The number of nodes allowed to be developed in a single iteration
      * @param type - Thw type of search
      * @param visionRadius - The vision radius for each agent
+     * @param prefixLength - The length of the prefix in each round
      * @return - The problem from the file
      */
-    public Problem getProblem(String mapPath, String scenarioPath, int toDevelop, int type, int visionRadius);
+    public Problem getProblem(String mapPath, String scenarioPath, int toDevelop, int type, int visionRadius,int prefixLength);
 
     /**
      * This function will return the graph as a integer matrix

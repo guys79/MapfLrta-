@@ -32,9 +32,10 @@ public class FactoryProblemCreator {
      * This function will return  new IProblemCreator using the given type and number of agents 
      * @param type - The given type
      * @param numOfAgents - The given number of agents
+     * @param prefixLength - the kength of the prefix in each round
      * @return - A new IProblemCreator
      */
-    public IProblemCreator getProblemCreator(int type, int numOfAgents)
+    public IProblemCreator getProblemCreator(int type, int numOfAgents, int prefixLength)
     {
         
         IProblemCreator problemCreator;
@@ -55,7 +56,7 @@ public class FactoryProblemCreator {
             else
             {
 
-                problemCreator = new MAScenarioProblemCreator(numOfAgents,type);
+                problemCreator = new MAScenarioProblemCreator(numOfAgents,type,prefixLength);
             }
         }
         return problemCreator;

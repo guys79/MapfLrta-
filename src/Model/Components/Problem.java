@@ -15,6 +15,7 @@ public class Problem {
     private int numberOfNodeToDevelop;//The number of nodes that will be developed for each agent in each iteration
     private ICostFunction costFunction;//The costFunction
     private int visionRadius;//The vision radius for each agent
+    private int prefixLength;//The vision radius for each agent
     private int type;//The type
 
     /**
@@ -35,10 +36,11 @@ public class Problem {
      * @param costFunction - The given costFunction
      * @param visionRadius - The vision radius for each agent
      */
-    public Problem(Node[][] graph, Map<Agent,Pair<Node,Node>> agentsAndStartGoalNodes, int numIfNodeToDevelop,ICostFunction costFunction,int visionRadius,int type)
+    public Problem(Node[][] graph, Map<Agent,Pair<Node,Node>> agentsAndStartGoalNodes, int numIfNodeToDevelop,ICostFunction costFunction,int visionRadius,int type,int prefixLength)
     {
         this.agentsAndStartGoalNodes = agentsAndStartGoalNodes;
         this.numberOfNodeToDevelop = numIfNodeToDevelop;
+        this.prefixLength = prefixLength;
         this.type = type;
         this.costFunction = costFunction;
         this.visionRadius = visionRadius;
@@ -46,6 +48,10 @@ public class Problem {
         ShortestPathGenerator.getInstance().setGraph(graph,agentsAndStartGoalNodes.values());
 
 
+    }
+
+    public int getPrefixLength() {
+        return prefixLength;
     }
 
     public int getType() {

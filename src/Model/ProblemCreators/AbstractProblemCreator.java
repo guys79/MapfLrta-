@@ -21,17 +21,17 @@ public abstract class AbstractProblemCreator implements IProblemCreator {
     }
 
     @Override
-    public Problem getProblem(String path, int toDevelop, int type, int visionRadius) {
+    public Problem getProblem(String path, int toDevelop, int type, int visionRadius,int prefixLength) {
         throw  new UnsupportedOperationException();
     }
 
     @Override
-    public Problem getProblem(String mapPath, String SenerioPath, int toDevelop, int type, int visionRadius) {
+    public Problem getProblem(String mapPath, String SenerioPath, int toDevelop, int type, int visionRadius,int prefixLength) {
         throw  new UnsupportedOperationException();
     }
 
     @Override
-    public Problem getProblem(int numOfAgents, int height, int width, double density, int toDevelop, int type, int visionRadius) {
+    public Problem getProblem(int numOfAgents, int height, int width, double density, int toDevelop, int type, int visionRadius,int prefixLength) {
         throw  new UnsupportedOperationException();
     }
 

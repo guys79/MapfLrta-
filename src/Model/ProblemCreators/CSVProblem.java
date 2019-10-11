@@ -35,12 +35,12 @@ public class CSVProblem extends AbstractProblemCreator {
 
 
     @Override
-    public Problem getProblem(String path, int toDevelop, int type, int visionRadius) {
+    public Problem getProblem(String path, int toDevelop, int type, int visionRadius, int prefixLength) {
         Map<Agent, Pair<Node, Node>> agent_start_goal_nodes = new HashMap<>();
         graph = getGraphFromCSV(path);
         Agent agent = new Agent(0,graph[x_end][y_end],type);
         agent_start_goal_nodes.put(agent,new Pair<>(graph[x_start][y_start],graph[x_end][y_end]));
-        Problem problem = new Problem(graph,agent_start_goal_nodes,toDevelop,new GridCostFunction(),visionRadius,type);
+        Problem problem = new Problem(graph,agent_start_goal_nodes,toDevelop,new GridCostFunction(),visionRadius,type,prefixLength);
         problemInString = Problem.print(graph,agent_start_goal_nodes);
         System.out.println(problemInString);
         return problem;
