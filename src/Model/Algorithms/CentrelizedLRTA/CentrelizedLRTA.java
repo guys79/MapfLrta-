@@ -24,19 +24,18 @@ public class CentrelizedLRTA{
     protected Map<String,CentrelizedLRTASearchNode> open_id;//Key - State id, value - the node
 
 
-
-    public int g;
-
     /**
      * The constructor
      */
     public CentrelizedLRTA()
     {
         info = new HashMap<>();
-        g=0;
     }
 
-
+    /**
+     * This function will add the node to the open list
+     * @param node - The given node
+     */
     private void addOpen(CentrelizedLRTASearchNode node) {
         if (!this.open_id.containsKey(node.getState().getId())) {
             open.add(node);
@@ -44,6 +43,11 @@ public class CentrelizedLRTA{
             this.open_best.add(node);
         }
     }
+
+    /**
+     * This function will remove the node from the open list
+     * @param node - The given node
+     */
     private void removeOpen(CentrelizedLRTASearchNode node)
     {
         if(node!=null) {
@@ -62,7 +66,7 @@ public class CentrelizedLRTA{
      */
     public List<CentrelizedLRTAState> calculatePrefixes(CentrelizedLRTAState current, CentrelizedLRTAState goal,int numOfNodesToDevelop) {
 
-        g++;
+
         this.goal = goal;
         this.current = current;
         this.needToUpdateg = new HashMap<>();
@@ -71,11 +75,7 @@ public class CentrelizedLRTA{
         this.open_id = new HashMap<>();
         this.open_best = new PriorityQueue<>(new CompareCentrelizedSearchNodes());
         this.close =new HashSet<>();
-        if(g==1)
-        {
-            System.out.println();
-        }
-        System.out.println("g - "+g);
+
         //Lookahead
         CentrelizedLRTASearchNode centrelizedLRTASearchNode =lookAhead();
         //Extract th best state
@@ -100,6 +100,13 @@ public class CentrelizedLRTA{
       return prefixes;
 
     }
+
+
+    /**
+     * This function will return the prefix for all the agents
+     * @param centrelizedLRTASearchNode - The current state
+     * @return - The prefix for the agents
+     */
     protected List<CentrelizedLRTAState> getPrefix(CentrelizedLRTASearchNode centrelizedLRTASearchNode)
     {
         if(centrelizedLRTASearchNode==null)
@@ -127,7 +134,9 @@ public class CentrelizedLRTA{
         return state.equals(goal);
     }
 
-
+    /**
+     * This function will update the heuristics of the states
+     */
     public void update()
     {
         Set<String> set = new HashSet<>();
@@ -135,6 +144,12 @@ public class CentrelizedLRTA{
             updateClose(node, set);
     }
 
+    /**
+     * This function will update the heuristics of the closed list using the given node and the given set of nodes that are already taken care of
+     * @param node - the given node
+     * @param dontSummon - The set of nodes tgat are already taken care of
+     * @return - The min_f value
+     */
     private double updateClose(CentrelizedLRTASearchNode node, Set<String> dontSummon)
     {
         dontSummon.add(node.getState().getId());
@@ -212,6 +227,12 @@ public class CentrelizedLRTA{
 
         return null;
     }
+
+    /**
+     * This function will calculate the f value of the given Search Node
+     * @param node - The given search node
+     * @return - The f value of the search node
+     */
     private  double getF(CentrelizedLRTASearchNode node)
     {
         Pair <Double,Double> vals = this.info.get(node.getState().getId());

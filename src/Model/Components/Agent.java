@@ -16,7 +16,7 @@ public class Agent {
     private Node current;//The current node the agent is on
     private boolean isDone;//True IFF the agent reached the goal
     private HashSet<Integer> needToBeUpdated;//The set of nodes that their "updated" flag  = true
-    private Node goal;
+    private Node goal;//The goal state
     private double priority;//The priority of the agent, The higher the priority, the more urgent the agent
     /**
      * The constructor of the agent
@@ -34,10 +34,18 @@ public class Agent {
         this.needToBeUpdated = new HashSet();
     }
 
+    /**
+     * This function will return the priority of the agent
+     * @return - The priority of the agent
+     */
     public double getPriority() {
         return priority;
     }
 
+    /**
+     * This function will set the priority of the agent with the given priority
+     * @param priority - The given priority
+     */
     public void setPriority(double priority) {
         this.priority = priority;
     }

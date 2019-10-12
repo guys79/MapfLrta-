@@ -12,7 +12,7 @@ public class CentrelizedLRTASearchNode {
     private CentrelizedLRTASearchNode back;//The predecessor
     private double gVal;//The g value
     private double hVal;//The h value
-    private int numOfMoving;
+    private int numOfMoving;//The number of moving agents
 
 
 
@@ -64,6 +64,10 @@ public class CentrelizedLRTASearchNode {
 
     }
 
+    /**
+     * This function will return the number of moving agents in this state
+     * @return - The number of moving agents in this state
+     */
     public int getNumOfMoving() {
         return numOfMoving;
     }

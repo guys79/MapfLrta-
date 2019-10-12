@@ -13,14 +13,16 @@ import java.util.*;
 
 public class Main extends Application {
 
+    // TODO: 12/10/2019 complete comments (start from GridCostFunction - finished untill ExperminetData included) 
     public static void main (String [] args)
     {
         launch(args);
     }
 
-    final static int TYPE =6;// 0 - LRTA*, 1-aLSS-LRTA* 2- MA-aLSS-LRTA* 3- IgnoreOthers-Ma-aLSS-LRTA*
+    final static int TYPE =2;// 0 - LRTA*, 1-aLSS-LRTA* 2- MA-aLSS-LRTA* 3- IgnoreOthers-Ma-aLSS-LRTA*
     final static int NUM_OF_AGENTS =1;
     final static int NUM_TO_DEV =45;
+    final static int PREFIX_LENGTH = 7;
     final static String filename = "ht_mansion_n";
 
     public void start(Stage primaryStage) throws Exception {
@@ -34,6 +36,7 @@ public class Main extends Application {
        Model model = new Model(controller,filename,TYPE);
         model.setNUM_OF_AGENTS(NUM_OF_AGENTS);
         model.setNUM_OF_NODES_TO_DEVELOP(NUM_TO_DEV);
+        model.setPrefixLength(PREFIX_LENGTH);
         ShortestPathGenerator.getInstance().setFilename(filename);
         model.next();
         primaryStage.setTitle(model.toString());

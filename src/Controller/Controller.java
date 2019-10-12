@@ -46,7 +46,7 @@ public class Controller{
     private int marked_x;//The marked x coordinates
     private int marked_y;//The marked y coordinates
 
-    private HashSet<int [] > noSolLocs;
+    private HashSet<int [] > noSolLocs;//The set of the no solution locations
     private Color[] colors = {//The colors available
             Color.RED,
             Color.DARKRED,
@@ -105,7 +105,7 @@ public class Controller{
         }
         else
         {
-            unmark(marked_x,marked_y);
+            unMark(marked_x,marked_y);
         }
 
         this.enter_y_textField.setText("");
@@ -117,7 +117,7 @@ public class Controller{
      * @param x - The x coordinates
      * @param y - The y coordinates
      */
-    private void unmark(int x, int y)
+    private void unMark(int x, int y)
     {
         mark_btn.setText("Mark");
         if(grid[x][y] == -1)

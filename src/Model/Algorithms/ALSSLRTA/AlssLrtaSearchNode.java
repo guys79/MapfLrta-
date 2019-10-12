@@ -10,7 +10,7 @@ public class AlssLrtaSearchNode {
     private double gValue;//The g value of the node
     private AlssLrtaSearchNode back;//The predecessor
     private boolean updated;//True IFF the node's heuristics were updated
-
+    private int numInChain;//The position number of a node in the prefix
 
 
 
@@ -23,9 +23,27 @@ public class AlssLrtaSearchNode {
         this.node = node;
         gValue = Double.MAX_VALUE;
         back = null;
+        numInChain = -1;
         updated = false;
 
     }
+
+    /**
+     * This function wll set the position number of the node in the prefix
+     * @param numInChain - The given new position in the chain
+     */
+    public void setNumInChain(int numInChain) {
+        this.numInChain = numInChain;
+    }
+
+    /**
+     * This function will return the position number of the node in the chain
+     * @return - The position number of the node
+     */
+    public int getNumInChain() {
+        return numInChain;
+    }
+
     /**
      * The constructor of the class
      * @param node - The node that this class represents

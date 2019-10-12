@@ -35,7 +35,7 @@ public class Model {
     private String scenPath;//The path to the scenario file
     private String outputPath;//The path to the output file
     private Controller controller;//The controller
-
+    private int prefixLength;
     private Map<Agent, Pair<Node,Node>> prev;//The previous agent's goals
     private IProblemCreator problemCreator;//The problem creator
     private IRealTimeSearchManager realTimeSearchManager;//The real time search manager
@@ -43,6 +43,10 @@ public class Model {
 
     public void setNUM_OF_NODES_TO_DEVELOP(int NUM_OF_NODES_TO_DEVELOP) {
         this.NUM_OF_NODES_TO_DEVELOP = NUM_OF_NODES_TO_DEVELOP;
+    }
+
+    public void setPrefixLength(int prefixLength) {
+        this.prefixLength = prefixLength;
     }
 
     /**
@@ -99,7 +103,7 @@ public class Model {
      */
     public Model(Controller controller,int type) {
         this.TYPE = type;
-
+        this.prefixLength = 0;
         String rel = new File("help.txt").getAbsolutePath();
         rel = rel.substring(0,rel.indexOf("help.txt"));
         fileName = "w_woundedcoast";//The name of the file
@@ -108,7 +112,7 @@ public class Model {
         outputPath = rel+"res\\Outputs\\output.csv";
         first = true;
         prev = new HashMap<>();
-        this.problemCreator = FactoryProblemCreator.getInstance().getProblemCreator(this.TYPE,this.NUM_OF_AGENTS);
+        this.problemCreator = FactoryProblemCreator.getInstance().getProblemCreator(this.TYPE,this.NUM_OF_AGENTS,this.prefixLength);
         this.controller = controller;
         this.controller.setModel(this);
     }
@@ -174,7 +178,7 @@ public class Model {
 
         Problem problem;
         if (first) {
-            problem = problemCreator.getProblem(mapPath, scenPath, NUM_OF_NODES_TO_DEVELOP, TYPE,VISION_RADIUS );
+            problem = problemCreator.getProblem(mapPath, scenPath, NUM_OF_NODES_TO_DEVELOP, TYPE,VISION_RADIUS,prefixLength );
             int[][] intGrid = problemCreator.getGridGraph();
             controller.initialize(intGrid);
             first = false;

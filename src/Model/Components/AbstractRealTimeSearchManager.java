@@ -16,9 +16,9 @@ public abstract class AbstractRealTimeSearchManager implements IRealTimeSearchMa
     protected Map<Agent, Node> prev;//Key - agent, Value - The agent's prefix
     protected int numOfFinish;//Number of finished problems
     private int iteration;//Number of iterations
-    protected Map<Agent,Integer> budgetMap;
-    private boolean success;
-    private double iterationAvergae;
+    protected Map<Agent,Integer> budgetMap;//The budget map. key - agent, value the agent's budget
+    private boolean success;//True IFF the search ended successfully
+    private double iterationAvergae;//The average time of iteration
     /**
      * The constructor of the class
      * @param problem - The given problem
@@ -48,24 +48,40 @@ public abstract class AbstractRealTimeSearchManager implements IRealTimeSearchMa
 
     }
 
+    /**
+     * This function will check if the search ended successfully
+     * @return - True IFF the search ended successfully
+     */
     public boolean isSuccess() {
         return success;
     }
 
+    /**
+     * This function will return the number of iterations
+     * @return - The number of iterations
+     */
     public int getIteration() {
         return iteration;
     }
 
+    /**
+     * This function will claculate the budget for each agent and then will calculate the prefix for each agent
+     */
     public void calculatePrefixAndBudget()
     {
         this.budgetMap = new HashMap<>();
         int type = this.problem.getType();
         IBudgetPolicy policy = BudgetPolicyFactory.getInstance().getPolicy(type);
         int totalBudget = problem.getNumberOfNodeToDevelop()*problem.getAgentsAndStartGoalNodes().size();
-        budgetMap = policy.getBudgetMap(problem.getAgentsAndStartGoalNodes(),totalBudget);
+        budgetMap = policy.getBudgetMap(problem);
         calculatePrefix();
     }
 
+    /**
+     * This function will return the budget for the given agent
+     * @param agent - the given agent
+     * @return - The budget of the given agent
+     */
     protected int getAgentBudget(Agent agent)
     {
         Integer budget = this.budgetMap.get(agent);
@@ -190,6 +206,10 @@ public abstract class AbstractRealTimeSearchManager implements IRealTimeSearchMa
         return this.pathsForAgents;
     }
 
+    /**
+     * This function will return the average iteration time
+     * @return - The average iteration time
+     */
     public double getIterationAvergae() {
         return iterationAvergae;
     }

@@ -14,9 +14,8 @@ import java.util.*;
  */
 public class AlssLrtaHaltRealTimeManager extends AbstractRealTimeSearchManager {
 
-    private int maxLength;
-
-    Set<Integer> haltedAgents;
+    private int maxLength;//The length of the longest prefix
+    private Set<Integer> haltedAgents;//The agents id's that halts
     /**
      * The constructor of the class
      *

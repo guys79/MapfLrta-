@@ -2,6 +2,7 @@ package Model.Algorithms.BudgetPolicy;
 
 import Model.Components.Agent;
 import Model.Components.Node;
+import Model.Components.Problem;
 import javafx.util.Pair;
 
 import java.util.Map;
@@ -14,9 +15,8 @@ public interface IBudgetPolicy {
 
     /**
      * This function will return a budget for agent
-     * @param agentsAndStartGoalNodes - The agents starts and goals
-     * @param totalBudget - The total budget
+     * @param problem - the given problem
      * @return - A dictionary describing budget per agent
      */
-    public Map<Agent,Integer> getBudgetMap(Map<Agent,Pair<Node,Node>> agentsAndStartGoalNodes,int totalBudget);
+    public Map<Agent,Integer> getBudgetMap(Problem problem);
 }

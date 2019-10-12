@@ -14,19 +14,26 @@ import java.util.Set;
 public class CentrelizedLRTAState {
 
     private Node [] locations;//The locations of the agents
-    private String id;
-    private int time;
-    private int numInGoal;
+    private String id;//The id of the state
+    private int time;//the time of the state
+    private int numInGoal;//The number of agents in their goal
     private CentrelizedLRTAState goal;
     private int chengedAgents;//The state where the agent the numInODth index has moved
-    private boolean changed;
+    private boolean changed;//If the state is the sane as it was before the change
 
-
+    /**
+     * This function wil;l return the number of agents in their goals
+     * @return - The number of agents in their goals
+     */
     public int getNumInGoal() {
         return numInGoal;
     }
 
-
+    /**
+     * This function will check if the given state is a predecessor of this state
+     * @param state - The given state
+     * @return - True IFF the given state is a predecessor of this state
+     */
     public boolean isPredecessor(CentrelizedLRTAState state)
     {
         if(state.time != time - 1)
@@ -38,6 +45,12 @@ public class CentrelizedLRTAState {
         }
         return true;
     }
+
+    /**
+     * This function will return the number of different positions between comparing this state to the given one
+     * @param state - The given state
+     * @return - The number of different positions between comparing this state to the given one
+     */
     public int numOfMovingAgents(CentrelizedLRTAState state)
     {
         int num =0;
@@ -49,6 +62,10 @@ public class CentrelizedLRTAState {
         return num;
     }
 
+    /**
+     * This function will check if this state is real
+     * @return - this function will return True IFF the state is real
+     */
     public boolean isRealState()
     {
         return  this.chengedAgents== 0;
@@ -110,6 +127,10 @@ public class CentrelizedLRTAState {
 
     */
 
+    /**
+     * This function will return the time of the state
+     * @return - The time of the state
+     */
     public int getTime() {
         return time;
     }

@@ -2,6 +2,7 @@ package Model.Algorithms.BudgetPolicy;
 
 import Model.Components.Agent;
 import Model.Components.Node;
+import Model.Components.Problem;
 import javafx.util.Pair;
 
 import javax.xml.crypto.dom.DOMCryptoContext;
@@ -10,10 +11,12 @@ import java.util.*;
  * This class represents a budget policy where the agent with the highest heuristics gets more sevelopment time
  */
 public class LongestPathBudgetPolicy implements IBudgetPolicy {
-    @Override
-    public Map<Agent, Integer> getBudgetMap(Map<Agent, Pair<Node, Node>> agentsAndStartGoalNodes, int totalBudget) {
 
+
+    @Override
+    public Map<Agent, Integer> getBudgetMap(Problem problem) {
         Map<Agent,Double> heuristics = new HashMap<>();
+        Map<Agent,Pair<Node,Node>> agentsAndStartGoalNodes = problem.getAgentsAndStartGoalNodes();
         Agent [] agents = new Agent[agentsAndStartGoalNodes.size()];
         int k =0;
         Agent agent;
@@ -32,7 +35,7 @@ public class LongestPathBudgetPolicy implements IBudgetPolicy {
         double budget;
         PriorityQueue<Pair<Agent,Integer>> budgets = new PriorityQueue<>(new BudgetComperator());
         int check = 0;
-
+        int totalBudget = agentsAndStartGoalNodes.size()*problem.getNumberOfNodeToDevelop();
         for(Map.Entry<Agent,Double> heuristic : heuristics.entrySet())
         {
 

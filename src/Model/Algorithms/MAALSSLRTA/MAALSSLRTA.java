@@ -160,6 +160,14 @@ public class MAALSSLRTA extends ALSSLRTA {
 
 
     }
+
+    /**
+     * Thiis function will check for swapping of two agents at a given time
+     * @param time - The given time
+     * @param originNodeId - The original node ID
+     * @param targetNodeId - The target node ID
+     * @return
+     */
     public boolean checkSwapping(int time,int originNodeId,int targetNodeId)
     {
 

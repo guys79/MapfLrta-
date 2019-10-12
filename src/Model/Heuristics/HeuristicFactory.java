@@ -50,9 +50,14 @@ public class HeuristicFactory {
             }
             else
             {
-
-                //heuristics = new AlssLrtaAgentHeuristics(goal);
-                heuristics = new ShortestPathAgentHeuristics(goal);
+                if(type==8)
+                {
+                    heuristics = new ShortestPathAgentHeuristics(goal);
+                }
+                else {
+                    //heuristics = new AlssLrtaAgentHeuristics(goal);
+                    heuristics = new ShortestPathAgentHeuristics(goal);
+                }
             }
 
 

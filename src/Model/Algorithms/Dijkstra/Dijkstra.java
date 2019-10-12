@@ -12,7 +12,6 @@ import java.util.*;
 public class Dijkstra {
 
     private Node origin;//The origin node
-    private int test;
     private static Dijkstra dijkstra;;//The instance of the class
     private Map<Integer,Double> needsToBeUpdated;
     private Set<Integer>teset = new HashSet<>();
@@ -23,7 +22,6 @@ public class Dijkstra {
     private Dijkstra()
     {
         this.needsToBeUpdated = new HashMap<>();
-        test=0;
     }
 
 
@@ -104,23 +102,18 @@ public class Dijkstra {
 
 
     }
+
+    /**
+     * This function will add the node to the open list
+     * @param open - the given open list
+     * @param dijkstraSearchNode - The given node
+     */
     private void add(PriorityQueue<DijkstraSearchNode> open, DijkstraSearchNode dijkstraSearchNode)
     {
         open.remove(dijkstraSearchNode);
         open.add(dijkstraSearchNode);
     }
-    private void test2(PriorityQueue<DijkstraSearchNode> open)
-    {
-        Set<DijkstraSearchNode>set = new HashSet<>(open);
-        if(set.size()!=open.size())
-            System.out.println("problem");
 
-    }
-
-    private boolean checkIfXY(int x,int y, GridNode dijkstraSearchNode)
-    {
-        return dijkstraSearchNode.getY() == y && dijkstraSearchNode.getX() == x;
-    }
     /**
      * This function will transform a Node instance into the right DijkstaSearchNode instance
      * @param node - the given node
@@ -128,12 +121,7 @@ public class Dijkstra {
      */
     private DijkstraSearchNode transformNode(Node node)
     {
-        /*if(this.alreadyReached.containsKey(node.getId())) {
-            return this.alreadyReached.get(node.getId());
-        }
 
-        DijkstraSearchNode dijkstraSearchNode = new DijkstraSearchNode(node);
-            this.alreadyReached.put(dijkstraSearchNode.getNode().getId(),dijkstraSearchNode);*/
         DijkstraSearchNode dijkstraSearchNode = new DijkstraSearchNode(node);
         dijkstraSearchNode.setDistance(this.needsToBeUpdated.get(node.getId()));
         return dijkstraSearchNode;

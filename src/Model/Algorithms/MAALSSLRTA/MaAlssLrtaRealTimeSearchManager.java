@@ -1,5 +1,6 @@
 package Model.Algorithms.MAALSSLRTA;
 
+import Model.Algorithms.BudgetOrientedMALRTA.BudgetOrientedMALRTA;
 import Model.Components.AbstractRealTimeSearchManager;
 import Model.Components.Agent;
 import Model.Components.Node;
@@ -53,7 +54,8 @@ public class MaAlssLrtaRealTimeSearchManager extends AbstractRealTimeSearchManag
         //Get prefixes
         Map<Agent,Pair<Node,Node>> agent_goal_start = problem.getAgentsAndStartGoalNodes();
         Collection<Agent> agents = agent_goal_start.keySet();
-        MAALSSLRTA maalsslrta = new MAALSSLRTA(problem);
+        //MAALSSLRTA maalsslrta = new MAALSSLRTA(problem);
+        MAALSSLRTA maalsslrta = new BudgetOrientedMALRTA(problem);
         this.prev.clear();
 
         Map<Integer,List<Node>> prefixes = maalsslrta.getPrefixes(this.budgetMap);

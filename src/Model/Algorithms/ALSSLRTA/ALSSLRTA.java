@@ -14,15 +14,16 @@ import java.util.*;
 public class ALSSLRTA implements IRealTimeSearchAlgorithm {
 
     private AlssLrtaSearchNode current;//The current state
-    private PriorityQueue<AlssLrtaSearchNode> open;//The open list
+    protected PriorityQueue<AlssLrtaSearchNode> open;//The open list
     private PriorityQueue<AlssLrtaSearchNode> open_min_update;//The open list
     private PriorityQueue<AlssLrtaSearchNode> open_min;//The open list
     protected Map<Integer,AlssLrtaSearchNode> open_id;//Key - node's id, Value - the search node itself
-    private Map<Integer,AlssLrtaSearchNode> closed;//The closed list
+    protected Map<Integer,AlssLrtaSearchNode> closed;//The closed list
     protected Problem problem;//Tye given problem
     private Agent agent;// The given agent
     private HashSet<Integer> needToBeUpdated;//Set of nodes that need their update flag =true
-    public static int g=0;
+
+
 
 
     /**
@@ -31,7 +32,7 @@ public class ALSSLRTA implements IRealTimeSearchAlgorithm {
      */
     public ALSSLRTA(Problem problem)
     {
-        g++;
+
         this.problem = problem;
         this.closed = new HashMap<>();
         open = new PriorityQueue<>(new CompareAlssNode());
@@ -41,6 +42,14 @@ public class ALSSLRTA implements IRealTimeSearchAlgorithm {
 
     }
 
+    /**
+     * This function will return the current SearchNode
+     * @return - The current search node
+     */
+    protected AlssLrtaSearchNode getCurrent()
+    {
+        return this.current;
+    }
     /**
      * This function returns the current agent
      * @return - The current agent's instance
@@ -166,6 +175,12 @@ public class ALSSLRTA implements IRealTimeSearchAlgorithm {
         }
 
     }
+
+    /**
+     * This function will if it is possible to add the node to the open list
+     * @param node - The given node
+     * @return - True IFF it is possible to add the node to the open list
+     */
     protected boolean canAdd(AlssLrtaSearchNode node)
     {
         return !open_id.containsKey(node.getNode().getId());
@@ -202,7 +217,7 @@ public class ALSSLRTA implements IRealTimeSearchAlgorithm {
      * @param node - The given node
      * @param gValue - The new gValue
      */
-    private void setGNode(AlssLrtaSearchNode node,double gValue )
+    protected void setGNode(AlssLrtaSearchNode node,double gValue )
     {
         node.setG(gValue );
         if(open_id.containsKey(node.getNode().getId()))
@@ -296,6 +311,7 @@ public class ALSSLRTA implements IRealTimeSearchAlgorithm {
 
                     setGNode(node,temp);
                     node.setBack(state);
+                    node.setNumInChain(state.getNumInChain());
                     openAdd(node);
                 }
                 else
@@ -483,7 +499,7 @@ public class ALSSLRTA implements IRealTimeSearchAlgorithm {
      * @param - The given time
      * @return - The new set of objects of type AlssLrtaSearchNode
      */
-    private Set<AlssLrtaSearchNode> transformNodes(Set<Node> nodes,int time)
+    protected Set<AlssLrtaSearchNode> transformNodes(Set<Node> nodes,int time)
     {
         Set<AlssLrtaSearchNode> new_node_set = new HashSet<>();
         for(Node node : nodes)
@@ -584,6 +600,14 @@ public class ALSSLRTA implements IRealTimeSearchAlgorithm {
 
         @Override
         public int compare(AlssLrtaSearchNode o1, AlssLrtaSearchNode o2) {
+
+                if(!(o1.getNumInChain()<problem.getPrefixLength() && (o2.getNumInChain()<problem.getPrefixLength()))) {
+                    if(o1.getNumInChain()<problem.getPrefixLength())
+                        return -1;
+                    return 1;
+
+                }
+
                 boolean flag =false;
                 if(o1 instanceof MaAlssLrtaSearchNode && o2 instanceof MaAlssLrtaSearchNode)
                 {
