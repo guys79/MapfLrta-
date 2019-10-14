@@ -3,15 +3,21 @@ package Model.Algorithms.BudgetOrientedMALRTA;
 import Model.Algorithms.ALSSLRTA.AlssLrtaSearchNode;
 import Model.Algorithms.MAALSSLRTA.MAALSSLRTA;
 import Model.Algorithms.MAALSSLRTA.MaAlssLrtaSearchNode;
+import Model.Components.Agent;
 import Model.Components.Node;
 import Model.Components.Problem;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 /**
  * This class represents the BudgetOrientedMALRTA*
  */
 public class BudgetOrientedMALRTA extends MAALSSLRTA {
+
+    private int leftover;//The leftovers of the budget
     /**
      * The constructor
      *
@@ -19,14 +25,23 @@ public class BudgetOrientedMALRTA extends MAALSSLRTA {
      */
     public BudgetOrientedMALRTA(Problem problem) {
         super(problem);
+        leftover = 0;
     }
+
 
 
     @Override
     protected void aStarPrecedure() {
 
-        // TODO: 12/10/2019 this is just a replica of the ALSSLRTA*, convert it to the correct strategy 
-        System.out.println("PLZZZZZZ");
+
+
+
+
+
+
+
+
+        // TODO: 12/10/2019 this is just a replica of the ALSSLRTA*, convert it to the correct strategy
         AlssLrtaSearchNode current  = getCurrent();
         setGNode(current,0);
         clearOpen();
@@ -96,7 +111,6 @@ public class BudgetOrientedMALRTA extends MAALSSLRTA {
                         if (pulled != null) {
                             if (node instanceof MaAlssLrtaSearchNode && pulled instanceof MaAlssLrtaSearchNode) {
                                 if (((MaAlssLrtaSearchNode) node).getTime() < ((MaAlssLrtaSearchNode) pulled).getTime()) {
-                                    //     System.out.println(agent.getId() + " agent id");
                                     setGNode(node, temp);
                                     node.setBack(state);
                                     openAdd(node);
@@ -115,4 +129,16 @@ public class BudgetOrientedMALRTA extends MAALSSLRTA {
 
 
     }
+
+    @Override
+    public List<Node> calculatePrefix(Node start, Node goal, int numOfNodesToDevelop, Agent agent) {
+        int budget = numOfNodesToDevelop +leftover;//Let the agent use the leftovers
+        List<Node> list =  super.calculatePrefix(start, goal, budget, agent);//Calculate prefix
+        this.leftover = budget-agent.getUsedBudget();//Update the amount of leftovers
+        agent.setUsedBudget(0);//Reset agent's budget
+        return list;
+
+    }
+
+
 }

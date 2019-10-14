@@ -5,19 +5,30 @@ import Model.Components.Node;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * This class represents the collective heuristics manager
+ * This class implements the Singleton DP
+ */
 public class CollectiveHeuristicsManager implements IAgentHeuristics {
 
-    private IAgentHeuristics heuristics;
-    private Map<Integer,Map<Integer,Double>> costs;
-    private static CollectiveHeuristicsManager collectiveHeuristicsManeger;
+    private IAgentHeuristics heuristics;//The heuristics method for one agent
+    private Map<Integer,Map<Integer,Double>> costs;//The database
+    private static CollectiveHeuristicsManager collectiveHeuristicsManeger;//The singleton
 
-
+    /**
+     * The constructor
+     */
     private CollectiveHeuristicsManager()
     {
         System.out.println("Collective");
         heuristics =HeuristicFactory.getInstance().getAgentHeuristics(1,null);
         costs = new HashMap<>();
     }
+
+    /**
+     * This function will return the instance (the singleton) of the class
+     * @return - The instance of this class
+     */
     public static CollectiveHeuristicsManager getInstance()
     {
         if(collectiveHeuristicsManeger == null)
@@ -48,6 +59,13 @@ public class CollectiveHeuristicsManager implements IAgentHeuristics {
     }
 
 
+    /**
+     * This function will calculate the heuristics using mathematical function (not memory)
+     * considering the target node as the goal node.
+     * @param origin - The origin node
+     * @param target - The target node
+     * @return - The heuristics using mathematical function (not memory)
+     */
     private double getHeuristicsForTwoNodes(Node origin, Node target) {
 
         return heuristics.getHeuristics(origin, target);

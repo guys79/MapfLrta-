@@ -98,7 +98,7 @@ public class ShortestPathGenerator {
      */
     private void retrieveSingleRegular(int id)
     {
-        String rel = "E:\\WD Backup.swstor\\guys79\\MWM0NTlkNDFiMjBiNDk1MD\\History\\Volume{57cd7272-0000-0000-0000-501f00000000}\\Users\\guys79\\Desktop\\תזה\\Heuristics2";
+        String rel = "C:\\Users\\guys79\\Desktop\\restore\\Users\\guys79\\Desktop\\תזה\\Heuristics2";
         String path = rel+"\\perfectHeuristics"+filename;
         String filePath;
 
@@ -157,7 +157,7 @@ public class ShortestPathGenerator {
      */
     private void retrieveSingleBackwards(int id)
     {
-        String rel = "C:\\Users\\guys79\\Desktop\\תזה\\Heuristics2";
+        String rel = "C:\\Users\\guys79\\Desktop\\restore\\Users\\guys79\\Desktop\\תזה\\Heuristics2";
         String path = rel+"\\perfectHeuristics"+filename;
         String filePath;
 

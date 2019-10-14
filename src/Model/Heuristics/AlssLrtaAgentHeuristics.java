@@ -31,6 +31,13 @@ public class AlssLrtaAgentHeuristics implements IAgentHeuristics {
 
 
 
+    /**
+     * This function will calculate the heuristics using mathematical function (not memory)
+     * considering the target node as the goal node.
+     * @param origin - The origin node
+     * @param target - The target node
+     * @return - The heuristics using mathematical function (not memory)
+     */
     protected double getHeuristicsForTwoFromFunction(Node origin,Node target)
     {
         //Manheten Distance

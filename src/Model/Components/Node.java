@@ -14,7 +14,9 @@ public class Node {
     private Map<Node,Double> neighbors;//The neighbors of the node
     public static int numOfNodes = 0;//Determines the id of the node
     private int occupationId;//The id of the agent that is currently occupying the node
-    private boolean isInhabitated;
+    private boolean isInhabitated;//True if the node is being inhabited
+
+    //For testing
     public static double average = 0 ;
     public static double sum = 0 ;
     public static Set<Node> s = new HashSet<>();
@@ -163,6 +165,10 @@ public class Node {
             this.occupationId = -1;
 
     }
+
+    /**
+     * This function will uninhabit the node
+     */
     public void unInhabit()
     {
 

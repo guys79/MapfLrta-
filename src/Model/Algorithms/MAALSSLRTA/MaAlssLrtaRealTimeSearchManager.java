@@ -31,7 +31,8 @@ public class MaAlssLrtaRealTimeSearchManager extends AbstractRealTimeSearchManag
     @Override
     protected void getPriorities()
     {
-        for(Agent agent:this.prefixesForAgents.keySet())
+        Collection<Agent> agents = problem.getAgentsAndStartGoalNodes().keySet();
+        for(Agent agent: agents)
         {
             agent.setPriority(agent.getHeuristicValue(agent.getCurrent()));
         }

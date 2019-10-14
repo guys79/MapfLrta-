@@ -50,14 +50,28 @@ public class Problem {
 
     }
 
+    /**
+     * This function will return the prefix's length
+     * @return - The prefix's length
+     */
     public int getPrefixLength() {
         return prefixLength;
     }
 
+    /**
+     * This function will return the type of algorithm
+     * @return - The type of algorithm
+     */
     public int getType() {
         return type;
     }
 
+    /**
+     * This function will print the problem's stats
+     * @param graph - The graph
+     * @param agentsAndStartGoalNodes - The agents's start and goal nodes
+     * @return - A string with the print info
+     */
     public static String print(Node [][] graph, Map<Agent,Pair<Node,Node>> agentsAndStartGoalNodes)
     {
         String toString = "";

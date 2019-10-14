@@ -18,6 +18,7 @@ public class Agent {
     private HashSet<Integer> needToBeUpdated;//The set of nodes that their "updated" flag  = true
     private Node goal;//The goal state
     private double priority;//The priority of the agent, The higher the priority, the more urgent the agent
+    private int usedBudget;//The budget that the agent used
     /**
      * The constructor of the agent
      * @param id - The id of the agent
@@ -29,9 +30,26 @@ public class Agent {
         heuristics = HeuristicFactory.getInstance().getAgentHeuristics(type,goal);
         this.id = id;
         this.isDone = false;
+        this.usedBudget = 0;
         this.priority = 0;
         this.goal = goal;
         this.needToBeUpdated = new HashSet();
+    }
+
+    /**
+     * This function will return the amount of budget used by the agent
+     * @return - The amount of budget used
+     */
+    public int getUsedBudget() {
+        return usedBudget;
+    }
+    /**
+     * This function will set the amount of budget used by the agent
+     * @param usedBudget - The users budget
+     * @return - The amount of budget used
+     */
+    public void setUsedBudget(int usedBudget) {
+        this.usedBudget = usedBudget;
     }
 
     /**

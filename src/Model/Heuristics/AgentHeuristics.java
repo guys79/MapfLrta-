@@ -62,7 +62,11 @@ public class AgentHeuristics implements IAgentHeuristics {
     }
 
 
-
+    /**
+     * This function will calculate the heuristics using mathematical function (not memory)
+     * @param n - The node n
+     * @return - The  heuristic value of node n
+     */
     private double getHeuristicsFromFunction(Node n)
     {
         //Manheten Distance
@@ -79,6 +83,13 @@ public class AgentHeuristics implements IAgentHeuristics {
         return value;
     }
 
+    /**
+     * This function will calculate the heuristics using mathematical function (not memory)
+     * considering the target node as the goal node.
+     * @param origin - The origin node
+     * @param target - The target node
+     * @return - The heuristics using mathematical function (not memory)
+     */
     private double getHeuristicsForTwoFromFunction(Node origin,Node target)
     {
         //Manheten Distance

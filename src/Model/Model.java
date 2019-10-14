@@ -40,11 +40,18 @@ public class Model {
     private IProblemCreator problemCreator;//The problem creator
     private IRealTimeSearchManager realTimeSearchManager;//The real time search manager
 
-
+    /**
+     * This function will set the num of node to develop
+     * @param NUM_OF_NODES_TO_DEVELOP - The number of nodes to develop per iteration
+     */
     public void setNUM_OF_NODES_TO_DEVELOP(int NUM_OF_NODES_TO_DEVELOP) {
         this.NUM_OF_NODES_TO_DEVELOP = NUM_OF_NODES_TO_DEVELOP;
     }
 
+    /**
+     * This function will set the prefix's length
+     * @param prefixLength - The length of the prefix
+     */
     public void setPrefixLength(int prefixLength) {
         this.prefixLength = prefixLength;
     }
