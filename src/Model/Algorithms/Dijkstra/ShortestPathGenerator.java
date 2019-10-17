@@ -247,7 +247,7 @@ public class ShortestPathGenerator {
     private void init(Node[][]graph)
     {
 
-        String rel = "C:\\Users\\guys79\\Desktop\\תזה\\Heuristics2";
+        String rel = "C:\\Users\\guys79\\Desktop\\restore\\Users\\guys79\\Desktop\\תזה\\Heuristics2";
         String path = rel+"\\perfectHeuristics"+filename;
         File f = new File(path);
         if(f.exists())

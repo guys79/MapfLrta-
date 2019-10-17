@@ -67,7 +67,7 @@ public class ScenarioProblemCreator extends AbstractProblemCreator {
         canT = true;
         this.mapPath = mapPath;
         getGraphAndScenarios(mapPath,senerioPath);
-        index =999;
+        index =0;
         this.prefixLength = prefixLength;
         return next();
     }

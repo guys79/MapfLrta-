@@ -20,10 +20,10 @@ public class Main extends Application {
     }
 
     final static int TYPE =8;// 0 - LRTA*, 1-aLSS-LRTA* 2- MA-aLSS-LRTA* 3- IgnoreOthers-Ma-aLSS-LRTA*
-    final static int NUM_OF_AGENTS =100;
-    final static int NUM_TO_DEV =45;
-    final static int PREFIX_LENGTH = 50;
-    final static String filename = "ht_mansion_n";
+    final static int NUM_OF_AGENTS =200;
+    final static int NUM_TO_DEV =40;
+    final static int PREFIX_LENGTH = 20;
+    final static String filename = "arena";
 
     public void start(Stage primaryStage) throws Exception {
 
@@ -37,6 +37,8 @@ public class Main extends Application {
         model.setNUM_OF_AGENTS(NUM_OF_AGENTS);
         model.setNUM_OF_NODES_TO_DEVELOP(NUM_TO_DEV);
         model.setPrefixLength(PREFIX_LENGTH);
+        if(NUM_TO_DEV < PREFIX_LENGTH)
+            throw new UnsupportedOperationException("num to dev smaller than prefix length");
         ShortestPathGenerator.getInstance().setFilename(filename);
         model.next();
         primaryStage.setTitle(model.toString());

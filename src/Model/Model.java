@@ -185,6 +185,7 @@ public class Model {
 
         Problem problem;
         if (first) {
+
             problem = problemCreator.getProblem(mapPath, scenPath, NUM_OF_NODES_TO_DEVELOP, TYPE,VISION_RADIUS,prefixLength );
             int[][] intGrid = problemCreator.getGridGraph();
             controller.initialize(intGrid);

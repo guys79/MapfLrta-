@@ -52,6 +52,15 @@ public class ALSSLRTA implements IRealTimeSearchAlgorithm {
     {
         return this.current;
     }
+
+    /**
+     * This function will set the current SearchNode
+     * @param current - The current state
+     */
+    public void setCurrent(AlssLrtaSearchNode current) {
+        this.current = current;
+    }
+
     /**
      * This function returns the current agent
      * @return - The current agent's instance
@@ -285,6 +294,7 @@ public class ALSSLRTA implements IRealTimeSearchAlgorithm {
                     flag =canBeAtTime(time(state.getBack()),state.getBack().getNode(),state.getNode());
                 //if can inhabit
                 if(flag) {
+                    System.out.println();
                     //closed.clear();
                     return;
                 }
@@ -341,7 +351,7 @@ public class ALSSLRTA implements IRealTimeSearchAlgorithm {
 
         }
 
-
+        System.out.println();
 
     }
 
@@ -352,6 +362,7 @@ public class ALSSLRTA implements IRealTimeSearchAlgorithm {
      */
     protected boolean canInhabit(AlssLrtaSearchNode node)
     {
+        System.out.println("");
         return true;
 
     }
@@ -617,12 +628,7 @@ public class ALSSLRTA implements IRealTimeSearchAlgorithm {
         @Override
         public int compare(AlssLrtaSearchNode o1, AlssLrtaSearchNode o2) {
 
-                if(!(o1.getNumInChain()<=problem.getPrefixLength() && (o2.getNumInChain()<=problem.getPrefixLength()))) {
-                    if(o1.getNumInChain()<=problem.getPrefixLength())
-                        return -1;
-                    return 1;
 
-                }
 
                 boolean flag =false;
                 if(o1 instanceof MaAlssLrtaSearchNode && o2 instanceof MaAlssLrtaSearchNode)
@@ -636,6 +642,11 @@ public class ALSSLRTA implements IRealTimeSearchAlgorithm {
                             return -1;
                         return 1;
                     }
+                }
+                if(!(o1.getNumInChain()<=problem.getPrefixLength() && (o2.getNumInChain()<=problem.getPrefixLength()))) {
+                     if(o1.getNumInChain()<=problem.getPrefixLength())
+                         return -1;
+                     return 1;
                 }
                 boolean isUpdated1 = o1.isUpdated();
                 boolean isUpdated2 = o2.isUpdated();

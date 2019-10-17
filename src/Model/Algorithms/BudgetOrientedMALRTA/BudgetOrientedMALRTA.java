@@ -2,6 +2,7 @@ package Model.Algorithms.BudgetOrientedMALRTA;
 
 import Model.Algorithms.ALSSLRTA.AlssLrtaSearchNode;
 import Model.Algorithms.MAALSSLRTA.MAALSSLRTA;
+import Model.Algorithms.MAALSSLRTA.MaAlssLrtaRealTimeSearchManager;
 import Model.Algorithms.MAALSSLRTA.MaAlssLrtaSearchNode;
 import Model.Components.Agent;
 import Model.Components.Node;
@@ -16,13 +17,17 @@ public class BudgetOrientedMALRTA extends MAALSSLRTA {
 
     private int leftover;//The leftovers of the budget
     public static int g=0;
+    private boolean backtracking;
+    private Agent other;
+
+
 
     /**
      * The constructor
      *
      * @param problem - The given problem
      */
-    public BudgetOrientedMALRTA(Problem problem) {
+    public BudgetOrientedMALRTA(Problem problem, MaAlssLrtaRealTimeSearchManager maneger) {
         super(problem);
         leftover = 0;
         g++;
@@ -79,40 +84,17 @@ public class BudgetOrientedMALRTA extends MAALSSLRTA {
                 openAdd(current);
                 return used;
             }
-            if(counter == prefixLength) {
+            if(counter == prefixLength || counter>=toDevelop) {
                 openAdd(current);
                 return used;
             }
 
         }
     }
-    @Override
-    protected void aStarPrecedure() {
+    private int aStar(int develop,MaAlssLrtaSearchNode current,int used)
+    {
         Agent agent = getAgent();
-
-
-
-
-
-        int develop = this.toDevelop;
-
-        MaAlssLrtaSearchNode current =(MaAlssLrtaSearchNode) transformSingleNode(getCurrent().getNode(),0);
         int prefixLength = problem.getPrefixLength();
-        int used = goByH(current,0);
-
-        current = (MaAlssLrtaSearchNode) open.peek();
-        int numInChain  = current.getNumInChain();
-        if( numInChain== prefixLength || (current.getNode().getId() == agent.getGoal().getId() && canInhabit(current))) {
-
-                agent.setUsedBudget(used);
-                return;
-
-        }
-
-
-        // TODO: 12/10/2019 this is just a replica of the ALSSLRTA*, convert it to the correct strategy
-
-        develop -=used;
         setGNode(current,0);
         clearOpen();
         openAdd(current);
@@ -120,16 +102,16 @@ public class BudgetOrientedMALRTA extends MAALSSLRTA {
         int expansions =0;
         AlssLrtaSearchNode state;
 
-        while(expansions<develop- (prefixLength-numInChain) &&(state =open.peek()).getNumInChain()<prefixLength)
+        while(expansions<develop &&(state =open.peek()).getNumInChain()<prefixLength)
         {
-           // System.out.println("Start");
+            // System.out.println("Start");
             //The condition
 
             if(state == null)
             {
                 System.out.println("No solution, but weird");
-                agent.setUsedBudget(used+expansions);
-                return;
+                return used+expansions;
+
             }
 
             if(state.getNode().getId() == getAgent().getGoal().getId())
@@ -143,8 +125,8 @@ public class BudgetOrientedMALRTA extends MAALSSLRTA {
                 //if can inhabit
                 if(flag && canInhabit(state)) {
 
-                    agent.setUsedBudget(used+expansions);
-                    return;
+
+                    return used+expansions;
                 }
             }
 
@@ -159,10 +141,11 @@ public class BudgetOrientedMALRTA extends MAALSSLRTA {
             Set<AlssLrtaSearchNode> comp_neighbors = transformNodes(neighbors,time);
 
             boolean isOver = open.size()==0;
-         //   System.out.println("1 "+isOver);
+            //   System.out.println("1 "+isOver);
             //For each neighbor
             for(AlssLrtaSearchNode node : comp_neighbors)
             {
+
                 if(node.getNode().getId() == getAgent().getGoal().getId())
                 {
                     if(!canInhabit(node))
@@ -173,9 +156,9 @@ public class BudgetOrientedMALRTA extends MAALSSLRTA {
                 double temp = state.getG()+ problem.getCost(state.getNode(),node.getNode());
                 if(node.getG()>temp)
                 {
-               //     System.out.println("ddd");
+                    //     System.out.println("ddd");
                     isOver = false;
-                 //   System.out.println("sasasdasd");
+                    //   System.out.println("sasasdasd");
                     setGNode(node,temp);
                     node.setBack(state);
                     node.setNumInChain(state.getNumInChain()+1);
@@ -190,10 +173,10 @@ public class BudgetOrientedMALRTA extends MAALSSLRTA {
                             if (node instanceof MaAlssLrtaSearchNode && pulled instanceof MaAlssLrtaSearchNode) {
                                 if (((MaAlssLrtaSearchNode) node).getTime() < ((MaAlssLrtaSearchNode) pulled).getTime()) {
                                     isOver = false;
-                             //       System.out.println("ddd2");
+                                    //       System.out.println("ddd2");
                                     setGNode(node, temp);
                                     node.setBack(state);
-                       //             System.out.println("9234927342");
+                                    //             System.out.println("9234927342");
                                     node.setNumInChain(state.getNumInChain()+1);
                                     openAdd(node);
                                 }
@@ -206,16 +189,67 @@ public class BudgetOrientedMALRTA extends MAALSSLRTA {
             }
             if(isOver)
             {
+
                 openAdd(current);
                 agent.setUsedBudget(expansions+used);
                 break;
             }
-      //      System.out.println("finish");
+            //      System.out.println("finish");
             expansions++;
 
 
 
         }
+        return used+expansions;
+    }
+    @Override
+    protected void aStarPrecedure() {
+
+
+        backtracking = false;
+        other=null;
+        Agent agent = getAgent();
+
+
+
+
+
+
+        int develop = this.toDevelop;
+
+        MaAlssLrtaSearchNode current =(MaAlssLrtaSearchNode) transformSingleNode(getCurrent().getNode(),0);
+        MaAlssLrtaSearchNode firstNode = current;
+        int prefixLength = problem.getPrefixLength();
+        int used = goByH(current,0);
+
+        current = (MaAlssLrtaSearchNode) open.peek();
+
+        int numInChain  = current.getNumInChain();
+        if( numInChain== prefixLength || (current.getNode().getId() == agent.getGoal().getId() && canInhabit(current))) {
+
+                agent.setUsedBudget(used);
+                return;
+
+        }
+
+
+        // TODO: 12/10/2019 this is just a replica of the ALSSLRTA*, convert it to the correct strategy
+
+        develop -=used;
+        used = aStar(develop,current,used);
+
+
+       /* int id1 = 41;
+        int id2 = 130;
+
+        int iter = 4;
+        if(g==iter && agent.getId() == id1)
+            System.out.println(id1);
+        if(g==iter && agent.getId() == id2) {
+            System.out.println(id2);
+            System.out.println(g);
+        }*/
+
 
     /*    int id1 = 1;
         int id2 = 51;
@@ -224,33 +258,60 @@ public class BudgetOrientedMALRTA extends MAALSSLRTA {
             System.out.println(id1);
         if(g==iter && agent.getId() == id2)
             System.out.println(id2);*/
-        used = used+expansions;
+
 
         MaAlssLrtaSearchNode best = (MaAlssLrtaSearchNode)peekBestState();
-
-        if(best.getNumInChain() <prefixLength)
+        if(!canInhabit(best))
         {
-            //Need to complete
-      //      used = goByH(best,used);
+            closed.clear();
 
+            this.setCurrent(firstNode);
+            used = aStar(toDevelop,firstNode,used);//Agent recalculate
 
+            //Nothing changed
+            if(best.getNode().getId() == peekBestState().getNode().getId())
+            {
+
+                backtracking = true;
+                other = whoInhabit(best);
+                other.setProblomatic(agent);
+                if(checkForCircle(agent))
+                {
+                    backtracking = false;
+                }
+                System.out.println("best - "+best.getNode().getId()+ " " +best+" agent "+agent.getId());
+              /*  if(other.getId() == 172 && agent.getId() == 190)
+                {
+                    if(gf)
+                    {
+                        System.out.println(canInhabit(best));
+                    }
+
+                    gf = true;
+                }*/
+
+            }
         }
+
         agent.setUsedBudget(used);
 
 
 
     }
-
+    private void removeUpdate(Node node,int time)
+    {
+        this.ocuupied_times.get(node.getId()).remove(time);
+    }
     public int getLeftover() {
         return leftover;
     }
 
     @Override
     public List<Node> calculatePrefix(Node start, Node goal, int numOfNodesToDevelop, Agent agent) {
-     /*  int id1 = 42;
-        int id2 = 136;
+     /*   int id1 = 41;
+        int id2 = 130;
 
-        int iter = 10;
+        int iter = 4;
         if(g==iter && agent.getId() == id1)
             System.out.println(id1);
         if(g==iter && agent.getId() == id2) {
@@ -258,16 +319,81 @@ public class BudgetOrientedMALRTA extends MAALSSLRTA {
             System.out.println(g);
         }
 */
+
+
+
+
         int budget = numOfNodesToDevelop +leftover;//Let the agent use the leftovers
         List<Node> list =  super.calculatePrefix(start, goal, budget, agent);//Calculate prefix
        // System.out.println("used - "+agent.getUsedBudget());
     //    if(agent.getUsedBudget() == 144)
        //     System.out.println(getAgent().getId());
+
         this.leftover = budget-agent.getUsedBudget();//Update the amount of leftovers
+
+
+        if(backtracking)
+        {
+            backtracking = false;
+
+            List<Node> prefix = getPrefix(other);
+        /*    System.out.println("Other "+other.getId());
+            if(prefix == null)
+            {
+                System.out.println();
+            }*/
+            removePrefix(other);
+            for(int i=0;i<prefix.size();i++)
+                removeUpdate(prefix.get(i),i);
+            this.goals.remove(prefix.get(prefix.size()-1).getId());
+
+            //Add other to queue
+            this.addAgentToQueue(other);
+
+            return calculatePrefix(start,goal,0,agent);
+        }
+       // System.out.println("Agent "+agent.getId()+" used "+agent.getUsedBudget()+" there is "+leftover+" left");
         agent.setUsedBudget(0);//Reset agent's budget
         return list;
 
     }
 
+
+
+    protected Agent whoInhabit(AlssLrtaSearchNode node) {
+
+
+        if(this.goals.containsKey(node.getNode().getId()))
+            return goals.get(node.getNode().getId()).getValue();
+
+
+        MaAlssLrtaSearchNode ma = (MaAlssLrtaSearchNode)node;
+        Map<Integer,Agent> time_agents = this.ocuupied_times.get(ma.getNode().getId());
+
+        Set<Integer> times = time_agents.keySet();
+        int time = ma.getTime();
+
+        for(Integer timeSet : times)
+        {
+            if(time<=timeSet)
+                return time_agents.get(timeSet);
+        }
+        return null;
+
+
+    }
+
+    private boolean checkForCircle(Agent agent)
+    {
+        int counter = 0;
+        while(agent!=null)
+        {
+            counter++;
+            agent = agent.getProblomatic();
+            if(problem.getAgentsAndStartGoalNodes().size() <=counter)
+                return true;
+        }
+        return false;
+    }
 
 }

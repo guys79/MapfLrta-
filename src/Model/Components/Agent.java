@@ -19,6 +19,7 @@ public class Agent {
     private Node goal;//The goal state
     private double priority;//The priority of the agent, The higher the priority, the more urgent the agent
     private int usedBudget;//The budget that the agent used
+    private Agent problomatic;
     /**
      * The constructor of the agent
      * @param id - The id of the agent
@@ -34,6 +35,14 @@ public class Agent {
         this.priority = 0;
         this.goal = goal;
         this.needToBeUpdated = new HashSet();
+    }
+
+    public void setProblomatic(Agent problomatic) {
+        this.problomatic = problomatic;
+    }
+
+    public Agent getProblomatic() {
+        return problomatic;
     }
 
     /**

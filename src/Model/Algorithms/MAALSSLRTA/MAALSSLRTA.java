@@ -21,6 +21,8 @@ public class MAALSSLRTA extends ALSSLRTA {
     private int visionRadius;//The vision radius of all agents
     protected Map<Integer,Pair<Integer,Agent>> goals;//Key - node id , value - pair - { key - time, value - agent)
     private Map<Integer,Map<Integer,AlssLrtaSearchNode>> open_time;//Key - node id, value - key-time, value - node
+    Map<Integer,List<Node>> prefixes;
+    PriorityQueue<Agent> pAgents;
 
 
     /**
@@ -44,7 +46,19 @@ public class MAALSSLRTA extends ALSSLRTA {
 
     }
 
+    protected List<Node> getPrefix(Agent agent)
+    {
+        return this.prefixes.get(agent.getId());
+    }
+    protected void removePrefix(Agent agent)
+    {
+        this.prefixes.remove(agent.getId());
+    }
 
+    protected void addAgentToQueue(Agent agent)
+    {
+        pAgents.add(agent);
+    }
     /**
      * This function will return the vision radius of akk the agents
      * @return - The vision radius of akk the agents
@@ -62,10 +76,10 @@ public class MAALSSLRTA extends ALSSLRTA {
     {
         Map<Agent,Pair<Node,Node>> agent_goal_start = problem.getAgentsAndStartGoalNodes();
         Set<Agent> agents = agent_goal_start.keySet();
-        PriorityQueue<Agent> pAgents = new PriorityQueue<>(new CompareAgentsPriority());
+        pAgents = new PriorityQueue<>(new CompareAgentsPriority());
         //PriorityQueue<Agent> pAgents = new PriorityQueue<>(new CompareAgentsHeurstics());
 
-        Map<Integer,List<Node>> prefixes = new HashMap<>();
+        prefixes = new HashMap<>();
         pAgents.addAll(agents);
         int numOfNodesToDevelop;
         while(pAgents.size()>0)
@@ -160,8 +174,9 @@ public class MAALSSLRTA extends ALSSLRTA {
         }
 
 
+        Map<Integer,Agent> times = this.ocuupied_times.get(nodeId);
         //first time
-        if(this.ocuupied_times.get(nodeId) ==null)
+        if(times ==null)
         {
             //First time
             Map<Integer,Agent> map = new HashMap<>();
@@ -169,7 +184,7 @@ public class MAALSSLRTA extends ALSSLRTA {
             return true;
         }
 
-        boolean b = !this.ocuupied_times.get(nodeId).containsKey(time);;
+        boolean b = !times.containsKey(time);;
         return b;
 
 

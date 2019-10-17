@@ -131,6 +131,7 @@ public abstract class AbstractRealTimeSearchManager implements IRealTimeSearchMa
 
                 if (i <= prefix.size() - 1) {
                     if (!agent.moveAgent(prefix.get(i))) {
+
                         System.out.println("Collision between agent " + agent.getId() + " and agent " + prefix.get(i).getOccupationId() + " in " + prefix.get(i) +" at iteration "+iteration);
                         prefixesForAgents.put(agent, null);
                         return;

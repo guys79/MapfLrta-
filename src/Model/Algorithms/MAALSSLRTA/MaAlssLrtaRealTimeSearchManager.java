@@ -27,6 +27,10 @@ public class MaAlssLrtaRealTimeSearchManager extends AbstractRealTimeSearchManag
 
     }
 
+    public List<Node> getPrefix(Agent agent)
+    {
+        return this.prefixesForAgents.get(agent);
+    }
 
     @Override
     protected void getPriorities()
@@ -59,7 +63,7 @@ public class MaAlssLrtaRealTimeSearchManager extends AbstractRealTimeSearchManag
 
 
         if(problem.getType() == 8)
-            maalsslrta = new BudgetOrientedMALRTA(problem);
+            maalsslrta = new BudgetOrientedMALRTA(problem,this);
         else
             maalsslrta = new MAALSSLRTA(problem);
 
@@ -110,7 +114,7 @@ public class MaAlssLrtaRealTimeSearchManager extends AbstractRealTimeSearchManag
         //Converting the prefixes to be with the same length
         for (Agent agent : agents) {
             List<Node> prefix = this.prefixesForAgents.get(agent);
-
+          //  System.out.println("Prefix length "+prefix.size() +" agent id "+agent.getId());
             int length = prefix.size();
             Node last = prefix.get(length-1);
             if(last.getId()!= agent.getGoal().getId())
@@ -182,6 +186,7 @@ public class MaAlssLrtaRealTimeSearchManager extends AbstractRealTimeSearchManag
                 //Try to move the agent
                 if (i <= prefix.size() - 1) {
                     if (!agent.moveAgent(prefix.get(i))) {
+                     //   System.out.println(!agent.moveAgent(prefix.get(i)));
                         System.out.println("Collision between agent " + agent.getId() + " and agent " + prefix.get(i).getOccupationId() + " in " + prefix.get(i) +" id = "+prefix.get(i).getId());
                         prefixesForAgents.put(agent, null);
                         return;
