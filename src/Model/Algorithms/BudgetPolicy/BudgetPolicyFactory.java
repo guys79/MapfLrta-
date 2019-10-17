@@ -38,9 +38,15 @@ public class BudgetPolicyFactory {
         IBudgetPolicy policy;
         if(type == 2)
             policy = new EqualBudget();//Regular
-        else // type = 7
+        else
         {
-            policy = new LongestPathBudgetPolicy();
+            if(type == 7)
+                policy = new LongestPathBudgetPolicy();
+            else// type = 8
+            {
+                //policy = new PrioritizedPolicy();
+                policy = new EqualBudget();//Regular
+            }
         }
 
 

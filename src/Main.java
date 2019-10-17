@@ -19,10 +19,10 @@ public class Main extends Application {
         launch(args);
     }
 
-    final static int TYPE =2;// 0 - LRTA*, 1-aLSS-LRTA* 2- MA-aLSS-LRTA* 3- IgnoreOthers-Ma-aLSS-LRTA*
-    final static int NUM_OF_AGENTS =10;
+    final static int TYPE =8;// 0 - LRTA*, 1-aLSS-LRTA* 2- MA-aLSS-LRTA* 3- IgnoreOthers-Ma-aLSS-LRTA*
+    final static int NUM_OF_AGENTS =100;
     final static int NUM_TO_DEV =45;
-    final static int PREFIX_LENGTH = 7;
+    final static int PREFIX_LENGTH = 50;
     final static String filename = "ht_mansion_n";
 
     public void start(Stage primaryStage) throws Exception {

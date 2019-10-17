@@ -98,7 +98,7 @@ public class PrioritizedPolicy implements IBudgetPolicy  {
         String [] split = route.split(",");
         Map<Integer,Integer> parsed = new HashMap<>();
         Map<Integer,Integer> parsedMinus = new HashMap<>();
-        System.out.println(route);
+
 
         int num;
         for(int i=0;i<split.length;i++)
@@ -169,10 +169,8 @@ public class PrioritizedPolicy implements IBudgetPolicy  {
                 Set<Map<Integer,Integer>> routes = new HashSet<>();
                 int res = +divideResources(i,iterations,j,"",routes);
 
-                if(res==2)
-                    System.out.println();
-                System.out.println("p("+i+","+iterations+","+j+") = "+res);
-                //  System.out.println(p(i,iterations,j));
+
+
                 for(Map<Integer,Integer> route: routes) {
                     sumRound +=  getCombinaions(j, route.values());
                 }

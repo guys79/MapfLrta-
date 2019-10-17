@@ -1,6 +1,7 @@
 package Model.Algorithms.MAALSSLRTA;
 
 import Model.Algorithms.ALSSLRTA.ALSSLRTA;
+import Model.Algorithms.BudgetOrientedMALRTA.BudgetOrientedMALRTA;
 import Model.Algorithms.Rules.IRules;
 import Model.Algorithms.Rules.RuleBook;
 import Model.Components.Agent;
@@ -83,8 +84,13 @@ public class MAALSSLRTA extends ALSSLRTA {
             else {
                 numOfNodesToDevelop = budgetMap.get(agent);
                 Node current = agent.getCurrent();
+                List<Node> prefix;
 
-                List<Node> prefix = super.calculatePrefix(current, agent.getGoal(), numOfNodesToDevelop, agent);
+
+                if(this instanceof BudgetOrientedMALRTA)
+                    prefix = calculatePrefix(current, agent.getGoal(), numOfNodesToDevelop, agent);
+                else
+                    prefix = super.calculatePrefix(current, agent.getGoal(), numOfNodesToDevelop, agent);
 
                 if (prefix == null) {
                     System.out.println("No Solution agent " + agent.getId()+" can't move from "+agent.getCurrent() + " id = "+agent.getCurrent().getId());
@@ -105,7 +111,8 @@ public class MAALSSLRTA extends ALSSLRTA {
 
         }
 
-
+      //  if(this instanceof BudgetOrientedMALRTA)
+       //     System.out.println("The amount of leftover after this round = "+((BudgetOrientedMALRTA)this).getLeftover());
 
         return prefixes;
     }
@@ -217,15 +224,20 @@ public class MAALSSLRTA extends ALSSLRTA {
 
         if(!(node instanceof MaAlssLrtaSearchNode))
         {
+
             return super.canInhabit(node);
         }
+
+
+
         if(this.goals.containsKey(node.getNode().getId()))
             return false;
         MaAlssLrtaSearchNode ma = (MaAlssLrtaSearchNode)node;
         Map<Integer,Agent> time_agents = this.ocuupied_times.get(ma.getNode().getId());
         if(time_agents == null)
         {
-            return !this.goals.containsKey(node.getNode().getId());
+          //  return !this.goals.containsKey(node.getNode().getId());
+            return true;
         }
         Set<Integer> times = time_agents.keySet();
         int time = ma.getTime();
@@ -314,7 +326,7 @@ public class MAALSSLRTA extends ALSSLRTA {
     @Override
     protected boolean canBeAtTime(int time, Node origin, Node target) {
 
-        return rules.isValidMove(origin.getId(),target.getId(),time);
+        return rules.isValidMove(origin.getId(),target.getId(),time) ;
     }
 
     @Override
@@ -353,6 +365,8 @@ public class MAALSSLRTA extends ALSSLRTA {
     protected boolean canAdd(AlssLrtaSearchNode node) {
 
         MaAlssLrtaSearchNode maNode = (MaAlssLrtaSearchNode)node;
+        if(node.getNumInChain()>problem.getPrefixLength())
+            return false;
         if(!this.open_time.containsKey(node.getNode().getId()))
         {
             Map<Integer,AlssLrtaSearchNode> set = new HashMap<>();

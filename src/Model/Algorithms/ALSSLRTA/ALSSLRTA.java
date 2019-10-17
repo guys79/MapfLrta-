@@ -22,6 +22,7 @@ public class ALSSLRTA implements IRealTimeSearchAlgorithm {
     protected Problem problem;//Tye given problem
     private Agent agent;// The given agent
     private HashSet<Integer> needToBeUpdated;//Set of nodes that need their update flag =true
+    protected int toDevelop;//Number of nodes to develop
 
 
 
@@ -34,6 +35,7 @@ public class ALSSLRTA implements IRealTimeSearchAlgorithm {
     {
 
         this.problem = problem;
+        this.toDevelop = -1;
         this.closed = new HashMap<>();
         open = new PriorityQueue<>(new CompareAlssNode());
         open_min = new PriorityQueue<>(new CompareHeuristicAlssNode());
@@ -73,6 +75,7 @@ public class ALSSLRTA implements IRealTimeSearchAlgorithm {
         clearOpen();//Clear open
         List<Node> prefix = new ArrayList<>();
         this.agent = agent;
+        this.toDevelop = numOfNodesToDevelop;
         closed.clear();
         this.needToBeUpdated = agent.getNeedToBeUpdated();
         current = transformSingleNode(start,0);
@@ -260,7 +263,7 @@ public class ALSSLRTA implements IRealTimeSearchAlgorithm {
         int expansions =0;
         AlssLrtaSearchNode state;
 
-        while(expansions<problem.getNumberOfNodeToDevelop())
+        while(expansions<toDevelop)
         {
 
 
@@ -311,7 +314,7 @@ public class ALSSLRTA implements IRealTimeSearchAlgorithm {
 
                     setGNode(node,temp);
                     node.setBack(state);
-                    node.setNumInChain(state.getNumInChain());
+                    node.setNumInChain(state.getNumInChain()+1);
                     openAdd(node);
                 }
                 else
@@ -324,6 +327,7 @@ public class ALSSLRTA implements IRealTimeSearchAlgorithm {
                                //     System.out.println(agent.getId() + " agent id");
                                     setGNode(node, temp);
                                       node.setBack(state);
+                                    node.setNumInChain(state.getNumInChain()+1);
                                     openAdd(node);
                                 }
 
@@ -449,10 +453,22 @@ public class ALSSLRTA implements IRealTimeSearchAlgorithm {
      * The Extract-Best-State procedure in the aLSS-LRTA*
      * @return - The best node
      */
-    private AlssLrtaSearchNode ExtractBestState()
+    protected AlssLrtaSearchNode ExtractBestState()
     {
 
         AlssLrtaSearchNode best =open_min_update.poll();
+
+        return best;
+    }
+
+    /**
+     * Peek the Extract-Best-State procedure in the aLSS-LRTA*
+     * @return - The best node
+     */
+    protected AlssLrtaSearchNode peekBestState()
+    {
+
+        AlssLrtaSearchNode best =open_min_update.peek();
 
         return best;
     }
@@ -601,8 +617,8 @@ public class ALSSLRTA implements IRealTimeSearchAlgorithm {
         @Override
         public int compare(AlssLrtaSearchNode o1, AlssLrtaSearchNode o2) {
 
-                if(!(o1.getNumInChain()<problem.getPrefixLength() && (o2.getNumInChain()<problem.getPrefixLength()))) {
-                    if(o1.getNumInChain()<problem.getPrefixLength())
+                if(!(o1.getNumInChain()<=problem.getPrefixLength() && (o2.getNumInChain()<=problem.getPrefixLength()))) {
+                    if(o1.getNumInChain()<=problem.getPrefixLength())
                         return -1;
                     return 1;
 
