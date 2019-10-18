@@ -20,10 +20,10 @@ public class Main extends Application {
     }
 
     final static int TYPE =8;// 0 - LRTA*, 1-aLSS-LRTA* 2- MA-aLSS-LRTA* 3- IgnoreOthers-Ma-aLSS-LRTA*
-    final static int NUM_OF_AGENTS =200;
+    final static int NUM_OF_AGENTS =3;
     final static int NUM_TO_DEV =40;
     final static int PREFIX_LENGTH = 20;
-    final static String filename = "arena";
+    final static String filename = "lak303d";
 
     public void start(Stage primaryStage) throws Exception {
 
@@ -31,8 +31,8 @@ public class Main extends Application {
         FXMLLoader fxmlLoader = new FXMLLoader();
         Parent root = fxmlLoader.load(getClass().getResource("Controller/view.fxml").openStream());
         Controller controller = fxmlLoader.getController();
-
-
+        createPerfectHeuristics(controller);
+/*
        Model model = new Model(controller,filename,TYPE);
         model.setNUM_OF_AGENTS(NUM_OF_AGENTS);
         model.setNUM_OF_NODES_TO_DEVELOP(NUM_TO_DEV);
@@ -43,7 +43,7 @@ public class Main extends Application {
         model.next();
         primaryStage.setTitle(model.toString());
         primaryStage.setScene(new Scene(root, 1600, 975));
-         primaryStage.show();
+         primaryStage.show();*/
        // TestPreformer.getInstance().printInfo("");
         //test(controller);
 
@@ -63,7 +63,30 @@ public class Main extends Application {
 
 
 
+    public static void createPerfectHeuristics(Controller controller)
+    {
+        Set<String> names = new HashSet<>();
 
+        names.add("arena2");
+        names.add("den312d");
+        names.add("w_woundedcoast");
+        names.add("den520d");
+        names.add("brc000d");
+        names.add("brc200d");
+
+        for(String name:names) {
+            Model model = new Model(controller, name, TYPE);
+            ShortestPathGenerator.getInstance().setFilename(name);
+            model.setNUM_OF_AGENTS(NUM_OF_AGENTS);
+            model.setNUM_OF_NODES_TO_DEVELOP(NUM_TO_DEV);
+            model.setPrefixLength(PREFIX_LENGTH);
+            model.next();
+        }
+
+        System.exit(0);
+
+
+    }
 
     public void test(Controller controller)
     {
