@@ -294,7 +294,7 @@ public class ALSSLRTA implements IRealTimeSearchAlgorithm {
                     flag =canBeAtTime(time(state.getBack()),state.getBack().getNode(),state.getNode());
                 //if can inhabit
                 if(flag) {
-                    System.out.println();
+
                     //closed.clear();
                     return;
                 }
@@ -351,7 +351,7 @@ public class ALSSLRTA implements IRealTimeSearchAlgorithm {
 
         }
 
-        System.out.println();
+
 
     }
 

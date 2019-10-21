@@ -200,7 +200,9 @@ public abstract class AbstractRealTimeSearchManager implements IRealTimeSearchMa
             iteration++;
             start =  System.currentTimeMillis();
         }
-        iterationAvergae = iteration/iterationAvergae;
+        iterationAvergae = iterationAvergae/iteration;
+        if(iteration ==0)
+            iterationAvergae = 0;
         System.out.println(success);
         System.out.println("Number of iterations "+iteration);
         clear();

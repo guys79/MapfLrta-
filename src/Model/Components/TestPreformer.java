@@ -73,6 +73,7 @@ public class TestPreformer {
         if(!complete)
             sumNonComplete++;
         this.sumOfAverageTimePerIteration+= averageTimePerIteration;
+        System.out.println(this.sumOfAverageTimePerIteration);
 
     }
 

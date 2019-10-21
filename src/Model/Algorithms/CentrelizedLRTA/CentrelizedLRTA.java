@@ -241,8 +241,6 @@ public class CentrelizedLRTA{
             res =node.getgVal() + node.gethVal();
         else
             res = node.getgVal() + vals.getValue();
-        if(res>=Double.MAX_VALUE)
-            System.out.println();
         return res;
     }
     /**

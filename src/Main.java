@@ -31,7 +31,8 @@ public class Main extends Application {
         FXMLLoader fxmlLoader = new FXMLLoader();
         Parent root = fxmlLoader.load(getClass().getResource("Controller/view.fxml").openStream());
         Controller controller = fxmlLoader.getController();
-        createPerfectHeuristics(controller);
+        //createPerfectHeuristics(controller);
+        test(controller);
 /*
        Model model = new Model(controller,filename,TYPE);
         model.setNUM_OF_AGENTS(NUM_OF_AGENTS);
@@ -91,7 +92,7 @@ public class Main extends Application {
     public void test(Controller controller)
     {
         //int num_scene = 20;
-        int num_scene = 2;
+        int num_scene = 5;
         List<Integer> numOfAgents = new ArrayList<>();
         numOfAgents.add(1);
         numOfAgents.add(10);
@@ -119,9 +120,10 @@ public class Main extends Application {
         }
 
         Model model;
-        int [] types = {2,7,3,4,5,6};
+        int [] types = {2,7,8};
         String rawPath;
-        String prefix = "res\\Outputs\\tests";
+        String prefix = "res\\Outputs\\test3";
+        int [] prefixLengtha= {1,10,50,100};
         for(int k=0;k<types.length;k++) {
             folder = new File(rel + prefix + "\\" +types[k]);
             if(!folder.exists())
@@ -134,25 +136,41 @@ public class Main extends Application {
                 if(folder.exists())
                     continue;
                 folder.mkdir();
+
                 for (int i = 0; i < numOfAgents.size(); i++) {
+
                     ShortestPathGenerator.getInstance().setFilename(filename);
-                    model = new Model(controller, filename, types[k]);
 
-                    model.setNUM_OF_AGENTS(numOfAgents.get(i));
+
                     for(int h = 0 ;h<dev.size();h++) {
-                        model.setNUM_OF_NODES_TO_DEVELOP(dev.get(h));
 
-                        for (int j = 0; j < num_scene; j++) {
-                            model.next();
+                        for(int f = 0;f<prefixLengtha.length;f++) {
+
+                            if(prefixLengtha[f] >=dev.get(h)) {
+                                model = new Model(controller,filename,types[k]);
+                                model.setFileName(filename);
+                                model.setNUM_OF_AGENTS(numOfAgents.get(i));
+                                model.setPrefixLength(prefixLengtha[f]);
+                                model.setNUM_OF_NODES_TO_DEVELOP(dev.get(h));
+                                for (int j = 0; j < num_scene; j++) {
+                                    model.next();
+
+                                }
+                                path =rel + prefix + "\\" +types[k]+"\\" +filename + "\\perfectHeuristics_" + numOfAgents.get(i) +"_"+dev.get(h)+"_"+prefixLengtha[f]+ ".txt";
+                                rawPath =rel + prefix + "\\" +types[k]+"\\" +filename + "\\perfectHeuristics_" + numOfAgents.get(i) +"_"+dev.get(h)+"_"+prefixLengtha[f]+ ".csv";
+                                TestPreformer.getInstance().printInfo(path, rawPath);
+
+                            }
+
+
+
 
                         }
 
-                        path =rel + prefix + "\\" +types[k]+"\\" +filename + "\\perfectHeuristics_" + numOfAgents.get(i) +"_"+dev.get(h)+ ".txt";
-                        rawPath =rel + prefix + "\\" +types[k]+"\\" +filename + "\\perfectHeuristics_" + numOfAgents.get(i) +"_"+dev.get(h)+ ".csv";
-                        TestPreformer.getInstance().printInfo(path, rawPath);
+
+
+
                     }
-
-
 
                 }
             }
