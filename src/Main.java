@@ -92,7 +92,7 @@ public class Main extends Application {
     public void test(Controller controller)
     {
         //int num_scene = 20;
-        int num_scene = 5;
+        int num_scene = 40;
         List<Integer> numOfAgents = new ArrayList<>();
         numOfAgents.add(1);
         numOfAgents.add(10);
