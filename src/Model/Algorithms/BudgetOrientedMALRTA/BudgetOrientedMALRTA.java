@@ -32,6 +32,7 @@ public class BudgetOrientedMALRTA extends MAALSSLRTA {
         leftover = 0;
         g++;
 
+
     }
 
 
@@ -102,7 +103,7 @@ public class BudgetOrientedMALRTA extends MAALSSLRTA {
         int expansions =0;
         AlssLrtaSearchNode state;
 
-        while(expansions<develop &&(state =open.peek()).getNumInChain()<prefixLength)
+        while(expansions<develop-used &&(state =open.peek()).getNumInChain()<prefixLength)
         {
             // System.out.println("Start");
             //The condition
@@ -210,11 +211,6 @@ public class BudgetOrientedMALRTA extends MAALSSLRTA {
         other=null;
         Agent agent = getAgent();
 
-
-
-
-
-
         int develop = this.toDevelop;
 
         MaAlssLrtaSearchNode current =(MaAlssLrtaSearchNode) transformSingleNode(getCurrent().getNode(),0);
@@ -233,34 +229,14 @@ public class BudgetOrientedMALRTA extends MAALSSLRTA {
         }
 
 
-        // TODO: 12/10/2019 this is just a replica of the ALSSLRTA*, convert it to the correct strategy
 
         develop -=used;
         used = aStar(develop,current,used);
 
 
-       /* int id1 = 41;
-        int id2 = 130;
-
-        int iter = 4;
-        if(g==iter && agent.getId() == id1)
-            System.out.println(id1);
-        if(g==iter && agent.getId() == id2) {
-            System.out.println(id2);
-            System.out.println(g);
-        }*/
-
-
-    /*    int id1 = 1;
-        int id2 = 51;
-        int iter = 5;
-        if(g==iter && agent.getId() == id1)
-            System.out.println(id1);
-        if(g==iter && agent.getId() == id2)
-            System.out.println(id2);*/
-
 
         MaAlssLrtaSearchNode best = (MaAlssLrtaSearchNode)peekBestState();
+
         if(!canInhabit(best))
         {
             closed.clear();
@@ -308,10 +284,10 @@ public class BudgetOrientedMALRTA extends MAALSSLRTA {
 
     @Override
     public List<Node> calculatePrefix(Node start, Node goal, int numOfNodesToDevelop, Agent agent) {
-     /*   int id1 = 41;
-        int id2 = 130;
+/*        int id1 = 125;
+        int id2 = 13;
 
-        int iter = 4;
+        int iter = 2;
         if(g==iter && agent.getId() == id1)
             System.out.println(id1);
         if(g==iter && agent.getId() == id2) {
@@ -319,12 +295,17 @@ public class BudgetOrientedMALRTA extends MAALSSLRTA {
             System.out.println(g);
         }
 */
+        if(g == 2 && agent.getId() ==125)
+        {
+            System.out.println();
+        }
 
 
 
 
         int budget = numOfNodesToDevelop +leftover;//Let the agent use the leftovers
         List<Node> list =  super.calculatePrefix(start, goal, budget, agent);//Calculate prefix
+
        // System.out.println("used - "+agent.getUsedBudget());
     //    if(agent.getUsedBudget() == 144)
        //     System.out.println(getAgent().getId());
@@ -343,6 +324,11 @@ public class BudgetOrientedMALRTA extends MAALSSLRTA {
                 System.out.println();
             }*/
             removePrefix(other);
+            if(prefix == null)
+            {
+                System.out.println("???");
+                return null;
+            }
             for(int i=0;i<prefix.size();i++)
                 removeUpdate(prefix.get(i),i);
             this.goals.remove(prefix.get(prefix.size()-1).getId());

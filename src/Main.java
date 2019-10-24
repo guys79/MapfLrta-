@@ -20,11 +20,13 @@ public class Main extends Application {
     }
 
     final static int TYPE =8;// 0 - LRTA*, 1-aLSS-LRTA* 2- MA-aLSS-LRTA* 3- IgnoreOthers-Ma-aLSS-LRTA*
-    final static int NUM_OF_AGENTS =3;
-    final static int NUM_TO_DEV =40;
-    final static int PREFIX_LENGTH = 20;
-    final static String filename = "lak303d";
+    final static int NUM_OF_AGENTS =100;
+    final static int NUM_TO_DEV =100;
+    final static int PREFIX_LENGTH = 50;
+    final static String filename = "ost003d";
 
+    // TODO: 24/10/2019 Delete files in folder - run and check bug
+    // TODO: 24/10/2019 another thing is to select the state with the minimal priority 
     public void start(Stage primaryStage) throws Exception {
 
         //The GUI
@@ -45,6 +47,7 @@ public class Main extends Application {
         primaryStage.setTitle(model.toString());
         primaryStage.setScene(new Scene(root, 1600, 975));
          primaryStage.show();*/
+
        // TestPreformer.getInstance().printInfo("");
         //test(controller);
 
@@ -92,18 +95,20 @@ public class Main extends Application {
     public void test(Controller controller)
     {
         //int num_scene = 20;
-        int num_scene = 40;
+        int num_scene = 10;
         List<Integer> numOfAgents = new ArrayList<>();
-        numOfAgents.add(1);
-        numOfAgents.add(10);
-        numOfAgents.add(50);
-        numOfAgents.add(75);
         numOfAgents.add(100);
+        numOfAgents.add(200);
+        numOfAgents.add(300);
+        numOfAgents.add(500);
+        //numOfAgents.add(1000);
+
         List<Integer> dev = new ArrayList<>();
-        dev.add(5);
+
         dev.add(15);
         dev.add(50);
         dev.add(100);
+        dev.add(200);
         dev.add(300);
 
 
@@ -120,39 +125,36 @@ public class Main extends Application {
         }
 
         Model model;
-        int [] types = {2,7,8};
+        int [] types = {8};
         String rawPath;
         String prefix = "res\\Outputs\\test3";
-        int [] prefixLengtha= {1,10,50,100};
+        int [] prefixLengtha= {10,50,100};
+
+        //For each type
         for(int k=0;k<types.length;k++) {
             folder = new File(rel + prefix + "\\" +types[k]);
-            if(!folder.exists())
-                folder.mkdir();
-
+            folder.mkdir();
             for (String filename : names) {
-
+                ShortestPathGenerator.getInstance().setFilename(filename);
                 System.out.println("File name - " + filename);
                 folder = new File(rel + prefix + "\\" +types[k]+"\\" +filename);
-                if(folder.exists())
-                    continue;
                 folder.mkdir();
 
                 for (int i = 0; i < numOfAgents.size(); i++) {
-
-                    ShortestPathGenerator.getInstance().setFilename(filename);
-
 
                     for(int h = 0 ;h<dev.size();h++) {
 
                         for(int f = 0;f<prefixLengtha.length;f++) {
 
-                            if(prefixLengtha[f] >=dev.get(h)) {
+                            if(prefixLengtha[f] <dev.get(h)) {
                                 model = new Model(controller,filename,types[k]);
-                                model.setFileName(filename);
                                 model.setNUM_OF_AGENTS(numOfAgents.get(i));
                                 model.setPrefixLength(prefixLengtha[f]);
                                 model.setNUM_OF_NODES_TO_DEVELOP(dev.get(h));
-                                for (int j = 0; j < num_scene; j++) {
+                                model.setFileName(filename);
+                               // if(true)
+                                //    return;
+                                for (int j = 0; j < num_scene-1; j++) {
                                     model.next();
 
                                 }

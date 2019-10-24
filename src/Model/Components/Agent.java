@@ -20,6 +20,7 @@ public class Agent {
     private double priority;//The priority of the agent, The higher the priority, the more urgent the agent
     private int usedBudget;//The budget that the agent used
     private Agent problomatic;
+    private int timeStamp;
     /**
      * The constructor of the agent
      * @param id - The id of the agent
@@ -28,6 +29,7 @@ public class Agent {
      */
     public Agent(int id, Node goal, int type)
     {
+        timeStamp = 0;
         heuristics = HeuristicFactory.getInstance().getAgentHeuristics(type,goal);
         this.id = id;
         this.isDone = false;
@@ -35,6 +37,15 @@ public class Agent {
         this.priority = 0;
         this.goal = goal;
         this.needToBeUpdated = new HashSet();
+    }
+
+    public void initTimeStamop()
+    {
+        this.timeStamp = 0;
+    }
+
+    public void setTimeStamp(int timeStamp) {
+        this.timeStamp = timeStamp;
     }
 
     public void setProblomatic(Agent problomatic) {
@@ -183,7 +194,6 @@ public class Agent {
         //If the node is a neighbor of the current node and is not occupied
         if(!current.isNeighbor(target) || !target.moveIn(this.id))
         {
-
             return false;
         }
         if(current.getId()!= target.getId()) {

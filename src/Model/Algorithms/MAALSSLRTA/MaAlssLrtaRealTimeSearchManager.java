@@ -106,6 +106,7 @@ public class MaAlssLrtaRealTimeSearchManager extends AbstractRealTimeSearchManag
             this.prefixesForAgents.put(agent,prefixes.get(agent.getId()));
             List<Node> prefix = this.prefixesForAgents.get(agent);
             if (prefix == null) {
+                System.out.println("s;dak;sdkadadadada");
                 return;
             }
             if (maxLength < prefix.size())
@@ -166,7 +167,7 @@ public class MaAlssLrtaRealTimeSearchManager extends AbstractRealTimeSearchManag
 
     @Override
     public void move() {
-        PriorityQueue<Agent> agents = new PriorityQueue<>(new MAALSSLRTA.CompareAgentsHeurstics());
+        PriorityQueue<Agent> agents = new PriorityQueue<>(new MAALSSLRTA.CompareAgentsPriority());
         agents.addAll(problem.getAgentsAndStartGoalNodes().keySet());
 
         //In each time step:
@@ -180,14 +181,22 @@ public class MaAlssLrtaRealTimeSearchManager extends AbstractRealTimeSearchManag
 
                 //If there is a solution
                 List<Node> prefix = this.prefixesForAgents.get(agent);
+              /*  int id1 = 5;
+                int id2 = 13;
+                int iter = 6;
+                if(agent.getId() == id1 && test ==iter)
+                    System.out.println(prefix +" agent "+id1);
+                if(agent.getId() == id2 && test ==iter)
+                    System.out.println(prefix  +" agent "+id2);
+                    */
                 if (prefix == null)
                     return;
 
                 //Try to move the agent
                 if (i <= prefix.size() - 1) {
                     if (!agent.moveAgent(prefix.get(i))) {
-                     //   System.out.println(!agent.moveAgent(prefix.get(i)));
-                        System.out.println("Collision between agent " + agent.getId() + " and agent " + prefix.get(i).getOccupationId() + " in " + prefix.get(i) +" id = "+prefix.get(i).getId());
+             //           System.out.println(!agent.moveAgent(prefix.get(i)));
+                    //    System.out.println("Collision between agent " + agent.getId() + " and agent " + prefix.get(i).getOccupationId() + " in " + prefix.get(i) +" id = "+prefix.get(i).getId());
                         prefixesForAgents.put(agent, null);
                         return;
                     }
@@ -199,7 +208,7 @@ public class MaAlssLrtaRealTimeSearchManager extends AbstractRealTimeSearchManag
                 }
             }
 
-            agents = new PriorityQueue<>(new MAALSSLRTA.CompareAgentsHeurstics());
+            agents = new PriorityQueue<>(new MAALSSLRTA.CompareAgentsPriority());
             agents.addAll(problem.getAgentsAndStartGoalNodes().keySet());
 
             //Don't clock way

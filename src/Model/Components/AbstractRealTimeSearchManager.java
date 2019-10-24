@@ -72,7 +72,6 @@ public abstract class AbstractRealTimeSearchManager implements IRealTimeSearchMa
         this.budgetMap = new HashMap<>();
         int type = this.problem.getType();
         IBudgetPolicy policy = BudgetPolicyFactory.getInstance().getPolicy(type);
-        int totalBudget = problem.getNumberOfNodeToDevelop()*problem.getAgentsAndStartGoalNodes().size();
         budgetMap = policy.getBudgetMap(problem);
         calculatePrefix();
     }
@@ -163,7 +162,10 @@ public abstract class AbstractRealTimeSearchManager implements IRealTimeSearchMa
         HashSet<Agent> agents = new HashSet<>(problem.getAgentsAndStartGoalNodes().keySet());
         if(this.prefixesForAgents.values().contains(null))
         {
+            for(Map.Entry<Agent,List<Node>> entry : prefixesForAgents.entrySet())
+            {
 
+            }
             success = false;
             return true;
         }
